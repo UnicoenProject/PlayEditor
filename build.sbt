@@ -10,7 +10,9 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
+  "com.github.UnicoenProject" % "Junicoen" % "v0.0.2",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 
+resolvers += "jitpack.io" at "https://jitpack.io"
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
