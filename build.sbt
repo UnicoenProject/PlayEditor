@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
-  "com.github.UnicoenProject" % "Junicoen" % "v0.0.2",
+  "com.github.UnicoenProject" % "Junicoen" % "a53258ffdabbbb9ee4696695153886d986e3d2ec",//Commits on May 17, 2016
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 
