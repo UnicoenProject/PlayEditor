@@ -20,3 +20,5 @@ target
 /.project
 /.settings
 /RUNNING_PID
+.DS_Store
+Thumbs.db
