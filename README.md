@@ -13,14 +13,16 @@ MacOSは標準でJavaを導入しているはずです。
 
 コマンドプロンプトで
 ```
-$java -version
-$javac -version
+java -version
+javac -version
 ```
 を入力してください。
 
 コマンドが認識されなかった場合はJavaのインストールが必要です。
 [公式Webページ](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 から最新のJDKをダウンロード・インストールをしてください。
+プロジェクトのコンパイルにエラーが発生した場合は古いバージョンを使用している可能性があります。
+その場合も最新のJDKを導入してください。
 
 システム環境変数のPathに`C:\java\jdk1.8.0_25\bin;`などインストールしたJDKのbinディレクトリを追加してください。
 
@@ -33,7 +35,7 @@ Playはactivatorというツールを利用して提供されます。
 
 ターミナルから以下のコマンドを入力することでインストールができます。
 ```
-$brew install typesafe-activator
+brew install typesafe-activator
 ```
 * Windows
 
@@ -54,7 +56,7 @@ activator-X.X.X-minimal/bin/activator.batがあることを確認してくださ
 
 コマンドプロンプト/ターミナルで以下のコマンドが実行できることを確認してください。
 ```
-$activator help
+activator help
 ```
 
 もし実行できない場合はパスの確認、PCの再起動を試してみてください。
@@ -64,7 +66,7 @@ $activator help
 次にこのプロジェクトをクローン、もしくはダウンロードします。
 プロジェクトのディレクトリに移動し以下のコマンドを実行してください。
 ```
-$activator run
+activator run
 ```
 
 コンパイルが終わり以下の文が表示されたら正常に実行されています。
@@ -79,6 +81,44 @@ Playは自動的にコンパイルを行ってくれます。
 
 ## IDE連携
 activatorがrun状態の場合`Ctrl+D`で一旦終了してください。
+
+### IntelliJ IDEA
+* Scalaプラグイン
+
+メニュー　→　PreferencesからPluginsという項目を開いてください。
+
+Browse repositoriesからScalaプラグインを選択しダウンロードします。
+
+IDEAを再起動することで有効化されます。
+
+* インポート
+
+IDEA起動後に Import Projectを選択します。
+
+PlayEditorのプロジェクトディレクトリを選択しOKを押します。
+
+Import project from external modelを選び、SBTを選択してください。
+
+Next→Finishでプロジェクトのインポートが行われます。
+
+File→Project Structure→SDKsで使用しているjdkのバージョンを確認します。
+
+jdk1.7などではエラーが発生する場合があります。jdk1.8以上を選択してください。
+
+(場合によっては「Javaインストール」の章を参考に最新のjdkを導入してください。
+
+* デバッグ設定
+
+Run→Edit Configurationsを選択してください。
+
+左上の緑色の　+ を押し、Remote を選択してください。
+
+Nameに任意のデバッグ名をつけてください。
+
+Portを9999に変更しApplyしてください。
+
+以上でDubugが可能になります。
+
 ### Eclipse
 * インポート
 
@@ -110,17 +150,54 @@ Help → Install New Software… → Add
  
  を追加、全て選択しインストール。
  
-* デバッグ
-
-`$activator run`は本番用の実行コマンドです。
-```
-$activator -jvm-debug 9999 ~run
-```
-を実行することでEclipseからブレークポイントなどを利用したデバッグが可能になります。
+* デバッグ設定
 
 Eclipseにインポートしたプロジェクトに対して
 Debug As -> Debug Configurations → Remote Java Application → New
-
 で新しいデバッグ構成を作成します。
 Portを9999に変更しApplyしてください。
 以上でDubugが可能になります。
+
+### デバッグ実行
+IDEからPort 9999のデバッグ構成を設定することで、ブレークポイントなどを利用したデバッグが可能になります。
+ここまで使用してきた `activator run` は本番用の実行コマンドです。
+デバッグ時は以下のコマンドを利用してください。
+```
+activator -jvm-debug 9999 ~run
+```
+このデバッグ実行状態ではブレークポイントなどが有効になります。
+また　`~run`はファイルを変更する毎にコンパイルが行われます。
+実際にブラウザでページを表示した時だけコンパイルを行いたい場合は、
+```
+activator -jvm-debug 9999 run
+```
+としてください。
+
+# PlayEditor構成概要
+PlayFrameworkはMVCモデルを採用しています。
+
+ただしPlayEditorはデータベースを使用しないため、モデルは用いず
+主な処理はコントローラとビューで行われます。
+
+代表的・重要なファイルについて説明します。
+* build.sbt
+ 
+依存するライブラリなどを記述します。
+Junicoenはここで使用するRelease/tag,コミット番号を指定することで参照します。
+Junicoenの機能を利用する場合は、コンパイルエラーにならないコミット番号に更新してください。
+更新後は`activator update`を行うことで設定や参照が更新されます。
+* lib/
+ 
+このディレクトリに使用するライブラリファイル(.jarなど)を配置するとクラスパスの設定を必要とせずに利用できます。
+* conf/routes
+ 
+GET/POSTアドレスとコントローラのアクションの対応関係を設定します。
+* app/controllers/
+
+コントローラのアクションを記述します。(Scala)
+* app/views/
+
+htmlとして表示されるファイルです。(HTML/JavaScript)
+* public/
+
+ビューで必要とする画像や.js,.cssなどを配置します。
