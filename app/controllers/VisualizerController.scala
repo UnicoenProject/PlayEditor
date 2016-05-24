@@ -36,7 +36,7 @@ class VisualizerController @Inject() extends Controller {
   val form = Form( "name" -> text )
 
   def replaceLn(string:String):String={
-    return string.replaceAll("(\r\n|\r|\n)","<br>");
+    return string
   }
 
   def compile = Action { implicit request =>

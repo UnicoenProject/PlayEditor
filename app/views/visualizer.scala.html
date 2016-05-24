@@ -36,18 +36,21 @@
             <button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>
         </div>
     </div>
+    <div clsee="row">
     <div class="col-lg-6 col-md-6">
         before
         <div id="editorMain" style="height: 600px"></div>
     </div>
     <div class="col-lg-6 col-md-6">
-        after(ReadOnly)
-        <div id="editorResult" style="height: 600px"></div>
+        <canvas width=600px height="720px"></canvas>
     </div>
+    <div class="col-lg-12 col-md-12">
     処理の流れ<br>
     実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>
     コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>
     ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>
+    </div>
+    </div>
     <script>
         function createEditor(idName,canWrite,initText) {
             var editor = ace.edit(idName);
@@ -63,28 +66,11 @@
             editor.getSession().setMode("ace/mode/c_cpp");//シンタックスハイライトと自動補完
             //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
 
-            //2の場合編集不可能オプションをtrueにしたい。ｌ
 
             $('#font-size').click(function (e) {
                 editor.setFontSize($(e.target).data('size'));
             });
-            /*
-             $('#bold').click(function (e) {
-             editor.insert('std::cout << ' + editor.getCopyText() + ' << std::endl;');
-             });
-             $('#save').click(function (e) {
-             localStorage.text = editor.getValue();
-             //alert("メモリに保存しました。");
-             });
-             */
 
-
-            /*
-             $('#load').click(function (e) {
-             //if (!confirm("メモリから読み込みますか?")) return;
-             editor2.setValue(localStorage.text, -1);
-             });
-             */
             editor.setReadOnly(!canWrite);
             if (canWrite) {
                 $('#exec').click(function (e) {
@@ -93,7 +79,12 @@
                     var input = document.createElement('input');
                     input.setAttribute('type', 'hidden');
                     input.setAttribute('name', 'name');
-                    var text = editor.getValue();
+                    var text = editor.getValue();//ここでは生文字の改行だがPOSTしてコントローラーでは改行文字になっている。
+                    localStorage.text = text;
+                    var ln = `
+`;
+                    var regExp = new RegExp( ln, "g" ) ;
+                    var text = text.replace(regExp, ' ') ;//エディタの改行は全て空白に置換する
                     input.setAttribute('value', text);
                     form.appendChild(input);
                     form.setAttribute('action', '/visualizer');
@@ -109,16 +100,76 @@
                 });
             }
 
-
             if (initText != '')
                 editor.setValue(initText, -1);
         }
+/*
         var mes =`@Html(message)`;
-        var mes1 = mes.replace( /<br>/g , `
-`) ;
         var mes2 = '// '+ mes.replace( /<br>/g , `
 //`) ;
-        createEditor('editorMain',true,mes1);
-        createEditor('editorResult',false,mes2);
+*/
+        createEditor('editorMain',true,localStorage.text);
+        //createEditor('editorResult',false,mes);
+
+
+
+        $.jCanvas.defaults.fromCenter = false;
+        $.jCanvas.defaults.layer = true;
+
+        function drawText(text, x, y, name) {
+            $("canvas").drawText({
+                fillStyle: "black",
+                strokeStyle: "black",
+                strokeWidth: "0.5",
+                x: x,
+                y: y,
+                fontSize: 14,
+                fontFamily: "sans-serif",
+                text: text,
+                name: name + "-text",
+                draggable: true,
+                groups: ["categories"],
+                dragGroups: ["categories"]
+            });
+        }
+
+        var textNames1 = ["categories", "var1", "var2", "var3", "var4"];
+        drawText("main", 50, 50, textNames1[0]);
+        drawText("int   a   1", 50, 80, textNames1[1]);
+        drawText("int   b   2", 50, 100, textNames1[2]);
+        drawText("int   c   3", 50, 120, textNames1[3]);
+        drawText("int   d   4", 50, 140, textNames1[4]);
+
+        var textNames2 = ["categories2", "var21", "var22"];
+        drawText("add"        , 150, 50, textNames2[0]);
+        drawText("int   a   1", 150, 80, textNames2[1]);
+        drawText("int   b   2", 150, 100, textNames2[2]);
+
+        function drawRect(textNames,x,y) {
+            var borderWidth = 0;
+            var borderHeight = 0;
+            for (var i = 0; i < textNames.length; i++) {
+                borderWidth = Math.max(
+                        borderWidth,
+                        $("canvas").getLayer(textNames[i] + "-text").width);
+                borderHeight += 25;
+            }
+
+            $("canvas").drawRect({
+                strokeStyle: "black",
+                strokeWidth: 1,
+                x: x,
+                y: y,
+                width: borderWidth + 10,
+                height: borderHeight,
+                draggable: true,
+                groups: [textNames[0]],
+                dragGroups: [textNames[0]],
+                name: "categories-border"
+            });
+        }
+        drawRect(textNames1,45,45);
+        drawRect(textNames2,150-5,45);
+
     </script>
 }
