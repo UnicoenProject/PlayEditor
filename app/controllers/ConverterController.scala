@@ -6,6 +6,12 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 
+
+import net.unicoen.mapper.Java8Mapper
+import net.unicoen.generator.JavaToSwiftTreeConverter
+import net.unicoen.generator.SwiftGenerator
+
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -26,18 +32,25 @@ class ConverterController @Inject() extends Controller {
 
   //index.scala.htmlがview
   def index = Action {
-    Ok(views.html.converter("This is Converter Page."))
+    Ok(views.html.converter(""))
   }
 
   val form = Form( "name" -> text )
 
   def replaceLn(string:String):String={
-    return string.replaceAll("(\r\n|\r|\n)","<br>");
+    val format = string.replaceAll("(\r\n|\r|\n)"," ");
+    val mapper = new Java8Mapper(true)
+    val tree = mapper.parse(format)
+    val modified = JavaToSwiftTreeConverter.convert(tree)
+    val result = SwiftGenerator.generate(modified)
+    return result
+
   }
 
   def compile = Action { implicit request =>
     val data = form.bindFromRequest.get
     val dataSplit = replaceLn(data);
     Ok(views.html.converter(dataSplit))
+
   }
 }

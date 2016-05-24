@@ -49,6 +49,7 @@
     コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>
     ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>
     <script>
+
         function createEditor(idName,canWrite,initText) {
             var editor = ace.edit(idName);
             if (canWrite) {
@@ -85,6 +86,7 @@
              editor2.setValue(localStorage.text, -1);
              });
              */
+
             editor.setReadOnly(!canWrite);
             if (canWrite) {
                 $('#exec').click(function (e) {
@@ -96,7 +98,7 @@
                     var text = editor.getValue();
                     input.setAttribute('value', text);
                     form.appendChild(input);
-                    form.setAttribute('action', '/visualizer');
+                    form.setAttribute('action', '/converter');
                     form.setAttribute('method', 'POST');
                     form.submit();
                 });
@@ -116,7 +118,7 @@
         var mes =`@Html(message)`;
         var mes1 = mes.replace( /<br>/g , `
 `) ;
-        var mes2 = '// '+ mes.replace( /<br>/g , `
+        var mes2 =  mes.replace( /<br>/g , `
 //`) ;
         createEditor('editorMain',true,mes1);
         createEditor('editorResult',false,mes2);
