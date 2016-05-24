@@ -2,10 +2,9 @@
 bin/
 /db
 .eclipse
-/lib/
+/lib/*.jar
 /logs/
 /modules
-/project/target
 /target
 tmp/
 test-result

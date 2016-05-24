@@ -6,11 +6,9 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 
-
 import net.unicoen.mapper.Java8Mapper
 import net.unicoen.generator.JavaToSwiftTreeConverter
 import net.unicoen.generator.SwiftGenerator
-
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
