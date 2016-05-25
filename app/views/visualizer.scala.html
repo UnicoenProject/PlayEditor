@@ -113,10 +113,48 @@
 
 
 
+
+
+
+
+
+        var memory = [];
+        memory.push(new segment("データ"));//0
+        memory.push(new segment("ヒープ"));//1
+        memory.push(new segment("main"));//2
+        memory[2].add("int","a","1");
+        memory[2].add("int","b","2");
+        memory[2].add("int","c","3");
+        memory[2].add("int","d","4");
+
+        memory.push(new segment("add"));//3
+        memory[3].add("int","x","1");
+        memory[3].add("int","y","2");
+
+        function segment(name)
+        {
+            this.name=name;//データ、ヒープ、main,addなど
+            this.variables = [];//変数が順番に入っていく
+            this.add = function(type_,name_,value_)
+            {
+                this.variables.push(new variable(type_,name_,value_));//3
+            }
+        }
+        function variable(type,name,value)
+        {
+            this.type = type;//"int"
+            this.name = name;//"a"
+            this.value = value;//"3"
+        }
+
+
+
+
         $.jCanvas.defaults.fromCenter = false;
         $.jCanvas.defaults.layer = true;
 
-        function drawText(text, x, y, name) {
+        //$("canvas").drawXXXX したものはnameプロパティを設定しておくと$("canvas").getLayer(name)で取得できる
+        function drawText(text, x, y, name, groupname) {
             $("canvas").drawText({
                 fillStyle: "black",
                 strokeStyle: "black",
@@ -128,48 +166,84 @@
                 text: text,
                 name: name + "-text",
                 draggable: true,
-                groups: ["categories"],
-                dragGroups: ["categories"]
+                groups: [groupname],
+                dragGroups: [groupname]
             });
         }
 
-        var textNames1 = ["categories", "var1", "var2", "var3", "var4"];
-        drawText("main", 50, 50, textNames1[0]);
-        drawText("int   a   1", 50, 80, textNames1[1]);
-        drawText("int   b   2", 50, 100, textNames1[2]);
-        drawText("int   c   3", 50, 120, textNames1[3]);
-        drawText("int   d   4", 50, 140, textNames1[4]);
+        var origin = new Victor(50, 50);//図形描画の基準位置
+        var nextPos = origin.clone();//次のRectの左上の位置
+        function drawSegment(mem)
+        {
+            var pos = nextPos.clone();//次の変数の左上の位置
+            var name = mem.name;//nameはその関数名とか
+            var variables = mem.variables;
+            var len=variables.length;
+            if (0 < len)//そのスタック内の変数を全て描画
+            {
+                drawText(name, pos.x,pos.y, name, name);
+                var borderWidth = $("canvas").getLayer(name + "-text").width;
+                var heightOffset = 25;
+                var borderHeight = heightOffset;
+                for(var i=0; i<len; ++i)
+                {
+                    pos.addY(new Victor(0, heightOffset))
+                    var v = variables[i];
+                    var layerName = name+"-"+v.name;
+                    drawText(v.type +" "+ v.name +" "+ v.value,  pos.x,pos.y, layerName,name);
+                    borderWidth = Math.max(borderWidth, $("canvas").getLayer(layerName + "-text").width);
+                    borderHeight += heightOffset;
+                }
+                pos.addX(new Victor(borderWidth+100,0))
 
-        var textNames2 = ["categories2", "var21", "var22"];
-        drawText("add"        , 150, 50, textNames2[0]);
-        drawText("int   a   1", 150, 80, textNames2[1]);
-        drawText("int   b   2", 150, 100, textNames2[2]);
-
-        function drawRect(textNames,x,y) {
-            var borderWidth = 0;
-            var borderHeight = 0;
-            for (var i = 0; i < textNames.length; i++) {
-                borderWidth = Math.max(
-                        borderWidth,
-                        $("canvas").getLayer(textNames[i] + "-text").width);
-                borderHeight += 25;
+                var posTopLeft = nextPos.clone().add(new Victor(-5,-5));
+                $("canvas").drawRect({
+                    strokeStyle: "black",
+                    strokeWidth: 1,
+                    x: posTopLeft.x,
+                    y: posTopLeft.y,
+                    width: borderWidth+10,
+                    height: borderHeight,
+                    draggable: true,
+                    name: name +"-rect",
+                    groups: [name],
+                    dragGroups: [name]
+                });
+                var lineLeft = posTopLeft.clone();
+                var lineRight = lineLeft.clone().addX(new Victor(borderWidth+10,0));
+                for(var i=0; i<len; ++i)
+                {
+                    var start = lineLeft.addY(new Victor(0,heightOffset));
+                    var end = lineRight.addY(new Victor(0,heightOffset));
+                    $('canvas').drawLine({
+                        strokeStyle: '#000',
+                        strokeWidth: 1,
+                        x1: start.x, y1: start.y,
+                        x2: end.x, y2: end.y,
+                        name: name+"_" + i  +"-line",
+                        groups: [name],
+                        dragGroups: [name]
+                    });
+                }
+                nextPos=pos.clone();
             }
-
-            $("canvas").drawRect({
-                strokeStyle: "black",
-                strokeWidth: 1,
-                x: x,
-                y: y,
-                width: borderWidth + 10,
-                height: borderHeight,
-                draggable: true,
-                groups: [textNames[0]],
-                dragGroups: [textNames[0]],
-                name: "categories-border"
-            });
         }
-        drawRect(textNames1,45,45);
-        drawRect(textNames2,150-5,45);
+        for(var i=0, len=memory.length; i<len; ++i)
+        {
+            drawSegment(memory[i]);//それぞれのスタックについて描画
+        }
+        
+        $('canvas').drawQuadratic({
+            strokeStyle: '#000',
+            strokeWidth: 4,
+            rounded: true,
+            endArrow: true,
+            arrowRadius: 15,
+            arrowAngle: 60,
+            x1: 40, y1: 160,
+            cx1: 10, cy1: 120,
+            x2: 40, y2: 90
+        })
 
     </script>
 }
