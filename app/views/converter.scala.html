@@ -50,7 +50,7 @@
     ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>
     <script>
 
-        function createEditor(idName,canWrite,initText) {
+        function createEditor(idName,canWrite,initText,mode) {
             var editor = ace.edit(idName);
             if (canWrite) {
                 editor.$blockScrolling = Infinity;
@@ -61,7 +61,7 @@
                 });
             }
             editor.setTheme("ace/theme/monokai");
-            editor.getSession().setMode("ace/mode/c_cpp");//シンタックスハイライトと自動補完
+            editor.getSession().setMode("ace/mode/"+mode);//シンタックスハイライトと自動補完
             //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
 
             //2の場合編集不可能オプションをtrueにしたい。ｌ
@@ -69,23 +69,6 @@
             $('#font-size').click(function (e) {
                 editor.setFontSize($(e.target).data('size'));
             });
-            /*
-             $('#bold').click(function (e) {
-             editor.insert('std::cout << ' + editor.getCopyText() + ' << std::endl;');
-             });
-             $('#save').click(function (e) {
-             localStorage.text = editor.getValue();
-             //alert("メモリに保存しました。");
-             });
-             */
-
-
-            /*
-             $('#load').click(function (e) {
-             //if (!confirm("メモリから読み込みますか?")) return;
-             editor2.setValue(localStorage.text, -1);
-             });
-             */
 
             editor.setReadOnly(!canWrite);
             if (canWrite) {
@@ -96,6 +79,7 @@
                     input.setAttribute('type', 'hidden');
                     input.setAttribute('name', 'name');
                     var text = editor.getValue();
+                    localStorage.text = text;
                     input.setAttribute('value', text);
                     form.appendChild(input);
                     form.setAttribute('action', '/converter');
@@ -120,7 +104,7 @@
 `) ;
         var mes2 =  mes.replace( /<br>/g , `
 //`) ;
-        createEditor('editorMain',true,mes1);
-        createEditor('editorResult',false,mes2);
+        createEditor('editorMain',true,localStorage.text,"java");
+        createEditor('editorResult',false,mes2,"swift");
     </script>
 }
