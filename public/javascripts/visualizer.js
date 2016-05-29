@@ -8,17 +8,15 @@ $(function(){
         visible: false//高速化・ちらつき防止のため最終的な状態になるまで描画しない
     }).drawLayers();
 
-
     var memory = [];
     memory.push(new segment("データ"));//0
 
     memory.push(new segment("ヒープ"));//1
 
     memory.push(new segment("main"));//2
-    memory[2].add("int","aaaa","1");
-    memory[2].add("int","b","2");
-    memory[2].add("int","c","300000");
-    memory[2].add("int","d","4");
+    var mainBlock = data[0][0].block.body;
+    for(var i=0;i<mainBlock.length;++i)
+        memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
 
     memory.push(new segment("add"));//3
     memory[3].add("int","x","1");
