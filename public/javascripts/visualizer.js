@@ -13,14 +13,34 @@ $(function(){
 
     memory.push(new segment("ヒープ"));//1
 
-    memory.push(new segment("main"));//2
-    var mainBlock = data[0][0].block.body;
-    for(var i=0;i<mainBlock.length;++i)
-        memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
 
-    memory.push(new segment("add"));//3
-    memory[3].add("int","x","1");
-    memory[3].add("int","y","2");
+    var root = data[0][0];
+    if(root.length<=1)//mainのみ
+    {
+        memory.push(new segment("main"));//2
+        var mainBlock =root.block.body;
+        for(var i=0;i<mainBlock.length;++i)
+            memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
+    }
+    else
+    {
+        var numOfStack =root.length;
+        for(var j=0;j<numOfStack;++j)
+        {
+            var stack = root[j];
+            memory.push(new segment(stack.methodName));
+            var body = stack.block.body;
+            for(var i=0;i<body.length;++i)
+            {
+                memory[2 + j].add(body[i].type, body[i].name, "" + body[i].value.value);
+            }
+        }
+    }
+
+
+    //memory.push(new segment("add"));//3
+    //memory[3].add("int","x","1");
+    //memory[3].add("int","y","2");
 
     //メモリ領域クラス
     function segment(name)
@@ -184,7 +204,7 @@ $(function(){
             x2: end.x, y2: end.y
         })
     }
-    drawArrow(new Victor(40, 160),new Victor(10, 120),new Victor(40, 90));
+    //drawArrow(new Victor(40, 160),new Victor(10, 120),new Victor(40, 90));
 
 
     $('canvas').setLayer('mainLayer', {

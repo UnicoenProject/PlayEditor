@@ -14,8 +14,9 @@ import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 import scala.collection._
 import models._
-import net.unicoen._
-import net.unicoen.node._
+//import net.unicoen._
+//import net.unicoen.node._
+import net.unicoen.mapper.CPP14Mapper
 
 import scala.collection.mutable.ArrayBuffer
 /**
@@ -44,6 +45,11 @@ class VisualizerController @Inject() extends Controller {
   val form = Form( "name" -> text )
 
   def replaceLn(string:String)=string
+
+  def rawDataToUniTree(string:String)={
+    new CPP14Mapper(true).parse(string)
+  }
+  /*
   def createData = {
     val arr = new java.util.ArrayList[UniMethodDec]
     arr += new UniMethodDec("main", Nil, "int", Nil,
@@ -55,12 +61,12 @@ class VisualizerController @Inject() extends Controller {
          ""))
     arr += new UniMethodDec("add", Nil, "int", ArrayBuffer(new UniArg("int","x"),new UniArg("int","y")) , new UniBlock)
   }
-
+ */
   def compile = Action { implicit request =>
-    val data = form.bindFromRequest.get
-    val textData = replaceLn(data)
-    val createdData = createData
-    val jsondata = net.arnx.jsonic.JSON.encode(createdData(0))
-    Ok(views.html.visualizer(textData,jsondata))
+    val text = form.bindFromRequest.get
+    val rawData = text.replaceAll("(\r\n|\r|\n)"," ");
+    val treeData = rawDataToUniTree(rawData)
+    val jsondata = net.arnx.jsonic.JSON.encode(treeData)
+    Ok(views.html.visualizer(text,jsondata))
   }
 }
