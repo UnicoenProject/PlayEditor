@@ -49,6 +49,19 @@ $(function(){
     {
         this.name=name;//データ、ヒープ、main,addなど
         this.variables = [];//変数が順番に入っていく
+
+        this.get = function(varName)
+        {
+            var filtered = $.grep(this.variables,
+                function(elem, index)
+                {
+                    // ageプロパティの値でフィルター
+                    return (elem.name == varName);
+                }
+            );
+            return filtered.pop();
+        }
+
         this.add = function(type_,name_,value_)
         {
             if(value_)
@@ -59,14 +72,17 @@ $(function(){
                 }
                 else if(value_.name)//int a = c;など変数の場合
                 {
-                    var filtered = $.grep(this.variables,
-                        function(elem, index) {
-                            // ageプロパティの値でフィルター
-                            return (elem.name == value_.name);
-                        }
-                    );
-                    this.variables.push(new variable(type_, name_, filtered.pop().value));
+
+                    this.variables.push(new variable(type_, name_, this.get(value_.name).value));
                     //this.variables.push(new variable(type_, name_, value_.name));
+                }
+                else if(value_.operator)
+                {
+                    var left = value_.left.value;
+                    var right = value_.right.value;
+                    var expr = left + value_.operator + right;
+                    var result = eval(expr);
+                    this.variables.push(new variable(type_, name_, result));
                 }
             }
             else//int a;など宣言のみの場合
