@@ -15,28 +15,32 @@ $(function(){
 
 
     var root = data[0][0];
+
+    function statement(mem,stack)
+    {
+        memory.push(new segment(stack.methodName));
+        var block =stack.block.body;
+        for(var i=0;i<block.length;++i)
+        {
+            if(block[i].type)//変数宣言
+                mem.add(block[i].type, block[i].name, block[i].value);
+            else if(block[i].operator)//代入などの式
+                mem.operate(block[i]);
+        }
+    }
     if(root[0])//mainのみの時はdata[0]がmainブロック
     {
         var numOfStack =root.length;
         for(var j=0;j<numOfStack;++j)
         {
-            var stack = root[j];
-            memory.push(new segment(stack.methodName));
-            var body = stack.block.body;
-            for(var i=0;i<body.length;++i)
-            {
-                memory[2 + j].add(body[i].type, body[i].name, body[i].value);
-            }
+            memory.push(new segment(root[j].methodName));
+            statement(memory[2+j],root[j]);
         }
     }
     else
     {
-        memory.push(new segment("main"));//2
-        var mainBlock =root.block.body;
-        for(var i=0;i<mainBlock.length;++i)
-        {
-            memory[2].add(mainBlock[i].type, mainBlock[i].name, mainBlock[i].value);
-        }
+        memory.push(new segment(root.methodName));
+        statement(memory[2],root)
     }
 
 
@@ -88,6 +92,11 @@ $(function(){
             return filtered.pop();
         }
 
+        this.set = function(varName,value)
+        {
+            this.get(varName).value = value;
+        }
+
         this.add = function(type_,name_,value_)
         {
             if(value_)
@@ -110,6 +119,22 @@ $(function(){
             }
             else//int a;など宣言のみの場合
                 this.variables.push(new variable(type_,name_,'?'));
+        }
+
+        this.operate = function(expr)
+        {
+            var left = expr.left;
+            var leftName = left.name;
+
+            var right = expr.right;
+            var rightValue;
+            if(right.value)
+                rightValue=right.value;
+            else if(right.name)
+                rightValue = seg.get(right.name).value;
+            else if(right.operator)
+                rightValue = calcExpr(this,right);
+            this.set(leftName,rightValue);
         }
     }
 
