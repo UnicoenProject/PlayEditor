@@ -48,10 +48,26 @@ $(function(){
     //memory[3].add("int","x","1");
     //memory[3].add("int","y","2");
 
+
     function calcExpr(seg,expr)
     {
-        var left = expr.left;
+
         var ope = expr.operator;
+
+        //単項演算子の場合
+        var exp = expr.expr;
+        if(exp)
+        {
+            if(ope=="&")//アドレスを取得
+            {
+                var val = seg.get(exp.name).value;
+                var addr = "0x"+seg.get(exp.name).address.toString(16);
+                return addr;
+            }
+            return -1;
+        }
+        //二項演算子の場合
+        var left = expr.left;
         var right = expr.right;
 
         var leftValue;
@@ -144,8 +160,23 @@ $(function(){
         this.type = type;//"int"
         this.name = name;//"a"
         this.value = value;//"3"
+        if(typeof(arguments.callee.address) == 'undefined')
+        {
+            arguments.callee.address = 0;// このfalseがデフォルト値。
+        }
+        else
+        {
+            if(type=="double")
+                arguments.callee.address+=8;
+            else if(type=="short")
+                arguments.callee.address+=2;
+            else if(type=="char")
+                arguments.callee.address+=1;
+            else
+                arguments.callee.address+=4;
+        }
+        this.address = arguments.callee.address;
     }
-    
 
     $.jCanvas.defaults.fromCenter = false;//座標を図形の中央ではなく左上に
     $.jCanvas.defaults.layer = true;//図形のレイヤー処理を有効化(グループ処理)
