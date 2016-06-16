@@ -95,8 +95,9 @@
                 $('#step').click(function (e) {
                     //var obj = editor.getCursorPosition();
                     //var pos = editor.getCursorPositionScreen();
-                    var curpos = editor.getSelection().getCursor();
-                    editor.gotoLine(curpos.row+2 , curpos.column); //1行列目が1
+                    var curpos = editor.getSelection().getCursor();//1現在の位置
+                    editor.gotoLine(curpos.row+1 , curpos.column); //1行列目が1
+                    editor.getSelection().selectLine();
                 });
             }
 
