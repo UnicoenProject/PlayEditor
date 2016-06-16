@@ -52,9 +52,25 @@ $(function(){
         this.add = function(type_,name_,value_)
         {
             if(value_)
-                this.variables.push(new variable(type_,name_,value_.value));//3
-            else
-                this.variables.push(new variable(type_,name_,'?'));//3
+            {
+                if(value_.value)//int a = 3;など数値の場合
+                {
+                    this.variables.push(new variable(type_, name_, value_.value));
+                }
+                else if(value_.name)//int a = c;など変数の場合
+                {
+                    var filtered = $.grep(this.variables,
+                        function(elem, index) {
+                            // ageプロパティの値でフィルター
+                            return (elem.name == value_.name);
+                        }
+                    );
+                    this.variables.push(new variable(type_, name_, filtered.pop().value));
+                    //this.variables.push(new variable(type_, name_, value_.name));
+                }
+            }
+            else//int a;など宣言のみの場合
+                this.variables.push(new variable(type_,name_,'?'));
         }
     }
 
