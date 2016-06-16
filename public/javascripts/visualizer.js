@@ -15,14 +15,7 @@ $(function(){
 
 
     var root = data[0][0];
-    if(root.length<=1)//mainのみ
-    {
-        memory.push(new segment("main"));//2
-        var mainBlock =root.block.body;
-        for(var i=0;i<mainBlock.length;++i)
-            memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
-    }
-    else
+    if(root[0])//mainのみの時はdata[0]がmainブロック
     {
         var numOfStack =root.length;
         for(var j=0;j<numOfStack;++j)
@@ -35,6 +28,13 @@ $(function(){
                 memory[2 + j].add(body[i].type, body[i].name, "" + body[i].value.value);
             }
         }
+    }
+    else
+    {
+        memory.push(new segment("main"));//2
+        var mainBlock =root.block.body;
+        for(var i=0;i<mainBlock.length;++i)
+            memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
     }
 
 
