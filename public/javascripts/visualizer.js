@@ -44,19 +44,27 @@ $(function(){
     //memory[3].add("int","x","1");
     //memory[3].add("int","y","2");
 
-    function calcExpr(seg,left, ope, right)
+    function calcExpr(seg,expr)
     {
+        var left = expr.left;
+        var ope = expr.operator;
+        var right = expr.right;
+
         var leftValue;
         if(left.value)
             leftValue=left.value;
         else if(left.name)
             leftValue = seg.get(left.name).value;
+        else if(left.operator)
+            leftValue = calcExpr(seg,left);
 
         var rightValue;
         if(right.value)
             rightValue=right.value;
         else if(right.name)
             rightValue = seg.get(right.name).value;
+        else if(right.operator)
+            rightValue = calcExpr(seg,right);
 
         var expr = leftValue + ope + rightValue;
         var result = eval(expr);
@@ -96,7 +104,7 @@ $(function(){
                 }
                 else if(value_.operator)
                 {
-                    var result = calcExpr(this,value_.left,value_.operator,value_.right);
+                    var result = calcExpr(this,value_);
                     this.variables.push(new variable(type_, name_, result));
                 }
             }
