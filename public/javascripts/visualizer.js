@@ -78,9 +78,21 @@ $(function(){
                 }
                 else if(value_.operator)
                 {
-                    var left = value_.left.value;
-                    var right = value_.right.value;
-                    var expr = left + value_.operator + right;
+                    var left = value_.left;
+                    var leftValue;
+                    if(left.value)
+                        leftValue=left.value;
+                    else if(left.name)
+                        leftValue = this.get(left.name).value;
+
+                    var right = value_.right;
+                    var rightValue;
+                    if(right.value)
+                        rightValue=right.value;
+                    else if(right.name)
+                        rightValue = this.get(right.name).value;
+
+                    var expr = leftValue + value_.operator + rightValue;
                     var result = eval(expr);
                     this.variables.push(new variable(type_, name_, result));
                 }
