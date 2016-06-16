@@ -25,7 +25,7 @@ $(function(){
             var body = stack.block.body;
             for(var i=0;i<body.length;++i)
             {
-                memory[2 + j].add(body[i].type, body[i].name, "" + body[i].value.value);
+                memory[2 + j].add(body[i].type, body[i].name, body[i].value);
             }
         }
     }
@@ -34,7 +34,9 @@ $(function(){
         memory.push(new segment("main"));//2
         var mainBlock =root.block.body;
         for(var i=0;i<mainBlock.length;++i)
-            memory[2].add(mainBlock[i].type,mainBlock[i].name,""+mainBlock[i].value.value);
+        {
+            memory[2].add(mainBlock[i].type, mainBlock[i].name, mainBlock[i].value);
+        }
     }
 
 
@@ -49,7 +51,10 @@ $(function(){
         this.variables = [];//変数が順番に入っていく
         this.add = function(type_,name_,value_)
         {
-            this.variables.push(new variable(type_,name_,value_));//3
+            if(value_)
+                this.variables.push(new variable(type_,name_,value_.value));//3
+            else
+                this.variables.push(new variable(type_,name_,'?'));//3
         }
     }
 
