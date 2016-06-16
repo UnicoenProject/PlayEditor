@@ -44,6 +44,24 @@ $(function(){
     //memory[3].add("int","x","1");
     //memory[3].add("int","y","2");
 
+    function calcExpr(seg,left, ope, right)
+    {
+        var leftValue;
+        if(left.value)
+            leftValue=left.value;
+        else if(left.name)
+            leftValue = seg.get(left.name).value;
+
+        var rightValue;
+        if(right.value)
+            rightValue=right.value;
+        else if(right.name)
+            rightValue = seg.get(right.name).value;
+
+        var expr = leftValue + ope + rightValue;
+        var result = eval(expr);
+        return result;
+    }
     //メモリ領域クラス
     function segment(name)
     {
@@ -78,22 +96,7 @@ $(function(){
                 }
                 else if(value_.operator)
                 {
-                    var left = value_.left;
-                    var leftValue;
-                    if(left.value)
-                        leftValue=left.value;
-                    else if(left.name)
-                        leftValue = this.get(left.name).value;
-
-                    var right = value_.right;
-                    var rightValue;
-                    if(right.value)
-                        rightValue=right.value;
-                    else if(right.name)
-                        rightValue = this.get(right.name).value;
-
-                    var expr = leftValue + value_.operator + rightValue;
-                    var result = eval(expr);
+                    var result = calcExpr(this,value_.left,value_.operator,value_.right);
                     this.variables.push(new variable(type_, name_, result));
                 }
             }
