@@ -204,7 +204,7 @@ $(function(){
             dragGroups: [groupname]//スタック名,変数名
         });
     }
-    function drawVariable(text, x, y, name, groupname, text2,group2)
+    function drawVariable(t, x, y, name, groupname, t2, group2)
     {
         $("#display").drawText({
             fillStyle: "black",
@@ -214,7 +214,8 @@ $(function(){
             y: y,
             fontSize: 14,
             fontFamily: "sans-serif",
-            text: " "+text+" ",
+            text: "   "+t+"   ",
+            text2 :"   "+t2+"   ",
             name: name + "-text",//スタック名-変数名-列名-text
             draggable: true,
             groups: [groupname,group2],//スタック名,変数名
@@ -222,10 +223,19 @@ $(function(){
             click: function(layer) {
                 // Click a star to spin it
                 var group = $(this).getLayerGroup(group2);
+                //$('canvas').triggerLayerEvent('myLayer', 'click');
                 for(var i=0;i<group.length;++i)
                 {
-                    $(this).animateLayer(group[i], {
-                        rotate: '+=360'
+                    var _text = group[i].text;
+                    var _text2 = group[i].text2;
+                    _text2=_text2.replace(" Ox","0x");
+                    _text2=_text2.replace(" &&&","&");
+                    group[i].text = _text2;
+                    group[i].text2 = _text;
+
+                    $(this).setLayer(group[i], {
+                        //text:_text2,
+                        //text2:_text,
                     })
                 }
             }
@@ -256,10 +266,10 @@ $(function(){
                 drawVariable(v.type,   pos.x, pos.y, name+"-type", memoryName,"int",name+"-var");
                 var typeWidth = $("#display").getLayer(name+"-type" + "-text").width;
 
-                drawVariable(v.name,   pos.x+typeWidth, pos.y, name+"-name",memoryName,"&"+v.name,name+"-var");
+                drawVariable(v.name,   pos.x+typeWidth, pos.y, name+"-name",memoryName,"&&&"+v.name,name+"-var");
                 var nameWidth = $("#display").getLayer(name +"-name"+ "-text").width;
 
-                drawVariable(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"-value",memoryName,v.address,name+"-var");
+                drawVariable(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"-value",memoryName,"Ox"+v.address.toString(16),name+"-var");
                 var valueWidth = $("#display").getLayer(name +"-value"+ "-text").width;
 
                 //列を揃えるために最大幅を計算
