@@ -4,6 +4,10 @@
 /*可視化領域描画処理*/
 $(function(){
 
+
+    $.jCanvas.defaults.fromCenter = false;//座標を図形の中央ではなく左上に
+    $.jCanvas.defaults.layer = true;//図形のレイヤー処理を有効化(グループ処理)
+
     $('canvas').setLayer('mainLayer', {
         visible: false//高速化・ちらつき防止のため最終的な状態になるまで描画しない
     }).drawLayers();
@@ -178,8 +182,6 @@ $(function(){
         this.address = arguments.callee.address;
     }
 
-    $.jCanvas.defaults.fromCenter = false;//座標を図形の中央ではなく左上に
-    $.jCanvas.defaults.layer = true;//図形のレイヤー処理を有効化(グループ処理)
 
     //$("#display").drawXXXX したものはnameプロパティを設定しておくと$("canvas").getLayer(name)で取得できる
     //name:("canvas").getLayer(name)でプロパティ取得：ユニーク(スタック名-
@@ -199,7 +201,7 @@ $(function(){
             name: name + "-text",//スタック名-変数名-列名-text
             draggable: true,
             groups: [groupname],//スタック名,変数名
-            dragGroups: [groupname]//スタック名,変数名
+            dragGroups: [groupname],//スタック名,変数名
         });
     }
 
@@ -225,12 +227,12 @@ $(function(){
                 pos.addY(new Victor(0, heightOffset))
                 var v = variables[i];
                 var name = memoryName+"-"+v.name;//ユニークな名前: スタック名+変数名+列名+テキスト
-                drawText(v.type,   pos.x, pos.y, name+"type", memoryName);
-                var typeWidth = $("#display").getLayer(name+"type" + "-text").width;
-                drawText(v.name,   pos.x+typeWidth, pos.y, name+"name",memoryName);
-                var nameWidth = $("#display").getLayer(name +"name"+ "-text").width;
-                drawText(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"value",memoryName);
-                var valueWidth = $("#display").getLayer(name +"value"+ "-text").width;
+                drawText(v.type,   pos.x, pos.y, name+"-type", memoryName);
+                var typeWidth = $("#display").getLayer(name+"-type" + "-text").width;
+                drawText(v.name,   pos.x+typeWidth, pos.y, name+"-name",memoryName);
+                var nameWidth = $("#display").getLayer(name +"-name"+ "-text").width;
+                drawText(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"-value",memoryName);
+                var valueWidth = $("#display").getLayer(name +"-value"+ "-text").width;
 
                 //列を揃えるために最大幅を計算
                 maxTypeWidth = Math.max(maxTypeWidth,typeWidth);
@@ -247,9 +249,9 @@ $(function(){
             {
                 var v = variables[i];
                 var name = memoryName+"-"+v.name;//ユニークな名前: スタック名+変数名+列名+テキスト
-                var leftPosX = $("#display").getLayer(name+"type" + "-text").x;
-                $("#display").getLayer(name +"name"+ "-text").x  = leftPosX + maxTypeWidth;
-                $("#display").getLayer(name +"value"+ "-text").x = leftPosX + maxTypeWidth + maxNameWidth;
+                var leftPosX = $("#display").getLayer(name+"-type" + "-text").x;
+                $("#display").getLayer(name +"-name"+ "-text").x  = leftPosX + maxTypeWidth;
+                $("#display").getLayer(name +"-value"+ "-text").x = leftPosX + maxTypeWidth + maxNameWidth;
             }
 
             //スタックを囲む四角形を描画
@@ -264,7 +266,7 @@ $(function(){
                 draggable: true,
                 name: memoryName +"-rect",
                 groups: [memoryName],
-                dragGroups: [memoryName]
+                dragGroups: [memoryName],
             });
 
 
@@ -306,7 +308,7 @@ $(function(){
         drawSegment(memory[i]);//それぞれのスタックについて描画
     }
 
-    function drawArrow(start,mid,end)
+    function drawArrow(start,mid,end,name,groupname)
     {
         $('#display').drawQuadratic({
             strokeStyle: '#000',
@@ -317,14 +319,61 @@ $(function(){
             arrowAngle: 60,
             x1: start.x, y1: start.y,
             cx1: mid.x, cy1: mid.y,
-            x2: end.x, y2: end.y
+            x2: end.x, y2: end.y,
+            name: name+"-arrow",
+            groups: [groupname],
+            dragGroups: [groupname]
         })
     }
-    //drawArrow(new Victor(40, 160),new Victor(10, 120),new Victor(40, 90));
-
 
     $('canvas').setLayer('mainLayer', {
         visible: true//ここまでの処理が終わって初めて描画する
     }).drawLayers();
+
+
+    //アドレスから矢印描画
+    for(var i=0, memlen=memory.length; i<memlen; ++i)
+    {
+        for(var j=0, varlen=memory[i].variables.length; j<varlen; ++j)
+        {
+            var val = memory[i].variables[j];
+            var isTypePtr = (val.type.indexOf('*') != -1);
+            if(isTypePtr)
+            {
+                var layerName = memory[i].name+"-"+val.name+"-value"+"-text";
+                var fromValue = $("#display").getLayer(layerName);
+                var x = $("#display").getLayer(memory[i].name +"-rect").x;
+                var y = fromValue.y+fromValue.height/2;
+                var from = new Victor(x, y);
+
+                for(var i2=0, memlen2=memory.length; i2<memlen2; ++i2)
+                {
+                    for (var j2 = 0, varlen2=memory[i2].variables.length; j2 < varlen2; ++j2)
+                    {
+                        var val2 = memory[i2].variables[j2];
+                        if(val2.address==val.value)
+                        {
+                            var layerName2 = memory[i2].name+"-"+val2.name+"-value"+"-text";
+                            var fromValue2 = $("#display").getLayer(layerName2);
+                            var x2 = $("#display").getLayer(memory[i2].name +"-rect").x;
+                            var y2 = fromValue2.y+fromValue2.height/2;
+                            var to = new Victor(x2, y2);
+
+                            var mid = new Victor((from.x+to.x)/2,(from.y+to.y)/2);
+                            var dir = (to.clone().subtract(from.clone()));
+                            var length = dir.length();
+                            dir.normalize();
+                            dir.rotateDeg(-90);
+                            mid.add(dir.multiply(new Victor(length/4,length/4)));
+
+                            var name = memory[i].name+"-"+val.name+"-to-"+memory[i2].name+"-"+val2.name;
+                            drawArrow(from,mid,to,name,memory[i].name);//もう一つ必要
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 });
 
