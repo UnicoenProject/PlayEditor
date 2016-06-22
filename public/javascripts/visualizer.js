@@ -197,14 +197,40 @@ $(function(){
             y: y,
             fontSize: 14,
             fontFamily: "sans-serif",
-            text: " "+text +" ",
+            text: " "+text+" ",
             name: name + "-text",//スタック名-変数名-列名-text
             draggable: true,
             groups: [groupname],//スタック名,変数名
-            dragGroups: [groupname],//スタック名,変数名
+            dragGroups: [groupname]//スタック名,変数名
         });
     }
-
+    function drawVariable(text, x, y, name, groupname, text2,group2)
+    {
+        $("#display").drawText({
+            fillStyle: "black",
+            strokeStyle: "black",
+            strokeWidth: "0.5",
+            x: x,
+            y: y,
+            fontSize: 14,
+            fontFamily: "sans-serif",
+            text: " "+text+" ",
+            name: name + "-text",//スタック名-変数名-列名-text
+            draggable: true,
+            groups: [groupname,group2],//スタック名,変数名
+            dragGroups: [groupname],//スタック名,変数名
+            click: function(layer) {
+                // Click a star to spin it
+                var group = $(this).getLayerGroup(group2);
+                for(var i=0;i<group.length;++i)
+                {
+                    $(this).animateLayer(group[i], {
+                        rotate: '+=360'
+                    })
+                }
+            }
+        });
+    }
     var origin = new Victor(50, 50);//図形描画の基準位置
     var nextPos = origin.clone();//次のRectの左上の位置
     function drawSegment(mem)
@@ -227,11 +253,13 @@ $(function(){
                 pos.addY(new Victor(0, heightOffset))
                 var v = variables[i];
                 var name = memoryName+"-"+v.name;//ユニークな名前: スタック名+変数名+列名+テキスト
-                drawText(v.type,   pos.x, pos.y, name+"-type", memoryName);
+                drawVariable(v.type,   pos.x, pos.y, name+"-type", memoryName,"int",name+"-var");
                 var typeWidth = $("#display").getLayer(name+"-type" + "-text").width;
-                drawText(v.name,   pos.x+typeWidth, pos.y, name+"-name",memoryName);
+
+                drawVariable(v.name,   pos.x+typeWidth, pos.y, name+"-name",memoryName,"&"+v.name,name+"-var");
                 var nameWidth = $("#display").getLayer(name +"-name"+ "-text").width;
-                drawText(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"-value",memoryName);
+
+                drawVariable(v.value,  pos.x+typeWidth+nameWidth, pos.y, name+"-value",memoryName,v.address,name+"-var");
                 var valueWidth = $("#display").getLayer(name +"-value"+ "-text").width;
 
                 //列を揃えるために最大幅を計算
@@ -267,6 +295,12 @@ $(function(){
                 name: memoryName +"-rect",
                 groups: [memoryName],
                 dragGroups: [memoryName],
+                click: function(layer) {
+                    // Click a star to spin it
+                    $(this).animateLayer(layer, {
+                        rotate: '+=360'
+                    })
+                }
             });
 
 
@@ -326,11 +360,6 @@ $(function(){
         })
     }
 
-    $('canvas').setLayer('mainLayer', {
-        visible: true//ここまでの処理が終わって初めて描画する
-    }).drawLayers();
-
-
     //アドレスから矢印描画
     for(var i=0, memlen=memory.length; i<memlen; ++i)
     {
@@ -374,6 +403,9 @@ $(function(){
             }
         }
     }
-
+    $('canvas').getLayers().reverse();//スタックのRectが最前面になり内側に対するマウスイベントを全て全て受け取ってしまう。
+    $('canvas').setLayer('mainLayer', {
+        visible: true//ここまでの処理が終わって初めて描画する
+    }).drawLayers();
 });
 
