@@ -32,8 +32,10 @@
             @*<button id="bold" class="btn btn-default"><i class="glyphicon glyphicon-bold"></i></button>*@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
-            <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
+            <button id="compile" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
+            <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button>
             <button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>
+            <button id="stop" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>
         </div>
     </div>
     <div clsee="row">
@@ -73,7 +75,8 @@
 
             editor.setReadOnly(!canWrite);
             if (canWrite) {
-                $('#exec').click(function (e) {
+
+                $('#compile').click(function (e) {
                     var form = document.createElement('form');
                     document.body.appendChild(form);
                     var input = document.createElement('input');
@@ -81,23 +84,51 @@
                     input.setAttribute('name', 'name');
                     var text = editor.getValue();//ここでは生文字の改行だがPOSTしてコントローラーでは改行文字になっている。
                     localStorage.text = text;
-                    var ln = `
+/*                    var ln = `
 `;
                     var regExp = new RegExp( ln, "g" ) ;
                     var text = text.replace(regExp, ' ') ;//エディタの改行は全て空白に置換する
+*/
                     input.setAttribute('value', text);
                     form.appendChild(input);
                     form.setAttribute('action', '/visualizer');
                     form.setAttribute('method', 'POST');
                     form.submit();
+                    localStorage.line = 0;
                 });
-
+                $('#exec').click(function (e) {
+                    localStorage.line = 0;
+                    exec(9999);
+                });
                 $('#step').click(function (e) {
                     //var obj = editor.getCursorPosition();
                     //var pos = editor.getCursorPositionScreen();
+                    if(localStorage.line==0)
+                    {
+                        var isMain=false;
+                        for(var i=0;i<999;++i)
+                        {
+                            var line = editor.session.getLine(i);
+                            if(line.match("main"))
+                                    isMain=true;
+                            if(isMain && line.match(";"))
+                            {
+                                editor.gotoLine(i , 0);
+                                break;
+                            }
+                        }
+
+                    }
                     var curpos = editor.getSelection().getCursor();//1現在の位置
                     editor.gotoLine(curpos.row+1 , curpos.column); //1行列目が1
                     editor.getSelection().selectLine();
+                    var num = parseInt(localStorage.line)+1;
+                    localStorage.line = num;
+                    exec(num)
+                });
+                $('#stop').click(function (e) {
+                    localStorage.line = 0;
+                    exec(0);
                 });
             }
 
@@ -114,6 +145,8 @@
         var treeJson =`[` + `@Html(tree)` + `]`;
         var treeObj = JSON.parse(treeJson);
         var data = new Array(treeObj);
+        if(data)
+            alert("compile success");
         //var data.push();
 
     </script>

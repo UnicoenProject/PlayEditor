@@ -64,7 +64,7 @@ class VisualizerController @Inject() extends Controller {
  */
   def compile = Action { implicit request =>
     val text = form.bindFromRequest.get
-    val rawData = text.replaceAll("(\r\n|\r|\n)"," ");
+    val rawData = text//.replaceAll("(\r\n|\r|\n)"," ");
     val treeData = rawDataToUniTree(rawData)
     val jsondata = net.arnx.jsonic.JSON.encode(treeData)
     Ok(views.html.visualizer(text,jsondata))
