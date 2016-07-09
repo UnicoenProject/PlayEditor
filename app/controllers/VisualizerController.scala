@@ -17,6 +17,10 @@ import models._
 //import net.unicoen._
 //import net.unicoen.node._
 import net.unicoen.mapper.CPP14Mapper
+import net.unicoen.interpreter._
+import net.unicoen.node._
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 import scala.collection.mutable.ArrayBuffer
 /**
@@ -42,31 +46,68 @@ class VisualizerController @Inject() extends Controller {
     Ok(views.html.visualizer("This is Visualizer Page.",""))
   }
 
-  val form = Form( "name" -> text )
+  var count = 0
+  var engine : Engine = new Engine()
+  var textOnEditor = ""
+  var stackStateString = ""
 
-  def replaceLn(string:String)=string
+
+  val form = Form( "name" -> text )
 
   def rawDataToUniTree(string:String)={
     new CPP14Mapper(true).parse(string)
   }
-  /*
-  def createData = {
-    val arr = new java.util.ArrayList[UniMethodDec]
-    arr += new UniMethodDec("main", Nil, "int", Nil,
-      new UniBlock(ArrayBuffer(
-        new UniVariableDec(Nil,"int","aaaa",new UniIntLiteral(1)),
-        new UniVariableDec(Nil,"int","b",new UniIntLiteral(2)),
-        new UniVariableDec(Nil,"int","c",new UniIntLiteral(300000)),
-        new UniVariableDec(Nil,"int","d",new UniIntLiteral(4))),
-         ""))
-    arr += new UniMethodDec("add", Nil, "int", ArrayBuffer(new UniArg("int","x"),new UniArg("int","y")) , new UniBlock)
-  }
- */
+
   def compile = Action { implicit request =>
     val text = form.bindFromRequest.get
     val rawData = text//.replaceAll("(\r\n|\r|\n)"," ");
-    val treeData = rawDataToUniTree(rawData)
-    val jsondata = net.arnx.jsonic.JSON.encode(treeData)
-    Ok(views.html.visualizer(text,jsondata))
+  val treeData = rawDataToUniTree(rawData)
+    val jsonData = net.arnx.jsonic.JSON.encode(treeData)
+    Ok(views.html.visualizer(jsonData,"compile"))
   }
+
+  def startStepExec = Action { implicit request =>
+    count = 0
+    val text = form.bindFromRequest.get
+    textOnEditor = text
+    engine = new Engine()
+    val baos = new ByteArrayOutputStream()
+    engine.out = new PrintStream(baos)
+    val node = rawDataToUniTree(text)
+    val state = engine.startStepExecution(node.asInstanceOf[UniMethodDec])
+    val jsonData = net.arnx.jsonic.JSON.encode(state)
+    stackStateString = jsonData
+    Ok(views.html.visualizer(jsonData,"debug"))
+  }
+
+  def execAll = Action { implicit request =>
+    var state : ExecState = null
+    do{
+      count += 1;
+      state = engine.stepExecute()
+    }while (engine.getStepExecing())
+
+    val jsonData = net.arnx.jsonic.JSON.encode(state)
+    stackStateString = jsonData
+    Ok(views.html.visualizer(stackStateString, "EOF"))
+  }
+
+  def execOneStep = Action { implicit request =>
+    count += 1
+    if(engine.getStepExecing()) {
+      val state = engine.stepExecute()
+      val jsonData = net.arnx.jsonic.JSON.encode(state)
+      stackStateString = jsonData
+      Ok(views.html.visualizer(jsonData,"nextStep"))
+    }
+    else{
+      Ok(views.html.visualizer(stackStateString, "EOF"))
+    }
+  }
+
+  def stopDebug = Action { implicit request =>
+    engine = null
+    Ok(views.html.visualizer(stackStateString, "STOP"))
+  }
+
 }

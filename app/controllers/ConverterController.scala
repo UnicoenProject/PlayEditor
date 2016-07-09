@@ -8,7 +8,7 @@ import play.api.mvc._
 
 import net.unicoen.mapper.Java8Mapper
 import net.unicoen.generator.JavaToSwiftTreeConverter
-import net.unicoen.generator.SwiftGenerator
+import net.unicoen.generator.SwiftCodeGenerator
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -40,7 +40,7 @@ class ConverterController @Inject() extends Controller {
     val mapper = new Java8Mapper(true)
     val tree = mapper.parse(format)
     val modified = JavaToSwiftTreeConverter.convert(tree)
-    val result = SwiftGenerator.generate(modified)
+    val result = SwiftCodeGenerator.generate(modified)
     return result
 
   }

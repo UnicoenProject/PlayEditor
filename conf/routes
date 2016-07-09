@@ -16,7 +16,11 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /visualizer                 controllers.VisualizerController.index
-POST    /visualizer                 controllers.VisualizerController.compile
+POST    /visualizer/compile         controllers.VisualizerController.compile
+POST    /visualizer/debug           controllers.VisualizerController.startStepExec
+POST    /visualizer/exec            controllers.VisualizerController.execAll
+POST    /visualizer/step            controllers.VisualizerController.execOneStep
+POST    /visualizer/stop            controllers.VisualizerController.stopDebug
 
 GET     /converter                  controllers.ConverterController.index
 POST    /converter                  controllers.ConverterController.compile

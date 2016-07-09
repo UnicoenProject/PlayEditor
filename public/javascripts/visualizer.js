@@ -4,7 +4,7 @@
 /*可視化領域描画処理*/
 //$(function(){
 
-    function exec(step) {
+    function drawMemoryState(data){
 
         //一度全て削除する
         $('canvas').clearCanvas();
@@ -19,231 +19,20 @@
         $('canvas').setLayer('mainLayer', {
             visible: false//高速化・ちらつき防止のため最終的な状態になるまで描画しない
         }).drawLayers();
-
-        var memory = [];
-        memory.push(new segment("データ"));//0
-
-        memory.push(new segment("ヒープ"));//1
-
-
-        var root = data[0][0];
-
-        var countOfStatement = 0;
-        function statement(mem, stack) {
-            //memory.push(new segment(stack.methodName));
-            var block = stack.block.body;
-            for (var i = 0; i < block.length; ++i) {
-                ++countOfStatement
-                if(step<countOfStatement)
-                    break;
-
-                if (block[i].type)//変数宣言
-                    mem.add(block[i].type, block[i].name, block[i].value);
-                else if (block[i].operator)//代入などの式
-                    mem.operate(block[i]);
-            }
-        }
-
-        if (root[0])//mainのみの時はdata[0]がmainブロック
-        {
-            var numOfStack = root.length;
-            for (var j = 0; j < numOfStack; ++j) {
-                memory.push(new segment(root[j].methodName));
-                statement(memory[2 + j], root[j]);
-            }
-        }
-        else {
-            memory.push(new segment(root.methodName));
-            statement(memory[2], root)
-        }
-
-
-        //memory.push(new segment("add"));//3
-        //memory[3].add("int","x","1");
-        //memory[3].add("int","y","2");
-
-
-        function calcExpr(seg, expr) {
-
-            var ope = expr.operator;
-
-            //単項演算子の場合
-            var exp = expr.expr;
-            if (exp) {
-                if (ope == "&")//アドレスを取得
-                {
-                    var val = seg.get(exp.name).value;
-                    var addr = "0x" + seg.get(exp.name).address.toString(16);
-                    return addr;
-                }
-                return -1;
-            }
-            //二項演算子の場合
-            var left = expr.left;
-            var right = expr.right;
-
-            var leftValue;
-            if (left.value)
-                leftValue = left.value;
-            else if (left.name)
-                leftValue = seg.get(left.name).value;
-            else if (left.operator)
-                leftValue = calcExpr(seg, left);
-
-            var rightValue;
-            if (right.value)
-                rightValue = right.value;
-            else if (right.name)
-                rightValue = seg.get(right.name).value;
-            else if (right.operator)
-                rightValue = calcExpr(seg, right);
-
-            var expr = leftValue + ope + rightValue;
-            var result = eval(expr);
-            return result;
-        }
-
-        //メモリ領域クラス
-        function segment(name) {
-            this.name = name;//データ、ヒープ、main,addなど
-            this.variables = [];//変数が順番に入っていく
-
-            this.get = function (varName) {
-                var filtered = $.grep(this.variables,
-                    function (elem, index) {
-                        // ageプロパティの値でフィルター
-                        return (elem.name == varName);
-                    }
-                );
-                return filtered.pop();
-            }
-
-            this.set = function (varName, value) {
-                this.get(varName).value = value;
-            }
-
-            this.add = function (type_, name_, value_) {
-                if (value_) {
-                    if (value_.value)//int a = 3;など数値の場合
-                    {
-                        this.variables.push(new variable(type_, name_, value_.value));
-                    }
-                    else if (value_.name)//int a = c;など変数の場合
-                    {
-
-                        this.variables.push(new variable(type_, name_, this.get(value_.name).value));
-                        //this.variables.push(new variable(type_, name_, value_.name));
-                    }
-                    else if (value_.operator) {
-                        var result = calcExpr(this, value_);
-                        this.variables.push(new variable(type_, name_, result));
-                    }
-                }
-                else//int a;など宣言のみの場合
-                    this.variables.push(new variable(type_, name_, '?'));
-            }
-
-            this.operate = function (expr) {
-                var left = expr.left;
-                var leftName = left.name;
-
-                var right = expr.right;
-                var rightValue;
-                if (right.value)
-                    rightValue = right.value;
-                else if (right.name)
-                    rightValue = seg.get(right.name).value;
-                else if (right.operator)
-                    rightValue = calcExpr(this, right);
-                this.set(leftName, rightValue);
-            }
-        }
-
-        //変数クラス
-        function variable(type, name, value) {
-            this.type = type;//"int"
-            this.name = name;//"a"
-            this.value = value;//"3"
-            if (typeof(arguments.callee.address) == 'undefined') {
-                arguments.callee.address = 0;// このfalseがデフォルト値。
-            }
-            else {
-                if (type == "double")
-                    arguments.callee.address += 8;
-                else if (type == "short")
-                    arguments.callee.address += 2;
-                else if (type == "char")
-                    arguments.callee.address += 1;
-                else
-                    arguments.callee.address += 4;
-            }
-            this.address = arguments.callee.address;
-        }
-
-
-        //$("#display").drawXXXX したものはnameプロパティを設定しておくと$("canvas").getLayer(name)で取得できる
-        //name:("canvas").getLayer(name)でプロパティ取得：ユニーク(スタック名-
-        //groupname:draggableなどで一緒に動かす範囲:複数設定可
-        //type:name
-        function drawText(text, x, y, name, groupname) {
-            $("#display").drawText({
-                fillStyle: "black",
-                strokeStyle: "black",
-                strokeWidth: "0.5",
-                x: x,
-                y: y,
-                fontSize: 14,
-                fontFamily: "sans-serif",
-                text: " " + text + " ",
-                name: name + "-text",//スタック名-変数名-列名-text
-                draggable: true,
-                groups: [groupname],//スタック名,変数名
-                dragGroups: [groupname]//スタック名,変数名
-            });
-        }
-
-        function drawVariable(t, x, y, name, groupname, t2, group2) {
-            $("#display").drawText({
-                fillStyle: "black",
-                strokeStyle: "black",
-                strokeWidth: "0.5",
-                x: x,
-                y: y,
-                fontSize: 14,
-                fontFamily: "sans-serif",
-                text: "   " + t + "   ",
-                text2: "   " + t2 + "   ",
-                name: name + "-text",//スタック名-変数名-列名-text
-                draggable: true,
-                groups: [groupname, group2],//スタック名,変数名
-                dragGroups: [groupname],//スタック名,変数名
-                click: function (layer) {
-                    // Click a star to spin it
-                    var group = $(this).getLayerGroup(group2);
-                    //$('canvas').triggerLayerEvent('myLayer', 'click');
-                    for (var i = 0; i < group.length; ++i) {
-                        var _text = group[i].text;
-                        var _text2 = group[i].text2;
-                        _text2 = _text2.replace(" Ox", "0x");
-                        _text2 = _text2.replace(" &&&", "&");
-                        group[i].text = _text2;
-                        group[i].text2 = _text;
-
-                        $(this).setLayer(group[i], {
-                            //text:_text2,
-                            //text2:_text,
-                        })
-                    }
-                }
-            });
-        }
-
+        
         var origin = new Victor(50, 50);//図形描画の基準位置
         var nextPos = origin.clone();//次のRectの左上の位置
-        function drawSegment(mem) {
+
+        var stacks = data.stacks;
+        for (var i = 0, len = stacks.length; i < len; ++i) {
+            drawStack(stacks[i]);//それぞれのスタックについて描画
+        }
+
+
+        function drawStack(stack) {
             var pos = nextPos.clone();//次の変数の左上の位置
-            var memoryName = mem.name;//nameはその関数名など
-            var variables = mem.variables;//変数一覧
+            var memoryName = stack.name;//nameはその関数名など
+            var variables = stack.variables;//変数一覧
             var numOfVars = variables.length;
 
             if (0 < numOfVars)//そのスタック内の変数を全て描画
@@ -265,7 +54,7 @@
                     var nameWidth = $("#display").getLayer(name + "-name" + "-text").width;
 
                     drawVariable(v.value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName, "Ox" + v.address.toString(16), name + "-var");
-                    var valueWidth = $("#display").getLayer(name + "-value" + "-text").width;
+                    var valueWidth = Math.max($("#display").getLayer(name + "-value" + "-text").width,80);
 
                     //列を揃えるために最大幅を計算
                     maxTypeWidth = Math.max(maxTypeWidth, typeWidth);
@@ -340,8 +129,57 @@
             }
         }
 
-        for (var i = 0, len = memory.length; i < len; ++i) {
-            drawSegment(memory[i]);//それぞれのスタックについて描画
+        function drawText(text, x, y, name, groupname) {
+            $("#display").drawText({
+                fillStyle: "black",
+                strokeStyle: "black",
+                strokeWidth: "0.5",
+                x: x,
+                y: y,
+                fontSize: 14,
+                fontFamily: "sans-serif",
+                text: " " + text + " ",
+                name: name + "-text",//スタック名-変数名-列名-text
+                draggable: true,
+                groups: [groupname],//スタック名,変数名
+                dragGroups: [groupname]//スタック名,変数名
+            });
+        }
+
+        function drawVariable(t, x, y, name, groupname, t2, group2) {
+            $("#display").drawText({
+                fillStyle: "black",
+                strokeStyle: "black",
+                strokeWidth: "0.5",
+                x: x,
+                y: y,
+                fontSize: 14,
+                fontFamily: "sans-serif",
+                text: "   " + t + "   ",
+                text2: "   " + t2 + "   ",
+                name: name + "-text",//スタック名-変数名-列名-text
+                draggable: true,
+                groups: [groupname, group2],//スタック名,変数名
+                dragGroups: [groupname],//スタック名,変数名
+                click: function (layer) {
+                    // Click a star to spin it
+                    var group = $(this).getLayerGroup(group2);
+                    //$('canvas').triggerLayerEvent('myLayer', 'click');
+                    for (var i = 0; i < group.length; ++i) {
+                        var _text = group[i].text;
+                        var _text2 = group[i].text2;
+                        _text2 = _text2.replace(" Ox", "0x");
+                        _text2 = _text2.replace(" &&&", "&");
+                        group[i].text = _text2;
+                        group[i].text2 = _text;
+
+                        $(this).setLayer(group[i], {
+                            //text:_text2,
+                            //text2:_text,
+                        })
+                    }
+                }
+            });
         }
 
         function drawArrow(start, mid, end, name, groupname) {
@@ -362,18 +200,18 @@
         }
 
         //アドレスから矢印描画
-        for (var i = 0, memlen = memory.length; i < memlen; ++i) {
-            for (var j = 0, varlen = memory[i].variables.length; j < varlen; ++j) {
-                var val = memory[i].variables[j];
+        for (var i = 0, memlen = stacks.length; i < memlen; ++i) {
+            for (var j = 0, varlen = stacks[i].variables.length; j < varlen; ++j) {
+                var val = stacks[i].variables[j];
                 var isTypePtr = (val.type.indexOf('*') != -1);
                 if (isTypePtr) {
-                    var layerName = memory[i].name + "-" + val.name + "-value" + "-text";
+                    var layerName = stacks[i].name + "-" + val.name + "-value" + "-text";
                     var fromValue = $("#display").getLayer(layerName);
-                    var x = $("#display").getLayer(memory[i].name + "-rect").x;
+                    var x = $("#display").getLayer(stacks[i].name + "-rect").x;
                     var y = fromValue.y + fromValue.height / 2;
                     var from = new Victor(x, y);
 
-                    for (var i2 = 0, memlen2 = memory.length; i2 < memlen2; ++i2) {
+                    for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
                         for (var j2 = 0, varlen2 = memory[i2].variables.length; j2 < varlen2; ++j2) {
                             var val2 = memory[i2].variables[j2];
                             if (val2.address == val.value) {
@@ -390,8 +228,8 @@
                                 dir.rotateDeg(-90);
                                 mid.add(dir.multiply(new Victor(length / 4, length / 4)));
 
-                                var name = memory[i].name + "-" + val.name + "-to-" + memory[i2].name + "-" + val2.name;
-                                drawArrow(from, mid, to, name, memory[i].name);//もう一つ必要
+                                var name = stacks[i].name + "-" + val.name + "-to-" + memory[i2].name + "-" + val2.name;
+                                drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
                             }
                         }
                     }
@@ -402,6 +240,8 @@
         $('canvas').setLayer('mainLayer', {
             visible: true//ここまでの処理が終わって初めて描画する
         }).drawLayers();
+
+        return data;
     }
 //});
 
