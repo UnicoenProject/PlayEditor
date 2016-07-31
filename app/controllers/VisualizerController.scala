@@ -33,7 +33,7 @@ class VisualizerController @Inject() extends Controller {
 
   //@TODO
   // ### 9999番ポートでデバックする
-  // $ activator -jvm-debug 9999 run
+  // $ activator -jvm-debug 9999 ~run
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -44,11 +44,12 @@ class VisualizerController @Inject() extends Controller {
 
   //index.scala.htmlがview
   def index = Action {
-    Ok(views.html.visualizer("This is Visualizer Page.",""))
+    Ok(views.html.visualizer("This is Visualizer Page.","",""))
   }
 
   var count = 0
-  var engine : Engine = new Engine()
+  var engine : Engine = new CppEngine()
+  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
   var textOnEditor = ""
   var stackStateString = ""
 
@@ -64,16 +65,16 @@ class VisualizerController @Inject() extends Controller {
     val rawData = text//.replaceAll("(\r\n|\r|\n)"," ");
     val treeData = rawDataToUniTree(rawData)
     val jsonData = net.arnx.jsonic.JSON.encode(treeData)
-    Ok(views.html.visualizer(jsonData,"compile"))
+    Ok(views.html.visualizer(jsonData,"compile",""))
   }
 
   def startStepExec = Action { implicit request =>
     count = 0
     val text = form.bindFromRequest.get
     textOnEditor = text
-    engine = new Engine()
-    val baos = new ByteArrayOutputStream()
-    engine.out = new PrintStream(baos)
+    engine = new CppEngine()
+    baos  = new ByteArrayOutputStream()
+    engine.out = new PrintStream(baos);
     val node = rawDataToUniTree(text)
     if(!node.isInstanceOf[List[UniNode]]) {
       var nodes = new util.ArrayList[UniNode]();
@@ -81,14 +82,14 @@ class VisualizerController @Inject() extends Controller {
       val state = engine.startStepExecution(nodes)
       val jsonData = net.arnx.jsonic.JSON.encode(state)
       stackStateString = jsonData
-      Ok(views.html.visualizer(jsonData, "debug"))
+      Ok(views.html.visualizer(jsonData, "debug",""))
     }
     else{
       val nodes = node.asInstanceOf[util.ArrayList[UniNode]];
       val state = engine.startStepExecution(nodes)
       val jsonData = net.arnx.jsonic.JSON.encode(state)
       stackStateString = jsonData
-      Ok(views.html.visualizer(jsonData,"debug"))
+      Ok(views.html.visualizer(jsonData,"debug",""))
     }
   }
 
@@ -101,25 +102,27 @@ class VisualizerController @Inject() extends Controller {
 
     val jsonData = net.arnx.jsonic.JSON.encode(state)
     stackStateString = jsonData
-    Ok(views.html.visualizer(stackStateString, "EOF"))
+    Ok(views.html.visualizer(stackStateString, "EOF",""))
   }
-
+  import java.nio.charset.Charset;
   def execOneStep = Action { implicit request =>
     count += 1
     if(engine.isStepExecutionRunning()) {
       val state = engine.stepExecute()
+      val output = baos.toString()
+      val encOutput = new String(output.getBytes("UTF-8"), "UTF-8")
       val jsonData = net.arnx.jsonic.JSON.encode(state)
       stackStateString = jsonData
-      Ok(views.html.visualizer(jsonData,"nextStep"))
+      Ok(views.html.visualizer(jsonData,"nextStep",encOutput))
     }
     else{
-      Ok(views.html.visualizer(stackStateString, "EOF"))
+      Ok(views.html.visualizer(stackStateString, "EOF",""))
     }
   }
 
   def stopDebug = Action { implicit request =>
     engine = null
-    Ok(views.html.visualizer(stackStateString, "STOP"))
+    Ok(views.html.visualizer(stackStateString, "STOP",""))
   }
 
 }
