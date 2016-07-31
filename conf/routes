@@ -20,6 +20,7 @@ POST    /visualizer/compile         controllers.VisualizerController.compile
 POST    /visualizer/debug           controllers.VisualizerController.startStepExec
 POST    /visualizer/exec            controllers.VisualizerController.execAll
 POST    /visualizer/step            controllers.VisualizerController.execOneStep
+POST    /visualizer/back            controllers.VisualizerController.execBackStep
 POST    /visualizer/stop            controllers.VisualizerController.stopDebug
 
 GET     /converter                  controllers.ConverterController.index

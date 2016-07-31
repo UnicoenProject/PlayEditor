@@ -14,16 +14,18 @@ import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 import scala.collection._
 import models._
+import java.nio.charset.Charset;
+
 //import net.unicoen._
 //import net.unicoen.node._
+import scala.collection.mutable.ArrayBuffer
 import net.unicoen.mapper.CPP14Mapper
 import net.unicoen.interpreter._
-import net.unicoen.interpreter.Scope
 import net.unicoen.node._
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-import scala.collection.mutable.ArrayBuffer
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -47,19 +49,6 @@ class VisualizerController @Inject() extends Controller {
     Ok(views.html.visualizer("This is Visualizer Page.","",""))
   }
 
-  var count = 0
-  var engine : Engine = new CppEngine()
-  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
-  var textOnEditor = ""
-  var stackStateString = ""
-
-
-  val form = Form( "name" -> text )
-
-  def rawDataToUniTree(string:String)={
-    new CPP14Mapper(true).parse(string)
-  }
-
   def compile = Action { implicit request =>
     val text = form.bindFromRequest.get
     val rawData = text//.replaceAll("(\r\n|\r|\n)"," ");
@@ -69,7 +58,7 @@ class VisualizerController @Inject() extends Controller {
   }
 
   def startStepExec = Action { implicit request =>
-    count = 0
+    count = 1
     val text = form.bindFromRequest.get
     textOnEditor = text
     engine = new CppEngine()
@@ -80,16 +69,16 @@ class VisualizerController @Inject() extends Controller {
       var nodes = new util.ArrayList[UniNode]();
       nodes.add(node.asInstanceOf[UniNode])
       val state = engine.startStepExecution(nodes)
-      val jsonData = net.arnx.jsonic.JSON.encode(state)
-      stackStateString = jsonData
-      Ok(views.html.visualizer(jsonData, "debug",""))
+      val jsonData = getJson(state)
+      val encOutput = getOutput
+      Ok(views.html.visualizer(jsonData, "debug",encOutput))
     }
     else{
       val nodes = node.asInstanceOf[util.ArrayList[UniNode]];
       val state = engine.startStepExecution(nodes)
-      val jsonData = net.arnx.jsonic.JSON.encode(state)
-      stackStateString = jsonData
-      Ok(views.html.visualizer(jsonData,"debug",""))
+      val jsonData = getJson(state)
+      val encOutput = getOutput
+      Ok(views.html.visualizer(jsonData,"debug",encOutput))
     }
   }
 
@@ -98,31 +87,71 @@ class VisualizerController @Inject() extends Controller {
     do{
       count += 1;
       state = engine.stepExecute()
+      val jsonData = getJson(state)
+      val encOutput = getOutput
     }while (engine.isStepExecutionRunning())
-
-    val jsonData = net.arnx.jsonic.JSON.encode(state)
-    stackStateString = jsonData
-    Ok(views.html.visualizer(stackStateString, "EOF",""))
+    val jsonData = stateHistory.get(count)
+    val output = outputsHistory.get(count)
+    Ok(views.html.visualizer(jsonData,"EOF",output))
   }
-  import java.nio.charset.Charset;
+
   def execOneStep = Action { implicit request =>
     count += 1
-    if(engine.isStepExecutionRunning()) {
+    if(count < stateHistory.length){
+      val jsonData = stateHistory.get(count)
+      val output = outputsHistory.get(count)
+      Ok(views.html.visualizer(jsonData,"nextStep",output))
+    }
+    else if(engine.isStepExecutionRunning()) {
       val state = engine.stepExecute()
-      val output = baos.toString()
-      val encOutput = new String(output.getBytes("UTF-8"), "UTF-8")
-      val jsonData = net.arnx.jsonic.JSON.encode(state)
-      stackStateString = jsonData
+      val jsonData = getJson(state)
+      val encOutput = getOutput
       Ok(views.html.visualizer(jsonData,"nextStep",encOutput))
     }
     else{
-      Ok(views.html.visualizer(stackStateString, "EOF",""))
+      Ok(views.html.visualizer(stateHistory.last, "EOF",""))
     }
+  }
+
+  def execBackStep = Action { implicit request =>
+    if(1<count){
+      count -= 1
+    }
+    val jsonData = stateHistory.get(count)
+    val output = outputsHistory.get(count)
+    Ok(views.html.visualizer(jsonData,"nextStep",output))
   }
 
   def stopDebug = Action { implicit request =>
     engine = null
-    Ok(views.html.visualizer(stackStateString, "STOP",""))
+    Ok(views.html.visualizer(stateHistory.last, "STOP",""))
+  }
+
+
+
+  var count = 0
+  var engine : Engine = new CppEngine()
+  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
+  val stateHistory = new util.ArrayList[String]
+  val outputsHistory = new util.ArrayList[String]
+  var textOnEditor = ""
+  val form = Form( "name" -> text )
+
+  def rawDataToUniTree(string:String)={
+    new CPP14Mapper(true).parse(string)
+  }
+
+  def getOutput={
+    val output = baos.toString()
+    val encOutput = new String(output.getBytes("UTF-8"), "UTF-8")
+    outputsHistory.add(encOutput)
+    encOutput
+  }
+
+  def getJson(state:ExecState)={
+    val jsonData = net.arnx.jsonic.JSON.encode(state)
+    stateHistory.add(jsonData)
+    jsonData
   }
 
 }

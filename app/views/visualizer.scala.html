@@ -35,7 +35,8 @@
             <button id="compile" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i></button> @*コンパイルしてメッセージ出力*@
             <button id="debug" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
             <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
-            <button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みならステップ*@
+            <button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
+            <button id="back" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
             <button id="stop" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
         </div>
     </div>
@@ -114,6 +115,10 @@
 
                     $('#step').click(function (e) {
                         send(editor.getValue(),'/step','POST');
+                        localStorage.debug="true";
+                    });
+                    $('#back').click(function (e) {
+                        send(editor.getValue(),'/back','POST');
                         localStorage.debug="true";
                     });
                     $('#stop').click(function (e) {
