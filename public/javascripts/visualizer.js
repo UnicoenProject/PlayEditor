@@ -207,8 +207,9 @@ function drawMemoryState(data){
 
     function drawArrow(start, mid, end, name, groupname) {
         $('#display').drawQuadratic({
-            strokeStyle: '#000',
-            strokeWidth: 4,
+            strokeStyle: 'rgba(0, 0, 0, 0.5)',
+            //fillStyle : 'rgba(0, 0, 0, 0.7)',
+            strokeWidth: 3,
             rounded: true,
             endArrow: true,
             arrowRadius: 15,
@@ -235,12 +236,12 @@ function drawMemoryState(data){
                 var from = new Victor(x, y);
 
                 for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
-                    for (var j2 = 0, varlen2 = memory[i2].variables.length; j2 < varlen2; ++j2) {
-                        var val2 = memory[i2].variables[j2];
+                    for (var j2 = 0, varlen2 = stacks[i2].variables.length; j2 < varlen2; ++j2) {
+                        var val2 = stacks[i2].variables[j2];
                         if (val2.address == val.value) {
-                            var layerName2 = memory[i2].name + "-" + val2.name + "-value" + "-text";
+                            var layerName2 = stacks[i2].name + "-" + val2.name + "-value" + "-text";
                             var fromValue2 = $("#display").getLayer(layerName2);
-                            var x2 = $("#display").getLayer(memory[i2].name + "-rect").x;
+                            var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
                             var y2 = fromValue2.y + fromValue2.height / 2;
                             var to = new Victor(x2, y2);
 
@@ -251,7 +252,7 @@ function drawMemoryState(data){
                             dir.rotateDeg(-90);
                             mid.add(dir.multiply(new Victor(length / 4, length / 4)));
 
-                            var name = stacks[i].name + "-" + val.name + "-to-" + memory[i2].name + "-" + val2.name;
+                            var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
                             drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
                         }
                     }
