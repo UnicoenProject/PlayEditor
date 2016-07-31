@@ -58,26 +58,22 @@ class VisualizerController @Inject() extends Controller {
   }
 
   def startStepExec = Action { implicit request =>
-    count = 1
-    val text = form.bindFromRequest.get
-    textOnEditor = text
-    engine = new CppEngine()
-    baos  = new ByteArrayOutputStream()
-    engine.out = new PrintStream(baos);
-    val node = rawDataToUniTree(text)
+    reset()
+    textOnEditor = form.bindFromRequest.get
+    val node = rawDataToUniTree(textOnEditor)
     if(!node.isInstanceOf[List[UniNode]]) {
       var nodes = new util.ArrayList[UniNode]();
       nodes.add(node.asInstanceOf[UniNode])
       val state = engine.startStepExecution(nodes)
       val jsonData = getJson(state)
-      val encOutput = getOutput
+      val encOutput = getOutput()
       Ok(views.html.visualizer(jsonData, "debug",encOutput))
     }
     else{
       val nodes = node.asInstanceOf[util.ArrayList[UniNode]];
       val state = engine.startStepExecution(nodes)
       val jsonData = getJson(state)
-      val encOutput = getOutput
+      val encOutput = getOutput()
       Ok(views.html.visualizer(jsonData,"debug",encOutput))
     }
   }
@@ -88,10 +84,10 @@ class VisualizerController @Inject() extends Controller {
       count += 1;
       state = engine.stepExecute()
       val jsonData = getJson(state)
-      val encOutput = getOutput
+      val encOutput = getOutput()
     }while (engine.isStepExecutionRunning())
-    val jsonData = stateHistory.get(count)
-    val output = outputsHistory.get(count)
+    val jsonData = stateHistory.get(count-1)
+    val output = outputsHistory.get(count-1)
     Ok(views.html.visualizer(jsonData,"EOF",output))
   }
 
@@ -105,7 +101,7 @@ class VisualizerController @Inject() extends Controller {
     else if(engine.isStepExecutionRunning()) {
       val state = engine.stepExecute()
       val jsonData = getJson(state)
-      val encOutput = getOutput
+      val encOutput = getOutput()
       Ok(views.html.visualizer(jsonData,"nextStep",encOutput))
     }
     else{
@@ -141,7 +137,16 @@ class VisualizerController @Inject() extends Controller {
     new CPP14Mapper(true).parse(string)
   }
 
-  def getOutput={
+  def reset()={
+    count = 1
+    outputsHistory.clear()
+    stateHistory.clear()
+    engine = new CppEngine()
+    baos  = new ByteArrayOutputStream()
+    engine.out = new PrintStream(baos);
+  }
+
+  def getOutput()={
     val output = baos.toString()
     val encOutput = new String(output.getBytes("UTF-8"), "UTF-8")
     outputsHistory.add(encOutput)
