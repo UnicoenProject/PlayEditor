@@ -1,14 +1,15 @@
 package controllers
 
+import java.io.{FileNotFoundException, IOException}
 import javax.inject._
 
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
-
 import net.unicoen.mapper.Java8Mapper
 import net.unicoen.generator.JavaToSwiftTreeConverter
-import net.unicoen.generator.SwiftGenerator
+import net.unicoen.generator.SwiftCodeGenerator
+
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -31,6 +32,7 @@ class ConverterController @Inject() extends Controller {
   //index.scala.htmlがview
   def index = Action {
     Ok(views.html.converter(""))
+
   }
 
   val form = Form( "name" -> text )
@@ -38,17 +40,21 @@ class ConverterController @Inject() extends Controller {
   def replaceLn(string:String):String={
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
     val mapper = new Java8Mapper(true)
-    val tree = mapper.parse(format)
-    val modified = JavaToSwiftTreeConverter.convert(tree)
-    val result = SwiftGenerator.generate(modified)
-    return result
+    try{
+      val tree = mapper.parse(format)
+      val modified = JavaToSwiftTreeConverter.convert(tree)
+      val result = SwiftCodeGenerator.generate(modified)
+      return result
+    }catch {
+      case ex: NullPointerException => "NULL_POINTER"
 
+    }
   }
 
   def compile = Action { implicit request =>
     val data = form.bindFromRequest.get
-    val dataSplit = replaceLn(data);
+    val dataSplit = replaceLn(data)
     Ok(views.html.converter(dataSplit))
-
   }
+
 }

@@ -18,36 +18,39 @@
     @*
     @play20.welcome(message, style = "Scala")
     *@
+    <div id = "logo">
+        <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
+    </div>
     <div clsee="row">
-        CodeArea(ACE)
+        @*CodeArea(ACE)*@
         <div class="btn-group">
-            <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>
-                <ul class="dropdown-menu" id="font-size">
-                    <li><a href="#" data-size="10">小さい</a></li>
-                    <li><a href="#" data-size="12">普通</a></li>
-                    <li><a href="#" data-size="14">大きい</a></li>
-                </ul>
-            </div>
+            @*<div class="btn-group">*@
+                @*<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>*@
+                @*<ul class="dropdown-menu" id="font-size">*@
+                    @*<li><a href="#" data-size="10">小さい</a></li>*@
+                    @*<li><a href="#" data-size="12">普通</a></li>*@
+                    @*<li><a href="#" data-size="14">大きい</a></li>*@
+                @*</ul>*@
+            @*</div>*@
             @*<button id="bold" class="btn btn-default"><i class="glyphicon glyphicon-bold"></i></button>*@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
             <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
-            <button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>
+            @*<button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>*@
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        before
+        Java
         <div id="editorMain" style="height: 600px"></div>
     </div>
     <div class="col-lg-6 col-md-6">
-        after(ReadOnly)
+        Swift(ReadOnly)
         <div id="editorResult" style="height: 600px"></div>
     </div>
-    処理の流れ<br>
-    実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>
-    コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>
-    ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>
+    @*処理の流れ<br>*@
+    @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
+    @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
+    @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
 
         function createEditor(idName,canWrite,initText,mode) {
@@ -79,6 +82,7 @@
                     input.setAttribute('type', 'hidden');
                     input.setAttribute('name', 'name');
                     var text = editor.getValue();
+                    text = text.replace(\", \\")
                     localStorage.text = text;
                     input.setAttribute('value', text);
                     form.appendChild(input);
@@ -104,6 +108,10 @@
 `) ;
         var mes2 =  mes.replace( /<br>/g , `
 //`) ;
+        if(mes2 == "NULL_POINTER"){
+            alert("Error in the Java Program");
+            mes2 = "";
+        }
         createEditor('editorMain',true,localStorage.text,"java");
         createEditor('editorResult',false,mes2,"swift");
     </script>
