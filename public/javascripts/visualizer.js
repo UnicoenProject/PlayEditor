@@ -148,7 +148,7 @@ function drawMemoryState(data){
                 var groupname = memoryName;
                 drawLine(start, end, name, groupname);
             }
-            nextPos = pos.addX(new Victor(borderWidth + 100, 0)).clone();
+            nextPos = pos.add(new Victor(50, heightOffset+10)).clone();
         }
     }
 

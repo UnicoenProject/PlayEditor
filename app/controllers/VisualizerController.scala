@@ -61,21 +61,13 @@ class VisualizerController @Inject() extends Controller {
     reset()
     textOnEditor = form.bindFromRequest.get
     val node = rawDataToUniTree(textOnEditor)
-    if(!node.isInstanceOf[List[UniNode]]) {
-      var nodes = new util.ArrayList[UniNode]();
-      nodes.add(node.asInstanceOf[UniNode])
-      val state = engine.startStepExecution(nodes)
-      val jsonData = getJson(state)
-      val encOutput = getOutput()
-      Ok(views.html.visualizer(jsonData, "debug",encOutput))
-    }
-    else{
+
       val nodes = node.asInstanceOf[util.ArrayList[UniNode]];
       val state = engine.startStepExecution(nodes)
       val jsonData = getJson(state)
       val encOutput = getOutput()
       Ok(views.html.visualizer(jsonData,"debug",encOutput))
-    }
+
   }
 
   def execAll = Action { implicit request =>
