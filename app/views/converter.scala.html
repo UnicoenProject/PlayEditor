@@ -82,7 +82,7 @@
                     input.setAttribute('type', 'hidden');
                     input.setAttribute('name', 'name');
                     var text = editor.getValue();
-                    text = text.replace(\", \\")
+//                    text = text.split(`"`).join(`"`);
                     localStorage.text = text;
                     input.setAttribute('value', text);
                     form.appendChild(input);
