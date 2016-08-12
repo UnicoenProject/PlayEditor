@@ -54,13 +54,13 @@ function drawMemoryState(data){
                     var nameWidth = $("#display").getLayer(name + "-name" + "-text").width;
 
                     var value = v.value;
-                    var address = "Ox" + v.address.toString(16)
+                    var address = "0x" + v.address.toString(16)
                     if(v.value instanceof Array){
-                        value = "Ox" + v.value[0].address.toString(16);
+                        value = "0x" + v.value[0].address.toString(16);
                         address = "SYSTEM";
                     }
                     if(~v.type.indexOf("*"))
-                        value = "Ox" + value.toString(16);
+                        value = "0x" + value.toString(16);
                     drawVariable(value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName);
                     var valueWidth = Math.max($("#display").getLayer(name + "-value" + "-text").width,80);
 
@@ -71,7 +71,7 @@ function drawMemoryState(data){
                     //列を揃えるために最大幅を計算
                     maxWidths[col] = Math.max(maxWidths[col], typeWidth);
                     maxWidths[col+1] = Math.max(maxWidths[col+1], nameWidth);
-                    maxWidths[col+2] = Math.max(maxWidths[col+2], addressWidth);
+                    maxWidths[col+2] = Math.max(maxWidths[col+2], valueWidth);
                     if(col+3<maxWidths.length)
                         maxWidths[col+3] = Math.max(maxWidths[col+3], addressWidth);
                     else
@@ -213,7 +213,7 @@ function drawMemoryState(data){
             dragGroups: [groupname]
         })
     }
-
+    var color = 'rgba(0, 0, 153, 0.5)';
     //アドレスから矢印描画
     for (var i = 0, memlen = stacks.length; i < memlen; ++i) {
         for (var j = 0, varlen = stacks[i].variables.length; j < varlen; ++j) {
@@ -231,9 +231,9 @@ function drawMemoryState(data){
                         var val2 = stacks[i2].variables[j2];
                         if (val2.address == val.value) {
                             var layerName2 = stacks[i2].name + "-" + val2.name + "-value" + "-text";
-                            var fromValue2 = $("#display").getLayer(layerName2);
+                            var toValue = $("#display").getLayer(layerName2);
                             var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
-                            var y2 = fromValue2.y + fromValue2.height / 2;
+                            var y2 = toValue.y + toValue.height / 2;
                             var to = new Victor(x2, y2);
 
                             var mid = new Victor((from.x + to.x) / 2, (from.y + to.y) / 2);
@@ -245,6 +245,10 @@ function drawMemoryState(data){
 
                             var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
                             drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
+
+                            fromValue.fillStyle = color;
+                            $("#display").getLayer(name + "-arrow").fillStyle = color;
+                            toValue.fillStyle = color;
                         }
                     }
                 }
