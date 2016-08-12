@@ -57,13 +57,31 @@ class VisualizerController @Inject() extends Controller {
     Ok(views.html.visualizer(jsonData,"compile",""))
   }
 
+
+
+  def flatten(list:util.List[Object]):util.ArrayList[UniNode]={
+    val nodes = new util.ArrayList[UniNode]
+    for(element <- list){
+      if(element.isInstanceOf[UniNode]){
+        nodes.add(element.asInstanceOf[UniNode])
+      }
+      else{
+        val l = flatten(element.asInstanceOf[util.List[Object]])
+        for(node <- l){
+          nodes.add(node)
+        }
+      }
+    }
+    return nodes
+  }
+
   def startStepExec = Action { implicit request =>
     reset()
     textOnEditor = form.bindFromRequest.get
     val node = rawDataToUniTree(textOnEditor)
     var nodes = new util.ArrayList[UniNode]
     if(node.isInstanceOf[util.ArrayList[UniNode]]){
-      nodes = node.asInstanceOf[util.ArrayList[UniNode]]
+      nodes = flatten(node.asInstanceOf[util.List[Object]])
     }
     else{
       nodes += node.asInstanceOf[UniNode]
