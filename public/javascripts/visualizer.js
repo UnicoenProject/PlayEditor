@@ -40,17 +40,17 @@ function drawMemoryState(data){
             drawText(memoryName, pos.x, pos.y, memoryName, memoryName);
             var heightOffset = 25;
             var borderHeight = heightOffset;
-            var maxWidths = [0,0,0];//型名、変数名、値、&変数名(メモリアドレス)の順番、配列の場合は1列目空欄で4列目を追加。(2次元なら3,4,5列)
+            var maxWidths = [0,0,0,0];//型名、変数名、値、&変数名(メモリアドレス)の順番、配列の場合は1列目空欄で4列目を追加。(2次元なら3,4,5列)
             var numOfRow=0;
             function makeVariables(numOfVars,variables,col){
                 for (var i = 0; i < numOfVars; ++i,++numOfRow) {
                     pos.addY(new Victor(0, heightOffset))
                     var v = variables[i];
                     var name = memoryName + "-" + v.name;//ユニークな名前: スタック名+変数名+列名+テキスト
-                    drawVariable(v.type, pos.x, pos.y, name + "-type", memoryName, v.type + "-var");
+                    drawVariable(v.type, pos.x, pos.y, name + "-type", memoryName);
                     var typeWidth = $("#display").getLayer(name + "-type" + "-text").width;
 
-                    drawVariable(v.name, pos.x + typeWidth, pos.y, name + "-name", memoryName, "&&&" + v.name, name + "-var");
+                    drawVariable(v.name, pos.x + typeWidth, pos.y, name + "-name", memoryName);
                     var nameWidth = $("#display").getLayer(name + "-name" + "-text").width;
 
                     var value = v.value;
@@ -61,15 +61,21 @@ function drawMemoryState(data){
                     }
                     if(~v.type.indexOf("*"))
                         value = "Ox" + value.toString(16);
-                    drawVariable(value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName, address, name + "-var");
+                    drawVariable(value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName);
                     var valueWidth = Math.max($("#display").getLayer(name + "-value" + "-text").width,80);
+
+                    drawVariable("&"+v.name+"("+address+")", pos.x + typeWidth + nameWidth+valueWidth, pos.y, name + "-address", memoryName);
+                    var addressWidth = $("#display").getLayer(name + "-address" + "-text").width;
+
+
                     //列を揃えるために最大幅を計算
                     maxWidths[col] = Math.max(maxWidths[col], typeWidth);
                     maxWidths[col+1] = Math.max(maxWidths[col+1], nameWidth);
-                    if(col+2<maxWidths.length)
-                        maxWidths[col+2] = Math.max(maxWidths[col+2], valueWidth);
+                    maxWidths[col+2] = Math.max(maxWidths[col+2], addressWidth);
+                    if(col+3<maxWidths.length)
+                        maxWidths[col+3] = Math.max(maxWidths[col+3], addressWidth);
                     else
-                        maxWidths[col+2] = valueWidth;
+                        maxWidths[col+3] = addressWidth;
 
                     borderHeight += heightOffset;
 
@@ -92,6 +98,7 @@ function drawMemoryState(data){
                     var leftPosX = $("#display").getLayer(name + "-type" + "-text").x;
                     $("#display").getLayer(name + "-name" + "-text").x = leftPosX + maxWidths[col];
                     $("#display").getLayer(name + "-value" + "-text").x = leftPosX + maxWidths[col] + maxWidths[col + 1];
+                    $("#display").getLayer(name + "-address" + "-text").x = leftPosX + maxWidths[col] + maxWidths[col + 1] + maxWidths[col + 2];
                     if(v.value instanceof Array){
                         redrawVariable(v.value.length,v.value,col+1);
                     }
@@ -172,7 +179,7 @@ function drawMemoryState(data){
         });
     }
 
-    function drawVariable(t, x, y, name, groupname, t2, group2) {
+    function drawVariable(t, x, y, name, groupname) {
         $("#display").drawText({
             fillStyle: "black",
             strokeStyle: "black",
@@ -182,29 +189,10 @@ function drawMemoryState(data){
             fontSize: 14,
             fontFamily: "sans-serif",
             text: "   " + t + "   ",
-            text2: "   " + t2 + "   ",
             name: name + "-text",//スタック名-変数名-列名-text
             draggable: true,
-            groups: [groupname, group2],//スタック名,変数名
+            groups: [groupname],//スタック名,変数名
             dragGroups: [groupname],//スタック名,変数名
-            click: function (layer) {
-                // Click a star to spin it
-                var group = $(this).getLayerGroup(group2);
-                //$('canvas').triggerLayerEvent('myLayer', 'click');
-                for (var i = 0; i < group.length; ++i) {
-                    var _text = group[i].text;
-                    var _text2 = group[i].text2;
-                    _text2 = _text2.replace(" Ox", "0x");
-                    _text2 = _text2.replace(" &&&", "&");
-                    group[i].text = _text2;
-                    group[i].text2 = _text;
-
-                    $(this).setLayer(group[i], {
-                        //text:_text2,
-                        //text2:_text,
-                    })
-                }
-            }
         });
     }
 
