@@ -40,7 +40,7 @@ function drawMemoryState(data){
             drawText(memoryName, pos.x, pos.y, memoryName, memoryName);
             var heightOffset = 25;
             var borderHeight = heightOffset;
-            var maxWidths = [0,0,0];//型名、変数名、値の順番、配列の場合は1列目空欄で4列目を追加。(2次元なら3,4,5列)
+            var maxWidths = [0,0,0];//型名、変数名、値、&変数名(メモリアドレス)の順番、配列の場合は1列目空欄で4列目を追加。(2次元なら3,4,5列)
             var numOfRow=0;
             function makeVariables(numOfVars,variables,col){
                 for (var i = 0; i < numOfVars; ++i,++numOfRow) {
@@ -59,6 +59,8 @@ function drawMemoryState(data){
                         value = "Ox" + v.value[0].address.toString(16);
                         address = "SYSTEM";
                     }
+                    if(~v.type.indexOf("*"))
+                        value = "Ox" + value.toString(16);
                     drawVariable(value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName, address, name + "-var");
                     var valueWidth = Math.max($("#display").getLayer(name + "-value" + "-text").width,80);
                     //列を揃えるために最大幅を計算
@@ -68,6 +70,7 @@ function drawMemoryState(data){
                         maxWidths[col+2] = Math.max(maxWidths[col+2], valueWidth);
                     else
                         maxWidths[col+2] = valueWidth;
+
                     borderHeight += heightOffset;
 
                     if(v.value instanceof Array){
