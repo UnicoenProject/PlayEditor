@@ -216,45 +216,66 @@ function drawMemoryState(data){
     var color = 'rgba(0, 0, 153, 0.5)';
     //アドレスから矢印描画
     for (var i = 0, memlen = stacks.length; i < memlen; ++i) {
-        for (var j = 0, varlen = stacks[i].variables.length; j < varlen; ++j) {
-            var val = stacks[i].variables[j];
-            var isTypePtr = (val.type.indexOf('*') != -1);
-            if (isTypePtr) {
-                var layerName = stacks[i].name + "-" + val.name + "-value" + "-text";
-                var fromValue = $("#display").getLayer(layerName);
-                var x = $("#display").getLayer(stacks[i].name + "-rect").x;
-                var y = fromValue.y + fromValue.height / 2;
-                var from = new Victor(x, y);
+        var variables = stacks[i].variables;
+        var varlen = stacks[i].variables.length;
 
-                for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
-                    for (var j2 = 0, varlen2 = stacks[i2].variables.length; j2 < varlen2; ++j2) {
-                        var val2 = stacks[i2].variables[j2];
-                        if (val2.address == val.value) {
-                            var layerName2 = stacks[i2].name + "-" + val2.name + "-value" + "-text";
-                            var toValue = $("#display").getLayer(layerName2);
-                            var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
-                            var y2 = toValue.y + toValue.height / 2;
-                            var to = new Victor(x2, y2);
+        function drawPtrArrow(varlen,variables,col){
+            for (var j = 0; j < varlen; ++j) {
+                var val = variables[j];
+                var isTypePtr = (val.type.indexOf('*') != -1);
+                if (isTypePtr || val.value instanceof Array) {
+                    var layerName = stacks[i].name + "-" + val.name + "-value" + "-text";
+                    var fromValue = $("#display").getLayer(layerName);
+                    var x = $("#display").getLayer(stacks[i].name + "-rect").x;
+                    var y = fromValue.y + fromValue.height / 2;
+                    var from = new Victor(x, y);
 
-                            var mid = new Victor((from.x + to.x) / 2, (from.y + to.y) / 2);
-                            var dir = (to.clone().subtract(from.clone()));
-                            var length = dir.length();
-                            dir.normalize();
-                            dir.rotateDeg(-90);
-                            mid.add(dir.multiply(new Victor(length / 4, length / 4)));
+                    for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
+                        var variables2 = stacks[i2].variables;
+                        var varlen2 = stacks[i2].variables.length;
 
-                            var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
-                            drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
+                        function drawPtrArrow2(varlen2,variables2,col2) {
+                            for (var j2 = 0; j2 < varlen2; ++j2) {
+                                var val2 = variables2[j2];
 
-                            fromValue.fillStyle = color;
-                            $("#display").getLayer(name + "-arrow").fillStyle = color;
-                            toValue.fillStyle = color;
+                                var isArrayNamePtr = val.value instanceof Array && val2.name == val.name+"[0]";
+                                if (isArrayNamePtr || val2.address == val.value) {
+                                    var layerName2 = stacks[i2].name + "-" + val2.name + "-address" + "-text";
+                                    var toValue = $("#display").getLayer(layerName2);
+                                    var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
+                                    var y2 = toValue.y + toValue.height / 2;
+                                    var to = new Victor(x2, y2);
+
+                                    var mid = new Victor((from.x + to.x) / 2, (from.y + to.y) / 2);
+                                    var dir = (to.clone().subtract(from.clone()));
+                                    var length = dir.length();
+                                    dir.normalize();
+                                    dir.rotateDeg(-90);
+                                    mid.add(dir.multiply(new Victor(length / 4, length / 4)));
+
+                                    var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
+                                    drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
+
+                                    fromValue.fillStyle = color;
+                                    $("#display").getLayer(name + "-arrow").fillStyle = color;
+                                    toValue.fillStyle = color;
+                                }
+                                else if(val2.value instanceof Array){
+                                    drawPtrArrow2(val2.value.length,val2.value,col2+1);
+                                }
+                            }
                         }
+                        drawPtrArrow2(varlen2,variables2,0);
                     }
+                }
+                if(val.value instanceof Array){
+                    drawPtrArrow(val.value.length,val.value,col+1);
                 }
             }
         }
+        drawPtrArrow(varlen,variables,0);
     }
+
     $('canvas').getLayers().reverse();//スタックのRectが最前面になり内側に対するマウスイベントを全て全て受け取ってしまう。
     $('canvas').setLayer('mainLayer', {
         visible: true//ここまでの処理が終わって初めて描画する
