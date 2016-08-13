@@ -15,7 +15,7 @@ function drawMemoryState(data){
 
     $.jCanvas.defaults.fromCenter = false;//座標を図形の中央ではなく左上に
     $.jCanvas.defaults.layer = true;//図形のレイヤー処理を有効化(グループ処理)
-
+    $.jCanvas.defaults.drag = onDrag; // Dragされた
     $('canvas').setLayer('mainLayer', {
         visible: false//高速化・ちらつき防止のため最終的な状態になるまで描画しない
     }).drawLayers();
@@ -118,13 +118,13 @@ function drawMemoryState(data){
                 draggable: true,
                 name: memoryName + "-rect",
                 groups: [memoryName],
-                dragGroups: [memoryName],
+                dragGroups: [memoryName]/*,
                 click: function (layer) {
                     // Click a star to spin it
                     $(this).animateLayer(layer, {
                         rotate: '+=360'
                     })
-                }
+                }*/
             });
 
 
@@ -196,7 +196,7 @@ function drawMemoryState(data){
         });
     }
 
-    function drawArrow(start, mid, end, name, groupname) {
+    function drawArrow(start, mid, end, name, fromGroup,toGroup) {
         $('#display').drawQuadratic({
             strokeStyle: 'rgba(0, 0, 0, 0.5)',
             //fillStyle : 'rgba(0, 0, 0, 0.7)',
@@ -209,73 +209,119 @@ function drawMemoryState(data){
             cx1: mid.x, cy1: mid.y,
             x2: end.x, y2: end.y,
             name: name + "-arrow",
-            groups: [groupname],
-            dragGroups: [groupname]
+            drag: onDrag, // Dragされた
+            groups: [fromGroup,toGroup],
+            dragGroups: [fromGroup,toGroup]
         })
     }
-    var color = 'rgba(0, 0, 153, 0.5)';
+    var selectColorIndex = 0;
+    var colorHashMap = {};
+    function getColorSet() {
+        var array = [
+            'rgba(255, 40, 0, 0.5)',
+            'rgba(250, 245, 0, 0.5)',
+            'rgba(53, 161, 107, 0.5)',
+            'rgba(0, 65, 255, 0.5)',
+            'rgba(102, 204, 255, 0.5)',
+            'rgba(255, 153, 160, 0.5)',
+            'rgba(255, 153, 0, 0.5)',
+            'rgba(154, 0, 121, 0.5)',
+            'rgba(102, 51, 0, 0.5)'
+        ];
+        var select = array[selectColorIndex++];
+
+        if (array.length <= selectColorIndex)
+            selectColorIndex = 0;
+        return select;
+        //アドレスから矢印描画
+    }
     //アドレスから矢印描画
-    for (var i = 0, memlen = stacks.length; i < memlen; ++i) {
-        var variables = stacks[i].variables;
-        var varlen = stacks[i].variables.length;
+    function drawAllPtrArrow() {
+        for (var i = 0, memlen = stacks.length; i < memlen; ++i) {
+            var variables = stacks[i].variables;
+            var varlen = stacks[i].variables.length;
 
-        function drawPtrArrow(varlen,variables,col){
-            for (var j = 0; j < varlen; ++j) {
-                var val = variables[j];
-                var isTypePtr = (val.type.indexOf('*') != -1);
-                if (isTypePtr || val.value instanceof Array) {
-                    var layerName = stacks[i].name + "-" + val.name + "-value" + "-text";
-                    var fromValue = $("#display").getLayer(layerName);
-                    var x = $("#display").getLayer(stacks[i].name + "-rect").x;
-                    var y = fromValue.y + fromValue.height / 2;
-                    var from = new Victor(x, y);
+            function drawPtrArrow(varlen, variables, col) {
+                for (var j = 0; j < varlen; ++j) {
+                    var val = variables[j];
+                    var isTypePtr = (val.type.indexOf('*') != -1);
+                    if (isTypePtr || val.value instanceof Array) {
+                        var layerName = stacks[i].name + "-" + val.name + "-value" + "-text";
+                        var fromValue = $("#display").getLayer(layerName);
+                        var x = $("#display").getLayer(stacks[i].name + "-rect").x;
+                        var y = fromValue.y + fromValue.height / 2;
+                        var from = new Victor(x, y);
 
-                    for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
-                        var variables2 = stacks[i2].variables;
-                        var varlen2 = stacks[i2].variables.length;
+                        for (var i2 = 0, memlen2 = stacks.length; i2 < memlen2; ++i2) {
+                            var variables2 = stacks[i2].variables;
+                            var varlen2 = stacks[i2].variables.length;
 
-                        function drawPtrArrow2(varlen2,variables2,col2) {
-                            for (var j2 = 0; j2 < varlen2; ++j2) {
-                                var val2 = variables2[j2];
+                            function drawPtrArrow2(varlen2, variables2, col2) {
+                                for (var j2 = 0; j2 < varlen2; ++j2) {
+                                    var val2 = variables2[j2];
 
-                                var isArrayNamePtr = val.value instanceof Array && val2.name == val.name+"[0]";
-                                if (isArrayNamePtr || val2.address == val.value) {
-                                    var layerName2 = stacks[i2].name + "-" + val2.name + "-address" + "-text";
-                                    var toValue = $("#display").getLayer(layerName2);
-                                    var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
-                                    var y2 = toValue.y + toValue.height / 2;
-                                    var to = new Victor(x2, y2);
+                                    var isArrayNamePtr = val.value instanceof Array && val2.name == val.name + "[0]";
+                                    if (isArrayNamePtr || val2.address == val.value) {
+                                        var layerName2 = stacks[i2].name + "-" + val2.name + "-address" + "-text";
+                                        var toValue = $("#display").getLayer(layerName2);
+                                        var x2 = $("#display").getLayer(stacks[i2].name + "-rect").x;
+                                        var y2 = toValue.y + toValue.height / 2;
+                                        var to = new Victor(x2, y2);
 
-                                    var mid = new Victor((from.x + to.x) / 2, (from.y + to.y) / 2);
-                                    var dir = (to.clone().subtract(from.clone()));
-                                    var length = dir.length();
-                                    dir.normalize();
-                                    dir.rotateDeg(-90);
-                                    mid.add(dir.multiply(new Victor(length / 4, length / 4)));
+                                        var mid = new Victor((from.x + to.x) / 2, (from.y + to.y) / 2);
+                                        var dir = (to.clone().subtract(from.clone()));
+                                        var length = dir.length();
+                                        dir.normalize();
+                                        if(y<y2)
+                                            dir.rotateDeg(90);
+                                        else
+                                            dir.rotateDeg(-90);
 
-                                    var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
-                                    drawArrow(from, mid, to, name, stacks[i].name);//もう一つ必要
+                                        mid.add(dir.multiply(new Victor(length / 4, length / 4)));
 
-                                    fromValue.fillStyle = color;
-                                    $("#display").getLayer(name + "-arrow").fillStyle = color;
-                                    toValue.fillStyle = color;
-                                }
-                                else if(val2.value instanceof Array){
-                                    drawPtrArrow2(val2.value.length,val2.value,col2+1);
+                                        var name = stacks[i].name + "-" + val.name + "-to-" + stacks[i2].name + "-" + val2.name;
+                                        drawArrow(from, mid, to, name, stacks[i].name, stacks[i2].name);//もう一つ必要
+                                        var color;
+                                        if(name in colorHashMap){
+                                            color = colorHashMap[name]
+                                        }
+                                        else{
+                                            color = getColorSet();
+                                            colorHashMap[name] = color;
+                                        }
+                                        fromValue.strokeStyle = color;
+                                        $("#display").getLayer(name + "-arrow").strokeStyle = color;
+                                        toValue.strokeStyle = color;
+                                    }
+                                    else if (val2.value instanceof Array) {
+                                        drawPtrArrow2(val2.value.length, val2.value, col2 + 1);
+                                    }
                                 }
                             }
+
+                            drawPtrArrow2(varlen2, variables2, 0);
                         }
-                        drawPtrArrow2(varlen2,variables2,0);
+                    }
+                    if (val.value instanceof Array) {
+                        drawPtrArrow(val.value.length, val.value, col + 1);
                     }
                 }
-                if(val.value instanceof Array){
-                    drawPtrArrow(val.value.length,val.value,col+1);
-                }
+            }
+
+            drawPtrArrow(varlen, variables, 0);
+        }
+    }
+    drawAllPtrArrow();
+    function onDrag(layer) {
+        var layers = $('canvas').getLayers()
+        for (var i=0;i<layers.length;++i){
+            if(~layers[i].name.indexOf("-arrow")){
+                $("#display").removeLayer(layers[i].name);
+                i=0;
             }
         }
-        drawPtrArrow(varlen,variables,0);
+        drawAllPtrArrow();
     }
-
     $('canvas').getLayers().reverse();//スタックのRectが最前面になり内側に対するマウスイベントを全て全て受け取ってしまう。
     $('canvas').setLayer('mainLayer', {
         visible: true//ここまでの処理が終わって初めて描画する
