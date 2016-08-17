@@ -6,7 +6,7 @@
 #localhost:9000/ HomeController index() is called
 #localhost:9000/message AsyncController message() is called
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /                           controllers.VisualizerController.index
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
