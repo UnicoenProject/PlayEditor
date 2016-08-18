@@ -70,6 +70,12 @@
     </div>
     <script src="@routes.Assets.versioned("javascripts/visualizer.js")" type="text/javascript"></script>
     <script>
+            if("@debugState" == "" || localStorage.currentex == "")
+            {
+                document.getElementById("exstart").style.display = "none";
+                document.getElementById("exans").style.display = "none";
+                document.getElementById("description").innerHTML = `下のエディタにプログラムを書き、上のボタンを押すことで可視化を実行できます。<br>もしExecution exceptionと書いてある真っ赤な画面になったらごめんなさい。<br>ブラウザの戻るボタンを押してください。`;
+            }
             if("@debugState" == "" || "@debugState" == "ex2" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4")
             {
                 localStorage.startTime = "実験開始";

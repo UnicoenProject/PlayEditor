@@ -13,24 +13,31 @@
 
     @message
 
+    <br>
     <form action="/visualizer" method="GET">
-        <input type="submit" value="試用ページ"/>
+        <input type="submit" value="visualizerデモページへ"/>
     </form>
     <br>
+
+    デモページで操作方法を把握し、以下のページで問題を解いてください。
+    <br>
+    「回答にかかった時間」「正解・不正解」が調査対象です。<br>
+    メモして報告してください。<br>
+    <hr>
     <form action="/experiment1" method="GET">
-        <input type="submit" value="experiment1"/>
+        <input type="submit" value="experiment1へ"/>
     </form>
     <br>
     <form action="/experiment2" method="GET">
-        <input type="submit" value="experiment2"/>
+        <input type="submit" value="experiment2へ"/>
     </form>
     <br>
     <form action="/experiment3" method="GET">
-        <input type="submit" value="experiment3"/>
+        <input type="submit" value="experiment3へ"/>
     </form>
     <br>
     <form action="/experiment4" method="GET">
-        <input type="submit" value="experiment4"/>
+        <input type="submit" value="experiment4へ"/>
     </form>
     <br>
 @*    <form action="/visualizer" method="GET">
@@ -48,5 +55,4 @@
     *@
 
     @play20.welcome(message, style = "Scala")
-
 }
