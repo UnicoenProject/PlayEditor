@@ -108,7 +108,7 @@ class VisualizerController @Inject() extends Controller {
   def execAll = Action { implicit request =>
     var state : ExecState = null
     do{
-      count += 1;
+      count += 1
       state = engine.stepExecute()
       val jsonData = getJson(state)
       val encOutput = getOutput()
@@ -126,7 +126,10 @@ class VisualizerController @Inject() extends Controller {
       Ok(views.html.visualizer(jsonData,"nextStep",output,textOnEditor))
     }
     else if(engine.isStepExecutionRunning()) {
-      val state = engine.stepExecute()
+      var state = engine.stepExecute()
+      while (state.getCurrentExpr().codeRange==null){
+        state = engine.stepExecute()
+      }
       val jsonData = getJson(state)
       val encOutput = getOutput()
       Ok(views.html.visualizer(jsonData,"nextStep",encOutput,textOnEditor))

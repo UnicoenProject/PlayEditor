@@ -348,8 +348,10 @@ int main()
                 var Range = require("ace/range").Range;
                 var d = data[0];
                 var codeRange = d.currentExpr.codeRange;
-                var range = new Range(new Number(codeRange.begin.y-1),new Number(codeRange.begin.x), new Number(codeRange.end.y-1), new Number(codeRange.end.x+1));
-                editor.getSelection().setSelectionRange(range);
+                if(codeRange) {
+                    var range = new Range(new Number(codeRange.begin.y - 1), new Number(codeRange.begin.x), new Number(codeRange.end.y - 1), new Number(codeRange.end.x + 1));
+                    editor.getSelection().setSelectionRange(range);
+                }
                 outputEditor.setValue(`@(output)`, -1);
                 drawMemoryState(d);
             }
