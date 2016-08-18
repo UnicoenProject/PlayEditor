@@ -33,9 +33,9 @@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
             @*<button id="compile" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i></button> *@@*コンパイルしてメッセージ出力*@
-            <button id="debug" title="可視化デバッグ実行開始(リセット)" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
-            <button id="exec" title="プログラムを最後まで実行する" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
-            <button id="step" title="次の式を実行する(ステップ実行)" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
+            <button id="debug" title="可視化デバッグ実行開始(最初に1回必ず押す)" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
+            <button id="exec" title="実行中のプログラムを最後まで実行する" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
+            <button id="step" title="次の式を実行する(次に実行する式をハイライト)" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
             <button id="back" title="前の式に戻る" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
             <button id="stop" title="可視化デバッグ終了" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
         </div>
@@ -46,13 +46,7 @@
             <button id="exstart">実験開始</button>
             <button id="exans">答えを確認</button>
                 <br>
-                <div id="description">
-                    "実験開始"ボタンを押すとプログラムソースコードと問題が表示されます。<br>
-                        問題の答えがわかったら"答えを確認"ボタンを押してください。<br>
-                        それぞれのボタンは一度だけしか押せません。(押さないでください)<br>
-                        それぞれのボタンは押すと時刻が表示されます。<br>
-                        回答後は2つの時刻と正解したかどうかメモをして次の問題に進んでください。<br>
-                </div>
+                <div id="description"></div>
             <div id="editorMain" style="height: 400px"></div>
             output
             <div id="output" style="height: 100px"></div>
@@ -70,24 +64,52 @@
     </div>
     <script src="@routes.Assets.versioned("javascripts/visualizer.js")" type="text/javascript"></script>
     <script>
-            if("@debugState" == "" || localStorage.currentex == "")
-            {
-                document.getElementById("exstart").style.display = "none";
-                document.getElementById("exans").style.display = "none";
-                document.getElementById("description").innerHTML = `下のエディタにプログラムを書き、上のボタンを押すことで可視化を実行できます。<br>もしExecution exceptionと書いてある真っ赤な画面になったらごめんなさい。<br>ブラウザの戻るボタンを押してください。`;
-            }
-            if("@debugState" == "" || "@debugState" == "ex2" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4")
-            {
-                localStorage.startTime = "実験開始";
-                localStorage.currentex = "";
-                localStorage.sourcefile = `#include<stdio.h>
+
+        var exText = `[実験開始]ボタンを押すとプログラムソースコードと問題が表示されます。<br>
+問題の答えがわかったら[答えを確認]ボタンを押してください。<br>
+それぞれのボタンは一度だけしか押せません。(押さないでください)<br>
+それぞれのボタンは押すと時刻が表示されます。<br>
+回答後は2つの時刻と正解したかどうかメモをして次の問題に進んでください。<br>`;
+
+        var ex1Text  = `
+再帰関数の問題です<br>
+以下のプログラムを実行したとき初めてprintfで<br>
+"1 | B | C"<br>
+と出力されたときのローカル変数a.b.cの値は？`;
+
+        if("@debugState" == "")
+        {
+            localStorage.currentex = "";
+        }
+        else if("@debugState" == "ex1" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4") {
+            localStorage.currentex = "@debugState";
+            localStorage.startTime = "実験開始";
+            localStorage.sourcefile = "";
+        }
+
+        if(localStorage.currentex == ""){
+            document.getElementById("exstart").style.display = "none";
+            document.getElementById("exans").style.display = "none";
+            document.getElementById("description").innerHTML = `下のエディタにプログラムを書き、上のボタンを押すことで可視化を実行できます。<br>もしExecution exceptionと書いてある真っ赤な画面になったらごめんなさい。<br>ブラウザの戻るボタンを押してください。`;
+            localStorage.startTime = "";
+            localStorage.sourcefile = `#include<stdio.h>
 int main()
 {
     printf("Hello,world!\\n");
     return 0;
-}`
-
+}`;
+        }
+        else  if(localStorage.currentex == "ex1" || localStorage.currentex == "ex2" || localStorage.currentex == "ex3" || localStorage.currentex == "ex4") {
+            if(localStorage.startTime == "実験開始" ) {
+                document.getElementById("description").innerHTML = exText;
             }
+            else {
+                if(localStorage.currentex == "ex1"){
+                    document.getElementById("description").innerHTML = ex1Text;
+                }
+            }
+        }
+
             $('#exstart').click(function (e) {
                 var jikan= new Date();
 
@@ -97,14 +119,11 @@ int main()
                 var second = jikan.getSeconds();
                 localStorage.startTime = hour+"時"+minute+"分"+second+"秒";
                 document.getElementById("exstart").innerHTML = localStorage.startTime;
+                document.getElementById("exstart").disabled = "true";
                 var text = "";
                 if("@debugState" == "ex1")
                 {
-                    document.getElementById("description").innerHTML = `
-再帰関数の問題です<br>
-以下のプログラムを実行したときprintfで出力される文字列が<br>
-B | A | C<br>
-になるときのローカル変数a.b.cの値は？`;
+                    document.getElementById("description").innerHTML = ex1Text;
 
                     localStorage.currentex = "ex1";
                     text = `#include<stdio.h>
