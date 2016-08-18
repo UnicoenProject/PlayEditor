@@ -59,7 +59,7 @@ function drawMemoryState(data){
                         value = "0x" + v.value[0].address.toString(16);
                         address = "SYSTEM";
                     }
-                    if(~v.type.indexOf("*"))
+                    if(~v.type.indexOf("*") && v.value!=null)
                         value = "0x" + value.toString(16);
                     drawVariable(value, pos.x + typeWidth + nameWidth, pos.y, name + "-value", memoryName);
                     var valueWidth = Math.max($("#display").getLayer(name + "-value" + "-text").width,80);
