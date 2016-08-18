@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   "net.arnx" % "jsonic" % "1.3.10",
-  "com.github.UnicoenProject" % "Junicoen" % "5b6aa508eb319d4c4595d7f93f1334ff2fa6e5b1",
+  "com.github.UnicoenProject" % "Junicoen" % "22ebbe87d4f5cea77b80e728e8b4820c0be59b59",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 
