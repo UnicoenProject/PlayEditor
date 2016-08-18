@@ -77,6 +77,24 @@
 "1 | B | C"<br>
 と出力されたときのローカル変数a.b.cの値は？`;
 
+        var ex2Text  = `
+再帰関数の問題です<br>
+以下のプログラムを実行したとき初めてprintfで<br>
+"1 | B | C"<br>
+と出力されたときのローカル変数a.b.cの値は？`;
+
+        var ex3Text  = `
+再帰関数の問題です<br>
+以下のプログラムを実行したとき初めてprintfで<br>
+"1 | B | C"<br>
+と出力されたときのローカル変数a.b.cの値は？`;
+
+        var ex4Text  = `
+再帰関数の問題です<br>
+以下のプログラムを実行したとき初めてprintfで<br>
+"1 | B | C"<br>
+と出力されたときのローカル変数a.b.cの値は？`;
+
         if("@debugState" == "")
         {
             localStorage.currentex = "";
@@ -107,6 +125,15 @@ int main()
                 if(localStorage.currentex == "ex1"){
                     document.getElementById("description").innerHTML = ex1Text;
                 }
+                else if(localStorage.currentex == "ex2"){
+                    document.getElementById("description").innerHTML = ex2Text;
+                }
+                else if(localStorage.currentex == "ex3"){
+                    document.getElementById("description").innerHTML = ex3Text;
+                }
+                else if(localStorage.currentex == "ex4"){
+                    document.getElementById("description").innerHTML = ex4Text;
+                }
             }
         }
 
@@ -124,8 +151,67 @@ int main()
                 if("@debugState" == "ex1")
                 {
                     document.getElementById("description").innerHTML = ex1Text;
-
                     localStorage.currentex = "ex1";
+                    text = `#include<stdio.h>
+void H(int n,char a,char b,char c)
+{
+    if(n>=2) H(n-1,a,c,b);
+
+    printf("%d | %c | %c \\n",n,a,c);
+
+    if(n>=2) H(n-1,b,a,c);
+}
+
+int main()
+{
+    H(4,'A','B','C');
+    return 0;
+}`
+                }
+                else if("@debugState" == "ex2")
+                {
+                    document.getElementById("description").innerHTML = ex2Text;
+                    localStorage.currentex = "ex2";
+                    text = `#include<stdio.h>
+void H(int n,char a,char b,char c)
+{
+    if(n>=2) H(n-1,a,c,b);
+
+    printf("%d | %c | %c \\n",n,a,c);
+
+    if(n>=2) H(n-1,b,a,c);
+}
+
+int main()
+{
+    H(4,'A','B','C');
+    return 0;
+}`
+                }
+                else if("@debugState" == "ex3")
+                {
+                    document.getElementById("description").innerHTML = ex3Text;
+                    localStorage.currentex = "ex3";
+                    text = `#include<stdio.h>
+void H(int n,char a,char b,char c)
+{
+    if(n>=2) H(n-1,a,c,b);
+
+    printf("%d | %c | %c \\n",n,a,c);
+
+    if(n>=2) H(n-1,b,a,c);
+}
+
+int main()
+{
+    H(4,'A','B','C');
+    return 0;
+}`
+                }
+                else if("@debugState" == "ex4")
+                {
+                    document.getElementById("description").innerHTML = ex4Text;
+                    localStorage.currentex = "ex4";
                     text = `#include<stdio.h>
 void H(int n,char a,char b,char c)
 {
@@ -155,8 +241,9 @@ int main()
                 var second = jikan.getSeconds();
                 var time = hour+"時"+minute+"分"+second+"秒";
                 if(localStorage.currentex == "ex1"){
-                    document.getElementById("exans").innerHTML = "答え a='B' b='A' c='C'" + "\t" + time;
+                    document.getElementById("exans").innerHTML = time;
                 }
+                document.getElementById("description").innerHTML = "答え a='B' b='A' c='C'<br>2つの時間をメモして次の問題(ページ下部の戻るボタンより)に進んでください。";
             });
 
             document.getElementById("exstart").innerHTML = localStorage.startTime;//開始時刻更新
