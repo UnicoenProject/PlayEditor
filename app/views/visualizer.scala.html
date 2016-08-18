@@ -98,6 +98,12 @@
         if("@debugState" == "")
         {
             localStorage.currentex = "";
+            localStorage.sourcefile = `#include<stdio.h>
+int main()
+{
+    printf("Hello,world!\\n");
+    return 0;
+}`;
         }
         else if("@debugState" == "ex1" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4") {
             localStorage.currentex = "@debugState";
@@ -110,12 +116,6 @@
             document.getElementById("exans").style.display = "none";
             document.getElementById("description").innerHTML = `下のエディタにプログラムを書き、上のボタンを押すことで可視化を実行できます。<br>もしExecution exceptionと書いてある真っ赤な画面になったらごめんなさい。<br>ブラウザの戻るボタンを押してください。`;
             localStorage.startTime = "";
-            localStorage.sourcefile = `#include<stdio.h>
-int main()
-{
-    printf("Hello,world!\\n");
-    return 0;
-}`;
         }
         else  if(localStorage.currentex == "ex1" || localStorage.currentex == "ex2" || localStorage.currentex == "ex3" || localStorage.currentex == "ex4") {
             if(localStorage.startTime == "実験開始" ) {
