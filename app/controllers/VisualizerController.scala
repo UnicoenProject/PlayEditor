@@ -46,15 +46,27 @@ class VisualizerController @Inject() extends Controller {
 
   //index.scala.htmlがview
   def index = Action {
-    Ok(views.html.visualizer("This is Visualizer Page.","",""))
+    Ok(views.html.visualizer("This is Visualizer Page.","","",""))
+  }
+
+  def ex1 = Action {
+    Ok(views.html.visualizer("experimant 1","ex1","",""))
+  }
+  def ex2 = Action {
+    Ok(views.html.visualizer("experimant 2","ex2","",""))
+  }
+  def ex3 = Action {
+    Ok(views.html.visualizer("experimant 3","ex3","",""))
+  }
+  def ex4 = Action {
+    Ok(views.html.visualizer("experimant 4","ex4","",""))
   }
 
   def compile = Action { implicit request =>
-    val text = form.bindFromRequest.get
-    val rawData = text//.replaceAll("(\r\n|\r|\n)"," ");
-    val treeData = rawDataToUniTree(rawData)
+    textOnEditor = form.bindFromRequest.get
+    val treeData = rawDataToUniTree(textOnEditor)
     val jsonData = net.arnx.jsonic.JSON.encode(treeData)
-    Ok(views.html.visualizer(jsonData,"compile",""))
+    Ok(views.html.visualizer(jsonData,"compile","",textOnEditor))
   }
 
 
@@ -89,7 +101,7 @@ class VisualizerController @Inject() extends Controller {
     val state = engine.startStepExecution(nodes)
     val jsonData = getJson(state)
     val encOutput = getOutput()
-    Ok(views.html.visualizer(jsonData,"debug",encOutput))
+    Ok(views.html.visualizer(jsonData,"debug",encOutput,textOnEditor))
 
   }
 
@@ -103,7 +115,7 @@ class VisualizerController @Inject() extends Controller {
     }while (engine.isStepExecutionRunning())
     val jsonData = stateHistory.get(count-1)
     val output = outputsHistory.get(count-1)
-    Ok(views.html.visualizer(jsonData,"EOF",output))
+    Ok(views.html.visualizer(jsonData,"EOF",output,textOnEditor))
   }
 
   def execOneStep = Action { implicit request =>
@@ -111,16 +123,16 @@ class VisualizerController @Inject() extends Controller {
     if(count < stateHistory.length){
       val jsonData = stateHistory.get(count)
       val output = outputsHistory.get(count)
-      Ok(views.html.visualizer(jsonData,"nextStep",output))
+      Ok(views.html.visualizer(jsonData,"nextStep",output,textOnEditor))
     }
     else if(engine.isStepExecutionRunning()) {
       val state = engine.stepExecute()
       val jsonData = getJson(state)
       val encOutput = getOutput()
-      Ok(views.html.visualizer(jsonData,"nextStep",encOutput))
+      Ok(views.html.visualizer(jsonData,"nextStep",encOutput,textOnEditor))
     }
     else{
-      Ok(views.html.visualizer(stateHistory.last, "EOF",""))
+      Ok(views.html.visualizer(stateHistory.last, "EOF","",textOnEditor))
     }
   }
 
@@ -130,12 +142,12 @@ class VisualizerController @Inject() extends Controller {
     }
     val jsonData = stateHistory.get(count)
     val output = outputsHistory.get(count)
-    Ok(views.html.visualizer(jsonData,"nextStep",output))
+    Ok(views.html.visualizer(jsonData,"nextStep",output,textOnEditor))
   }
 
   def stopDebug = Action { implicit request =>
     engine = null
-    Ok(views.html.visualizer(stateHistory.last, "STOP",""))
+    Ok(views.html.visualizer(stateHistory.last, "STOP","",textOnEditor))
   }
 
 
