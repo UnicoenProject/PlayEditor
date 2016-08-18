@@ -47,7 +47,7 @@
             <button id="exans">答えを確認</button>
                 <br>
                 <div id="description"></div>
-            <div id="editorMain" style="height: 400px"></div>
+            <div id="editorMain" style="height: 500px"></div>
             output
             <div id="output" style="height: 100px"></div>
         </div>
@@ -84,10 +84,9 @@
 と出力されたときのローカル変数a.b.cの値は？`;
 
         var ex3Text  = `
-再帰関数の問題です<br>
-以下のプログラムを実行したとき初めてprintfで<br>
-"1 | B | C"<br>
-と出力されたときのローカル変数a.b.cの値は？`;
+ポインタ渡し関数の問題です<br>
+以下のプログラムを実行したとき<br>
+最終的なa,b,c,d,eの値は？<br>`;
 
         var ex4Text  = `
 再帰関数の問題です<br>
@@ -192,19 +191,39 @@ int main()
                 {
                     document.getElementById("description").innerHTML = ex3Text;
                     localStorage.currentex = "ex3";
-                    text = `#include<stdio.h>
-void H(int n,char a,char b,char c)
-{
-    if(n>=2) H(n-1,a,c,b);
-
-    printf("%d | %c | %c \\n",n,a,c);
-
-    if(n>=2) H(n-1,b,a,c);
+                    text = `void swap1(int* x, int* y){
+    int s = *x;
+    if(s<2){
+        *x = *y;
+        *y = s;
+    }
 }
-
+void swap2(int *z, int *w){
+    int t = *z;
+    if(t<3){
+        *z = *w;
+        *w = t;
+    }
+}
+void swap3(int *w, int *o){
+    int u = *w;
+    if(u<4){
+        *w = *o;
+        *o = u;
+    }else{
+        *o = 6;
+        swap1(o,w);
+    }
+}
 int main()
 {
-    H(4,'A','B','C');
+    int a = 1, b = 2, c = 3, d = 4, e = 5;
+    swap1(&a,&b);
+    swap3(&a,&c);
+    swap2(&e,&b);
+    swap3(&d,&e);
+    swap2(&b,&c);
+    swap1(&a,&d);
     return 0;
 }`
                 }
@@ -240,10 +259,16 @@ int main()
                 var minute = jikan.getMinutes();
                 var second = jikan.getSeconds();
                 var time = hour+"時"+minute+"分"+second+"秒";
-                if(localStorage.currentex == "ex1"){
+
+                if(localStorage.currentex == "ex3"){
                     document.getElementById("exans").innerHTML = time;
+                    document.getElementById("description").innerHTML = "答え a=3,b=2,c=1,d=4,e=6<br>"
                 }
-                document.getElementById("description").innerHTML = "答え a='B' b='A' c='C'<br>2つの時間をメモして次の問題(ページ下部の戻るボタンより)に進んでください。";
+                if(localStorage.currentex == "ex4"){
+                    document.getElementById("exans").innerHTML = time;
+                    document.getElementById("description").innerHTML = "答え a='B' b='A' c='C'<br>"
+                }
+                document.getElementById("description").innerHTML += "2つの時間(or所要時間)をメモして次の問題(ページ下部の戻るボタンより)に進んでください。";
             });
 
             document.getElementById("exstart").innerHTML = localStorage.startTime;//開始時刻更新
@@ -328,6 +353,9 @@ int main()
             var text = localStorage.sourcefile;
 
             var editor = createEditor('editorMain',true,text);
+            if(localStorage.currentex == "ex1" || localStorage.currentex == "ex2" || localStorage.currentex == "ex3" || localStorage.currentex == "ex4") {
+                editor.setReadOnly(true);
+            }
 
             var outputEditor = ace.edit("output");
             outputEditor.setReadOnly(true);
@@ -344,6 +372,8 @@ int main()
             }
 
             if(localStorage.debug=="true"){
+                document.getElementById("exstart").disabled = "true";
+
                 localStorage.debug="false";
                 var Range = require("ace/range").Range;
                 var d = data[0];
