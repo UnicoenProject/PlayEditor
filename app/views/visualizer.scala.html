@@ -72,10 +72,10 @@
 回答後は2つの時刻と正解したかどうかメモをして次の問題に進んでください。<br>`;
 
         var ex1Text  = `
-再帰関数の問題です<br>
-以下のプログラムを実行したとき初めてprintfで<br>
-"1 | B | C"<br>
-と出力されたときのローカル変数a.b.cの値は？`;
+階乗を計算する関数の問題です。<br>
+以下のプログラムを実行したとき、<br>
+3回目に呼ばれた関数fがreturnする時点で<br>
+変数n,r,(*pn)の表す値は？`;
 
         var ex2Text  = `
 再帰関数の問題です<br>
@@ -152,18 +152,19 @@ int main()
                     document.getElementById("description").innerHTML = ex1Text;
                     localStorage.currentex = "ex1";
                     text = `#include<stdio.h>
-void H(int n,char a,char b,char c)
-{
-    if(n>=2) H(n-1,a,c,b);
-
-    printf("%d | %c | %c \\n",n,a,c);
-
-    if(n>=2) H(n-1,b,a,c);
+int f(int* pn){
+    if(*pn == 0){
+        return 1;
+    }
+    int n = (*pn);
+    (*pn) = n - 1;
+    int r = n * f(pn);
+    return r;
 }
-
 int main()
 {
-    H(4,'A','B','C');
+    int n = 4;
+    int r = f(&n);
     return 0;
 }`
                 }
@@ -172,18 +173,19 @@ int main()
                     document.getElementById("description").innerHTML = ex2Text;
                     localStorage.currentex = "ex2";
                     text = `#include<stdio.h>
-void H(int n,char a,char b,char c)
-{
-    if(n>=2) H(n-1,a,c,b);
-
-    printf("%d | %c | %c \\n",n,a,c);
-
-    if(n>=2) H(n-1,b,a,c);
+int f(int* pn){
+    if(*pn == 0){
+        return 1;
+    }
+    int n= (*pn);
+    (*pn) = n - 1;
+    int r = n*f(pn);
+    return r;
 }
-
 int main()
 {
-    H(4,'A','B','C');
+    int n= 4;
+    int r = f(&n);
     return 0;
 }`
                 }
@@ -260,11 +262,19 @@ int main()
                 var second = jikan.getSeconds();
                 var time = hour+"時"+minute+"分"+second+"秒";
 
-                if(localStorage.currentex == "ex3"){
+                if(localStorage.currentex == "ex1"){
+                    document.getElementById("exans").innerHTML = time;
+                    document.getElementById("description").innerHTML = "答え (*pn)=0,n=2,r=2<br>"
+                }
+                else if(localStorage.currentex == "ex2"){
                     document.getElementById("exans").innerHTML = time;
                     document.getElementById("description").innerHTML = "答え a=3,b=2,c=1,d=4,e=6<br>"
                 }
-                if(localStorage.currentex == "ex4"){
+                else if(localStorage.currentex == "ex3"){
+                    document.getElementById("exans").innerHTML = time;
+                    document.getElementById("description").innerHTML = "答え a=3,b=2,c=1,d=4,e=6<br>"
+                }
+                else if(localStorage.currentex == "ex4"){
                     document.getElementById("exans").innerHTML = time;
                     document.getElementById("description").innerHTML = "答え a='B' b='A' c='C'<br>"
                 }
