@@ -219,10 +219,10 @@ function drawMemoryState(data){
     function getColorSet() {
         var array = [
             'rgba(255, 40, 0, 0.5)',
-            'rgba(250, 245, 0, 0.5)',
+            //'rgba(250, 245, 0, 0.5)',
             'rgba(53, 161, 107, 0.5)',
             'rgba(0, 65, 255, 0.5)',
-            'rgba(102, 204, 255, 0.5)',
+            'rgba(102, 204, 255, 0.7)',
             'rgba(255, 153, 160, 0.5)',
             'rgba(255, 153, 0, 0.5)',
             'rgba(154, 0, 121, 0.5)',
