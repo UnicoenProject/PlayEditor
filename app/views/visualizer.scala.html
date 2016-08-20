@@ -75,7 +75,7 @@
 
         var ex2Text  = "ポインタ渡し関数の問題です<br>以下のプログラムを実行したとき<br>最終的なa,b,c,d,eの値は？(回答例:a=1,b=2,c=3,d=4,e=5)<br>";
 
-        var ex3Text  = "メモリの動的確保の問題です<br>以下のプログラムを実行したときreturnする時点で<br>ヒープ領域に未開放のメモリ領域があれば<br>そのメモリを参照する変数とそれらのメモリ上の値は何か？(回答例:ps[0]={1,2,3})";
+        var ex3Text  = "メモリの動的確保の問題です<br>以下のプログラムを実行したときmain関数がreturnする時点で<br>ヒープ領域に未開放のメモリ領域があれば<br>そのメモリを参照する変数とそれらのメモリ上の値は何か？(回答例:ps[0]={1,2,3},ps[3]={0,3,2})";
 
         var ex4Text  = "再帰関数の問題です<br>以下のプログラムを実行したとき<br>n=1, a='B', b='A', c='C'<br>になるのは関数Hが何回呼ばれたときか？(回答例:10回目)";
 
@@ -139,12 +139,12 @@ int main()
                     localStorage.currentex = "ex1";
                     text = `#include<stdio.h>
 int f(int* pn){
-    if(*pn == 0){
-        return 1;
-    }
     int n = (*pn);
-    (*pn) = n - 1;
-    int r = n * f(pn);
+    int r = 1;
+    if(1<=n){
+        (*pn) = n - 1;
+        r = n * f(pn);
+    }
     return r;
 }
 int main()
@@ -221,7 +221,7 @@ int main()
                     document.getElementById("description").innerHTML = ex4Text;
                     localStorage.currentex = "ex4";
                     text = `#include<stdio.h>
-void H(int n,char a,char b,char c)
+int H(int n,char a,char b,char c)
 {
     if(n>=2){
         H(n-1,a,c,b);
@@ -230,6 +230,7 @@ void H(int n,char a,char b,char c)
     if(n>=2){
         H(n-1,b,a,c);
     }
+    return n;
 }
 
 int main()
@@ -253,7 +254,7 @@ int main()
 
                 if(localStorage.currentex == "ex1"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>答え (*pn)=0,n=2,r=2<br>";
+                    document.getElementById("description").innerHTML += "<br><br>答え n=2,r=2,(*pn)=0<br>";
                 }
                 else if(localStorage.currentex == "ex2"){
                     document.getElementById("exans").innerHTML = time;

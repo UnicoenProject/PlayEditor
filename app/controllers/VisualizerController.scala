@@ -135,6 +135,7 @@ class VisualizerController @Inject() extends Controller {
       Ok(views.html.visualizer(jsonData,"nextStep",encOutput,textOnEditor))
     }
     else{
+      count = stateHistory.length-1
       Ok(views.html.visualizer(stateHistory.last, "EOF","",textOnEditor))
     }
   }
