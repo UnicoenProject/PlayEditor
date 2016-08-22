@@ -44,6 +44,16 @@ class VisualizerController @Inject() extends Controller {
    * a path of `/`.
    */
 
+
+
+  var count = 0
+  var engine : Engine = new CppEngine()
+  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
+  val stateHistory = new util.ArrayList[String]
+  val outputsHistory = new util.ArrayList[String]
+  var textOnEditor = ""
+  val form = Form( "name" -> text )
+
   //index.scala.htmlがview
   def index = Action {
     Ok(views.html.visualizer("This is Visualizer Page.","","",""))
@@ -153,16 +163,6 @@ class VisualizerController @Inject() extends Controller {
     engine = null
     Ok(views.html.visualizer(stateHistory.last, "STOP","",textOnEditor))
   }
-
-
-
-  var count = 0
-  var engine : Engine = new CppEngine()
-  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
-  val stateHistory = new util.ArrayList[String]
-  val outputsHistory = new util.ArrayList[String]
-  var textOnEditor = ""
-  val form = Form( "name" -> text )
 
   def rawDataToUniTree(string:String)={
     new CPP14Mapper(true).parse(string)
