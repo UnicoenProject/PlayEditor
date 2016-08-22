@@ -24,7 +24,7 @@ import net.unicoen.interpreter._
 import net.unicoen.node._
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-
+import play.api.mvc
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -45,15 +45,18 @@ class VisualizerController @Inject() extends Controller {
    */
 
 
+  class Fields {
+    var count = 0
+    var engine: Engine = new CppEngine()
+    var baos: ByteArrayOutputStream = new ByteArrayOutputStream()
+    val stateHistory = new util.ArrayList[String]
+    val outputsHistory = new util.ArrayList[String]
+    var textOnEditor = ""
+    val form = Form("name" -> text)
+  }
+  val fields = new util.LinkedHashMap[String,Fields]
 
-  var count = 0
-  var engine : Engine = new CppEngine()
-  var baos : ByteArrayOutputStream = new ByteArrayOutputStream()
-  val stateHistory = new util.ArrayList[String]
-  val outputsHistory = new util.ArrayList[String]
-  var textOnEditor = ""
-  val form = Form( "name" -> text )
-
+  def getfield(uuid:String):Fields={return fields.get(uuid)}
   //index.scala.htmlがview
   def index = Action {
     Ok(views.html.visualizer("This is Visualizer Page.","","",""))
@@ -73,10 +76,11 @@ class VisualizerController @Inject() extends Controller {
   }
 
   def compile = Action { implicit request =>
-    textOnEditor = form.bindFromRequest.get
-    val treeData = rawDataToUniTree(textOnEditor)
+    val uuid = reset(request.session)
+    getfield(uuid).textOnEditor = getfield(uuid).form.bindFromRequest.get
+    val treeData = rawDataToUniTree(getfield(uuid).textOnEditor)
     val jsonData = net.arnx.jsonic.JSON.encode(treeData)
-    Ok(views.html.visualizer(jsonData,"compile","",textOnEditor))
+    Ok(views.html.visualizer(jsonData,"compile","",getfield(uuid).textOnEditor))
   }
 
 
@@ -98,9 +102,9 @@ class VisualizerController @Inject() extends Controller {
   }
 
   def startStepExec = Action { implicit request =>
-    reset()
-    textOnEditor = form.bindFromRequest.get
-    val node = rawDataToUniTree(textOnEditor)
+    val uuid = reset(request.session)
+    getfield(uuid).textOnEditor = getfield(uuid).form.bindFromRequest.get
+    val node = rawDataToUniTree(getfield(uuid).textOnEditor)
     var nodes = new util.ArrayList[UniNode]
     if(node.isInstanceOf[util.ArrayList[UniNode]]){
       nodes = flatten(node.asInstanceOf[util.List[Object]])
@@ -108,85 +112,99 @@ class VisualizerController @Inject() extends Controller {
     else{
       nodes += node.asInstanceOf[UniNode]
     }
-    val state = engine.startStepExecution(nodes)
-    val jsonData = getJson(state)
-    val encOutput = getOutput()
-    Ok(views.html.visualizer(jsonData,"debug",encOutput,textOnEditor))
+    val state = getfield(uuid).engine.startStepExecution(nodes)
+    val jsonData = getJson(state,uuid)
+    val encOutput = getOutput(uuid)
 
+    Ok(views.html.visualizer(jsonData,"debug",encOutput,getfield(uuid).textOnEditor)).withSession("uuid" -> uuid)
   }
 
   def execAll = Action { implicit request =>
+    val uuid = request.session.get("uuid").get
     var state : ExecState = null
     do{
-      count += 1
-      state = engine.stepExecute()
-      val jsonData = getJson(state)
-      val encOutput = getOutput()
-    }while (engine.isStepExecutionRunning())
-    val jsonData = stateHistory.get(count-1)
-    val output = outputsHistory.get(count-1)
-    Ok(views.html.visualizer(jsonData,"EOF",output,textOnEditor))
+      getfield(uuid).count += 1
+      state = getfield(uuid).engine.stepExecute()
+      val jsonData = getJson(state,uuid)
+      val encOutput = getOutput(uuid)
+    }while (getfield(uuid).engine.isStepExecutionRunning())
+    val jsonData = getfield(uuid).stateHistory.get(getfield(uuid).count-1)
+    val output = getfield(uuid).outputsHistory.get(getfield(uuid).count-1)
+    Ok(views.html.visualizer(jsonData,"EOF",output,getfield(uuid).textOnEditor))
   }
 
   def execOneStep = Action { implicit request =>
-    count += 1
-    if(count < stateHistory.length){
-      val jsonData = stateHistory.get(count)
-      val output = outputsHistory.get(count)
-      Ok(views.html.visualizer(jsonData,"nextStep",output,textOnEditor))
+    val uuid=request.session.get("uuid").get
+    getfield(uuid).count += 1
+    if(getfield(uuid).count < getfield(uuid).stateHistory.length){
+      val jsonData = getfield(uuid).stateHistory.get(getfield(uuid).count)
+      val output = getfield(uuid).outputsHistory.get(getfield(uuid).count)
+      Ok(views.html.visualizer(jsonData,"nextStep",output,getfield(uuid).textOnEditor))
     }
-    else if(engine.isStepExecutionRunning()) {
-      var state = engine.stepExecute()
+    else if(getfield(uuid).engine.isStepExecutionRunning()) {
+      var state = getfield(uuid).engine.stepExecute()
       while (state.getCurrentExpr().codeRange==null){
-        state = engine.stepExecute()
+        state = getfield(uuid).engine.stepExecute()
       }
-      val jsonData = getJson(state)
-      val encOutput = getOutput()
-      Ok(views.html.visualizer(jsonData,"nextStep",encOutput,textOnEditor))
+      val jsonData = getJson(state,uuid)
+      val encOutput = getOutput(uuid)
+      Ok(views.html.visualizer(jsonData,"nextStep",encOutput,getfield(uuid).textOnEditor))
     }
     else{
-      count = stateHistory.length-1
-      Ok(views.html.visualizer(stateHistory.last, "EOF","",textOnEditor))
+      getfield(uuid).count = getfield(uuid).stateHistory.length-1
+      Ok(views.html.visualizer(getfield(uuid).stateHistory.last, "EOF","",getfield(uuid).textOnEditor))
     }
   }
 
   def execBackStep = Action { implicit request =>
-    if(1<count){
-      count -= 1
+    val uuid = request.session.get("uuid").get
+    if(1<getfield(uuid).count){
+      getfield(uuid).count -= 1
     }
-    val jsonData = stateHistory.get(count)
-    val output = outputsHistory.get(count)
-    Ok(views.html.visualizer(jsonData,"nextStep",output,textOnEditor))
+    val jsonData = getfield(uuid).stateHistory.get(getfield(uuid).count)
+    val output = getfield(uuid).outputsHistory.get(getfield(uuid).count)
+    Ok(views.html.visualizer(jsonData,"nextStep",output,getfield(uuid).textOnEditor))
   }
 
   def stopDebug = Action { implicit request =>
-    engine = null
-    Ok(views.html.visualizer(stateHistory.last, "STOP","",textOnEditor))
+    val uuid = request.session.get("uuid").get
+    getfield(uuid).engine = null
+    Ok(views.html.visualizer(getfield(uuid).stateHistory.last, "STOP","",getfield(uuid).textOnEditor))
   }
 
   def rawDataToUniTree(string:String)={
     new CPP14Mapper(true).parse(string)
   }
 
-  def reset()={
-    count = 1
-    outputsHistory.clear()
-    stateHistory.clear()
-    engine = new CppEngine()
-    baos  = new ByteArrayOutputStream()
-    engine.out = new PrintStream(baos);
+  def reset(session:Session):String={
+    //count = 1
+    //outputsHistory.clear()
+    //stateHistory.clear()
+    //engine = new CppEngine()
+    //baos  = new ByteArrayOutputStream()
+    //engine.out = new PrintStream(baos)
+    if(session.get("uuid")==None){
+      val uuid = java.util.UUID.randomUUID().toString()
+      fields.put(uuid,new Fields())
+      return uuid
+    }
+    else{
+      val uuid = session.get("uuid").get
+      fields.put(uuid,new Fields())
+      return uuid
+    }
   }
 
-  def getOutput()={
-    val output = baos.toString()
+  def getOutput(uuid:String)={
+    val output = getfield(uuid).baos.toString()
     val encOutput = new String(output.getBytes("UTF-8"), "UTF-8")
-    outputsHistory.add(encOutput)
+    getfield(uuid).outputsHistory.add(encOutput)
     encOutput
   }
 
-  def getJson(state:ExecState)={
+  def getJson(state:ExecState,uuid:String)={
     val jsonData = net.arnx.jsonic.JSON.encode(state)
-    stateHistory.add(jsonData)
+    getfield(uuid).stateHistory.add(jsonData)
     jsonData
   }
 
