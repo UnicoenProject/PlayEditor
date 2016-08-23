@@ -158,6 +158,7 @@ int main(){
                 localStorage.currentex = "@debugState";
                 localStorage.startTime = "実験開始";
                 localStorage.sourcefile = "";
+                localStorage.debug="false";
             }
 
             if(localStorage.currentex == ""){
@@ -381,27 +382,53 @@ int main()
 
                     });
                     $('#debug').click(function (e) {
-                        send(editor.getValue(),'/debug','POST');
-                        localStorage.line = 0;
-                        localStorage.debug="true";
+                        var text =editor.getValue();
+                        if(text.length<=1){
+                            alert("ソースコードがありません！")
+                        }
+                        else
+                        {
+                            send(text,'/debug','POST');
+                            localStorage.line = 0;
+                            localStorage.debug="true";
+                        }
                     });
 
                     $('#exec').click(function (e) {
-                        send(editor.getValue(),'/exec','POST');
-                        localStorage.debug="true";
+                        if(localStorage.debug=="true"){
+                            send(editor.getValue(),'/exec','POST');
+                        }
+                        else{
+                            alert("デバッグ開始ボタンを押してください");
+                        }
                     });
 
                     $('#step').click(function (e) {
-                        send(editor.getValue(),'/step','POST');
-                        localStorage.debug="true";
+                        if(localStorage.debug=="true"){
+                            send(editor.getValue(),'/step','POST');
+                        }
+                        else{
+                            alert("デバッグ開始ボタンを押してください");
+                        }
                     });
                     $('#back').click(function (e) {
-                        send(editor.getValue(),'/back','POST');
-                        localStorage.debug="true";
+                        if(localStorage.debug=="true"){
+                            send(editor.getValue(),'/back','POST');
+                        }
+                        else{
+                            alert("デバッグ開始ボタンを押してください");
+                        }
+
                     });
                     $('#stop').click(function (e) {
-                        send(editor.getValue(),'/stop','POST');
-                        localStorage.line = 0;
+                        if(localStorage.debug=="true"){
+                            send(editor.getValue(),'/stop','POST');
+                            localStorage.debug="false";
+                            localStorage.line = 0;
+                        }
+                        else{
+                            alert("デバッグ開始ボタンを押してください");
+                        }
                     });
                 }
 
@@ -437,8 +464,6 @@ int main()
 
             if(localStorage.debug=="true"){
                 document.getElementById("exstart").disabled = "true";
-
-                localStorage.debug="false";
                 var Range = require("ace/range").Range;
                 var d = data[0];
                 var codeRange = d.currentExpr.codeRange;
