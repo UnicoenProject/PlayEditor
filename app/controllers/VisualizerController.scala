@@ -184,16 +184,13 @@ class VisualizerController @Inject() extends Controller {
     //engine = new CppEngine()
     //baos  = new ByteArrayOutputStream()
     //engine.out = new PrintStream(baos)
-    if(session.get("uuid")==None){
-      val uuid = java.util.UUID.randomUUID().toString()
-      fields.put(uuid,new Fields())
-      return uuid
+    var uuid = java.util.UUID.randomUUID().toString()
+    if(session.get("uuid")!=None){
+      uuid = session.get("uuid").get
     }
-    else{
-      val uuid = session.get("uuid").get
-      fields.put(uuid,new Fields())
-      return uuid
-    }
+    fields.put(uuid,new Fields())
+    getfield(uuid).engine.out = new PrintStream(getfield(uuid).baos)
+    return uuid
   }
 
   def getOutput(uuid:String)={
