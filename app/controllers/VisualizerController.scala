@@ -128,6 +128,7 @@ class VisualizerController @Inject() extends Controller {
       val jsonData = getJson(state,uuid)
       val encOutput = getOutput(uuid)
     }while (getfield(uuid).engine.isStepExecutionRunning())
+    getfield(uuid).count = getfield(uuid).stateHistory.size()
     val jsonData = getfield(uuid).stateHistory.get(getfield(uuid).count-1)
     val output = getfield(uuid).outputsHistory.get(getfield(uuid).count-1)
     Ok(views.html.visualizer(jsonData,"EOF",output,getfield(uuid).textOnEditor))
