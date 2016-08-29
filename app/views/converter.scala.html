@@ -1,7 +1,8 @@
 
 @*
-* This template takes a single argument, a String containing a
-* message to display.
+* This template takes two arguments,
+* a String containing a message to display.
+* the other string to store the answer
 *@
 @(message: String)
 
@@ -22,17 +23,22 @@
         <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
 
     </div>
-    @* Question area*@
-    <div>
-        
+    <div style="padding-bottom: 100px">
 
-    </div>
+        @* Question area*@
+    <p>問１。ある時をあたえられた時、長針と短針間の角度を計算してください</p>
+        <button> Submit </button>
+        <button> Next </button>
+
+        <div id = "editorAnswer" style="height:400px;width:500px;margin-bottom: 100px"></div>
+
 
     @* Converter in the bottom *@
-    <div style="top:400px;position:relative;">
-    <div clsee="row">
+    <div id = "tool" style="background-color:white;position:fixed;bottom:0;border:solid;height:250px;width:1000px;z-index:10">
+
+        <div id = "buttons" clsee="row">
         @*CodeArea(ACE)*@
-        <div class="btn-group">
+            <div class="btn-group" style="background-color:whitesmoke;margin-top:20px;margin-left:15px;width:975px">
             @*<div class="btn-group">*@
                 @*<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>*@
                 @*<ul class="dropdown-menu" id="font-size">*@
@@ -45,24 +51,44 @@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
             <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
+            <button id="close" class="btn btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
             @*<button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>*@
+            </div>
         </div>
-    </div>
+        <div id="converter" style="height:180px;overflow:auto">
+            <div class="col-lg-6 col-md-6">
+                Java
+                <div id="editorMain" style="height:400px"></div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                Swift(ReadOnly)
+                <div id="editorResult" style="height:400px"></div>
+            </div>
+        </div>
 
-        <div class="col-lg-6 col-md-6">
-        Java
-            <div id="editorMain" style="height: 400px"></div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-        Swift(ReadOnly)
-            <div id="editorResult" style="height: 400px"></div>
-        </div>
     </div>
+        </div>
+
     @*処理の流れ<br>*@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
+
+            $('#close').on('click',function(){
+                var curHeight = $('#tool').height();
+                if(curHeight > 200){//appeared
+                    $('#tool').animate({
+                        height: 70
+                    }, "normal");
+                    $('#converter').fadeOut();
+                }else{
+                    $('#tool').animate({
+                        height: 250
+                    }, "normal");
+                    $('#converter').fadeIn();
+                }
+            });
 
         function createEditor(idName,canWrite,initText,mode) {
             var editor = ace.edit(idName);
@@ -125,6 +151,7 @@
         }
         createEditor('editorMain',true,localStorage.text,"java");
         createEditor('editorResult',false,mes2,"swift");
+        createEditor('editorAnswer',true,localStorage.text,"swift")
     </script>
 
 }
