@@ -12,7 +12,7 @@
     <style>
     .level2 {
         visibility: hidden;
-        padding-left:20px
+        padding-left: 20px
     }
 
     </style>
@@ -26,72 +26,61 @@
     <div id = "logo">
         <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
     </div>
-    <div id = "explanation" style="background-color: lightgray;
-        width: 100%;
-        height: 200%;
-        z-index: 100;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        overflow: hidden"
-    onClick = "document.getElementById('explanation').style.height = '0px';
-    document.getElementById('explanation').style.width = '0px';
-    document.getElementById('task1ans').width = '200';
-    document.getElementById('task1ans').height = '200'">
-        <p>THIS IS EXPLANATION</p>
-        <button id="start" class="btn btn-default" > Start </button>
-    </div>
     <div id = quiz></div>
-    <button id="submit" class="btn btn-default"> Submit </button>
+    <div>
+    <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
+    document.getElementById('answer').style.display = 'block';"> Submit </button>
     <button id="prev" class="btn btn-default"> Previous </button>
     <button id="next" class="btn btn-default"> Next </button>
+        </div>
 
     <div id = "editorAnswer" style="height: 400px;
-        width: 500px;"></div>
+        width: 500px;float:left;padding-right:250px;"></div>
 
 
-
+    <div id="answer" width="500px" height="400px" style="float:right;
+        visibility: hidden;
+        padding-bottom: 100px">
+        <img id = "task1ans" src="@routes.Assets.versioned("images/task1.png")">
+    </div>
 
     <div id="choices" style="padding-bottom: 200px">
         <form>
-            <input id="choice1" name="choice" class="level1" type="radio"><br>
+            <input id="choice1" name="choice" class="level1" type="radio"><label id="A"></label><br>
             <div id="choice12" class="level2">
-                <input id="choice1a" name="choice2" type="radio"><br>
-                <input id="choice1b" name="choice2" type="radio"><br>
-                <input id="choice1c" name="choice2" type="radio"><br>
-                <input id="choice1d" name="choice2" type="radio"><br>
+                <input name="choice2" type="radio"><label id="choice1a"></label><br>
+                <input name="choice2" type="radio"><label id="choice1b"></label><br>
+                <input name="choice2" type="radio"><label id="choice1c"></label><br>
+                <input name="choice2" type="radio"><label id="choice1d"></label><br>
             </div>
 
 
-            <input id="choice2" name="choice" class="level1" type="radio"><br>
+            <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
             <div id="choice22" class="level2">
                 <input id="choice2a" name="choice2" type="radio"><br>
                 <input id="choice2b" name="choice2" type="radio"><br>
                 <input id="choice2c" name="choice2" type="radio"><br>
                 <input id="choice2d" name="choice2" type="radio"><br>
             </div>
-            <input id="choice3" name="choice" class="level1" type="radio"><br>
+            <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
             <div id="choice32" class="level2">
                 <input id="choice3a" name="choice2" type="radio"><br>
                 <input id="choice3b" name="choice2" type="radio"><br>
                 <input id="choice3c" name="choice2" type="radio"><br>
                 <input id="choice3d" name="choice2" type="radio"><br>
             </div>
-            <input id="choice4" name="choice" class="level1" type="radio"><br>
+            <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
 
-                <div id="choice42" class="level2">
-                    <input id="choice4a" name="choice2" type="radio"><br>
-                    <input id="choice4b" name="choice2" type="radio"><br>
-                    <input id="choice4c" name="choice2" type="radio"><br>
-                    <input id="choice4d" name="choice2" type="radio"><br>
-                </div>
+            <div id="choice42" class="level2">
+                <input id="choice4a" name="choice2" type="radio"><br>
+                <input id="choice4b" name="choice2" type="radio"><br>
+                <input id="choice4c" name="choice2" type="radio"><br>
+                <input id="choice4d" name="choice2" type="radio"><br>
+            </div>
 
         </form>
 
 
-        <div id="answer" width="200px" height="200px">
-            <img id = "task1ans" src="@routes.Assets.versioned("images/task1.png")" style="visibility: hidden;">
-        </div>
     </div>
     @* Converter in the bottom *@
     <div id = "tool" style="background-color: white;
@@ -145,32 +134,35 @@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
 
-        $('#choice1').on('click', function(){
-            document.getElementById('choice12').style.visibility='visible';
-            document.getElementById('choice22').style.visibility='hidden';
-            document.getElementById('choice32').style.visibility='hidden';
-            document.getElementById('choice42').style.visibility='hidden';
-        });
-        $('#choice2').on('click', function(){
-            document.getElementById('choice12').style.visibility='hidden';
-            document.getElementById('choice22').style.visibility='visible';
-            document.getElementById('choice32').style.visibility='hidden';
-            document.getElementById('choice42').style.visibility='hidden';
-        });
-        $('#choice3').on('click', function(){
-            document.getElementById('choice12').style.visibility='hidden';
-            document.getElementById('choice22').style.visibility='hidden';
-            document.getElementById('choice32').style.visibility='visible';
-            document.getElementById('choice42').style.visibility='hidden';
-        });
-        $('#choice4').on('click', function(){
-            document.getElementById('choice12').style.visibility='hidden';
-            document.getElementById('choice22').style.visibility='hidden';
-            document.getElementById('choice32').style.visibility='hidden';
-            document.getElementById('choice42').style.visibility='visible';
-        });
 
 
+
+            $('#choice1').on('click', function () {
+                document.getElementById('choice12').style.visibility = 'visible';
+                document.getElementById('choice22').style.visibility = 'hidden';
+                document.getElementById('choice32').style.visibility = 'hidden';
+
+                document.getElementById('choice42').style.visibility = 'hidden';
+
+            });
+            $('#choice2').on('click', function () {
+                document.getElementById('choice12').style.visibility = 'hidden';
+                document.getElementById('choice22').style.visibility = 'visible';
+                document.getElementById('choice32').style.visibility = 'hidden';
+                document.getElementById('choice42').style.visibility = 'hidden';
+            });
+            $('#choice3').on('click', function () {
+                document.getElementById('choice12').style.visibility = 'hidden';
+                document.getElementById('choice22').style.visibility = 'hidden';
+                document.getElementById('choice32').style.visibility = 'visible';
+                document.getElementById('choice42').style.visibility = 'hidden';
+            });
+            $('#choice4').on('click', function () {
+                document.getElementById('choice12').style.visibility = 'hidden';
+                document.getElementById('choice22').style.visibility = 'hidden';
+                document.getElementById('choice32').style.visibility = 'hidden';
+                document.getElementById('choice42').style.visibility = 'visible';
+            });
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
                 if (curHeight > 200) {//appeared
@@ -194,7 +186,7 @@
             let question4 = "var d = 4;"
             let question5 = "var e = 5;"
             let ans1a = "This is ans1a";
-            let ans1b = "";
+            let ans1b = "this is 1b";
             let ans1c = "";
             let ans1d = "";
             let ans1aa = "";
@@ -205,24 +197,22 @@
             let startEnd = "THE END OF START";
             let endEnd = "THE END OF THE QUESTIONS, IF YOU ARE READY TO GET THE TEST, PLEASE GO TO THIS WEBSITE:";
             localStorage.currentTask;
+            var startFlag = false;
 
-            $('#start').on('click', function () {
-                localStorage.currentTask = task1;
-                document.getElementById('quiz').innerHTML = task1;
-                $('#answer').hide();
-                $('#choices').hide();
-            });
-            $('#submit').on('click', function () {
-                $('#answer').show();
-                document.getElementById('task1ans').style.visibility = 'visible';
-//                if (localStorage.currentTask == task1) {
+//            $('#start').on('click', function () {
+//                localStorage.currentTask = task1;
+//                document.getElementById('quiz').innerHTML = task1;
+//                $('#answer').hide();
+//                $('#choices').hide();
+//                startFlag = true;
 //
-//                    document.getElementById('answer').style.width = "200px";
-//                    document.getElementById('answer').style.height = "200px";
-//                    document.getElementById('task1ans').style.visibility = 'visible';
-//                }
+//
+//
+//
+//
+//            });
 
-            });
+
             $('#next').on('click', function () {
                 $('#answer').hide();
                 if (localStorage.currentTask == startEnd) {
@@ -243,7 +233,12 @@
                 else if (localStorage.currentTask == task3) {
                     document.getElementById('quiz').innerHTML = question1;
                     localStorage.currentTask = question1;
+
+                    //set the answers
+                    document.getElementById('A').innerHTML = ans1a;
+                    document.getElementById('B').innerHTML = ans1b;
                     $('#choices').show();
+
 
                 }
             });
@@ -269,6 +264,10 @@
                 }
             })
             function createEditor(idName, canWrite, initText, mode, AnsEditor) {
+
+
+
+
                 var editor = ace.edit(idName);
                 if (canWrite) {
                     editor.$blockScrolling = Infinity;
@@ -330,9 +329,9 @@
                 mes2 = "";
             }
 
-            var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
-            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain, "java", editorAnswer);
-            var editorResult = createEditor('editorResult', false, mes2, "swift", null);
+               var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
+               var editorMain = createEditor('editorMain', true, localStorage.textJavaMain, "java", editorAnswer);
+               var editorResult = createEditor('editorResult', false, mes2, "swift", null);
 
 
     </script>
