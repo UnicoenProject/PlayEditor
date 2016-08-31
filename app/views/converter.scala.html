@@ -1,17 +1,21 @@
-
 @*
-* This template takes two arguments,
-* a String containing a message to display.
-* the other string to store the answer
+* This template takes a single argument, a String containing a
+* message to display.
 *@
 @(message: String)
-
 @*
 * Call the `main` template with two arguments. The first
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
 @main("Welcome to Play") {
+    <style>
+    .level2 {
+        visibility: hidden;
+        padding-left:20px
+    }
+
+    </style>
     @*
     * Get an `Html` object by calling the built-in Play welcome
     * template and passing a `String` message.
@@ -21,137 +25,315 @@
     *@
     <div id = "logo">
         <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
-
     </div>
-    <div style="padding-bottom: 100px">
+    <div id = "explanation" style="background-color: lightgray;
+        width: 100%;
+        height: 200%;
+        z-index: 100;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        overflow: hidden"
+    onClick = "document.getElementById('explanation').style.height = '0px';
+    document.getElementById('explanation').style.width = '0px';
+    document.getElementById('task1ans').width = '200';
+    document.getElementById('task1ans').height = '200'">
+        <p>THIS IS EXPLANATION</p>
+        <button id="start" class="btn btn-default" > Start </button>
+    </div>
+    <div id = quiz></div>
+    <button id="submit" class="btn btn-default"> Submit </button>
+    <button id="prev" class="btn btn-default"> Previous </button>
+    <button id="next" class="btn btn-default"> Next </button>
 
-        @* Question area*@
-    <p>問１。ある時をあたえられた時、長針と短針間の角度を計算してください</p>
-        <button> Submit </button>
-        <button> Next </button>
-
-        <div id = "editorAnswer" style="height:400px;width:500px;margin-bottom: 100px"></div>
+    <div id = "editorAnswer" style="height: 400px;
+        width: 500px;"></div>
 
 
+
+
+    <div id="choices" style="padding-bottom: 200px">
+        <form>
+            <input id="choice1" name="choice" class="level1" type="radio"><br>
+            <div id="choice12" class="level2">
+                <input id="choice1a" name="choice2" type="radio"><br>
+                <input id="choice1b" name="choice2" type="radio"><br>
+                <input id="choice1c" name="choice2" type="radio"><br>
+                <input id="choice1d" name="choice2" type="radio"><br>
+            </div>
+
+
+            <input id="choice2" name="choice" class="level1" type="radio"><br>
+            <div id="choice22" class="level2">
+                <input id="choice2a" name="choice2" type="radio"><br>
+                <input id="choice2b" name="choice2" type="radio"><br>
+                <input id="choice2c" name="choice2" type="radio"><br>
+                <input id="choice2d" name="choice2" type="radio"><br>
+            </div>
+            <input id="choice3" name="choice" class="level1" type="radio"><br>
+            <div id="choice32" class="level2">
+                <input id="choice3a" name="choice2" type="radio"><br>
+                <input id="choice3b" name="choice2" type="radio"><br>
+                <input id="choice3c" name="choice2" type="radio"><br>
+                <input id="choice3d" name="choice2" type="radio"><br>
+            </div>
+            <input id="choice4" name="choice" class="level1" type="radio"><br>
+
+                <div id="choice42" class="level2">
+                    <input id="choice4a" name="choice2" type="radio"><br>
+                    <input id="choice4b" name="choice2" type="radio"><br>
+                    <input id="choice4c" name="choice2" type="radio"><br>
+                    <input id="choice4d" name="choice2" type="radio"><br>
+                </div>
+
+        </form>
+
+
+        <div id="answer" width="200px" height="200px">
+            <img id = "task1ans" src="@routes.Assets.versioned("images/task1.png")" style="visibility: hidden;">
+        </div>
+    </div>
     @* Converter in the bottom *@
-    <div id = "tool" style="background-color:white;position:fixed;bottom:0;border:solid;height:250px;width:1000px;z-index:10">
+    <div id = "tool" style="background-color: white;
+        position: fixed;
+        bottom: 0;
+        border: solid;
+        height: 250px;
+        width: 1000px;
+        z-index: 10;
+        float: left">
 
-        <div id = "buttons" clsee="row">
-        @*CodeArea(ACE)*@
-            <div class="btn-group" style="background-color:whitesmoke;margin-top:20px;margin-left:15px;width:975px">
-            @*<div class="btn-group">*@
+        <div clsee="row">
+            @*CodeArea(ACE)*@
+            <div class="btn-group" style="background-color: whitesmoke;
+                margin-top: 20px;
+                margin-left: 15px;
+                width: 975px">
+                @*<div class="btn-group">*@
                 @*<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>*@
                 @*<ul class="dropdown-menu" id="font-size">*@
-                    @*<li><a href="#" data-size="10">小さい</a></li>*@
-                    @*<li><a href="#" data-size="12">普通</a></li>*@
-                    @*<li><a href="#" data-size="14">大きい</a></li>*@
+                @*<li><a href="#" data-size="10">小さい</a></li>*@
+                @*<li><a href="#" data-size="12">普通</a></li>*@
+                @*<li><a href="#" data-size="14">大きい</a></li>*@
                 @*</ul>*@
-            @*</div>*@
-            @*<button id="bold" class="btn btn-default"><i class="glyphicon glyphicon-bold"></i></button>*@
-            @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
-            @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
-            <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
-            <button id="close" class="btn btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
-            @*<button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>*@
+                @*</div>*@
+                @*<button id="bold" class="btn btn-default"><i class="glyphicon glyphicon-bold"></i></button>*@
+                @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
+                @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
+                <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
+                <button id="close" class="btn btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
+                @*<button id="step" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>*@
             </div>
+
         </div>
-        <div id="converter" style="height:180px;overflow:auto">
+        <div id="converter" style="height: 180px;
+            overflow: auto">
             <div class="col-lg-6 col-md-6">
                 Java
-                <div id="editorMain" style="height:400px"></div>
+                <div id="editorMain" style="height: 600px"></div>
+
             </div>
             <div class="col-lg-6 col-md-6">
                 Swift(ReadOnly)
-                <div id="editorResult" style="height:400px"></div>
+                <div id="editorResult" style="height: 600px"></div>
             </div>
         </div>
-
     </div>
-        </div>
-
     @*処理の流れ<br>*@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
 
-            $('#close').on('click',function(){
+        $('#choice1').on('click', function(){
+            document.getElementById('choice12').style.visibility='visible';
+            document.getElementById('choice22').style.visibility='hidden';
+            document.getElementById('choice32').style.visibility='hidden';
+            document.getElementById('choice42').style.visibility='hidden';
+        });
+        $('#choice2').on('click', function(){
+            document.getElementById('choice12').style.visibility='hidden';
+            document.getElementById('choice22').style.visibility='visible';
+            document.getElementById('choice32').style.visibility='hidden';
+            document.getElementById('choice42').style.visibility='hidden';
+        });
+        $('#choice3').on('click', function(){
+            document.getElementById('choice12').style.visibility='hidden';
+            document.getElementById('choice22').style.visibility='hidden';
+            document.getElementById('choice32').style.visibility='visible';
+            document.getElementById('choice42').style.visibility='hidden';
+        });
+        $('#choice4').on('click', function(){
+            document.getElementById('choice12').style.visibility='hidden';
+            document.getElementById('choice22').style.visibility='hidden';
+            document.getElementById('choice32').style.visibility='hidden';
+            document.getElementById('choice42').style.visibility='visible';
+        });
+
+
+            $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
-                if(curHeight > 200){//appeared
+                if (curHeight > 200) {//appeared
                     $('#tool').animate({
                         height: 70
                     }, "normal");
                     $('#converter').fadeOut();
-                }else{
+                } else {
                     $('#tool').animate({
                         height: 250
                     }, "normal");
                     $('#converter').fadeIn();
                 }
             });
+            let task1 = "This is task1";
+            let task2 = "This is task2";
+            let task3 = "This is task3";
+            let question1 = "var a = 1;"
+            let question2 = "var b = 2;"
+            let question3 = "var c = 3;"
+            let question4 = "var d = 4;"
+            let question5 = "var e = 5;"
+            let ans1a = "This is ans1a";
+            let ans1b = "";
+            let ans1c = "";
+            let ans1d = "";
+            let ans1aa = "";
+            let ans1ab = "";
+            let ans1ac = "";
+            let ans1ad = "";
 
-        function createEditor(idName,canWrite,initText,mode) {
-            var editor = ace.edit(idName);
-            if (canWrite) {
-                editor.$blockScrolling = Infinity;
-                editor.setOptions({
-                    enableBasicAutocompletion: true,//基本的な自動補完
-                    enableSnippets: true,//スニペット
-                    enableLiveAutocompletion: true//ライブ補完
-                });
-            }
-            editor.setTheme("ace/theme/monokai");
-            editor.getSession().setMode("ace/mode/"+mode);//シンタックスハイライトと自動補完
-            //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
+            let startEnd = "THE END OF START";
+            let endEnd = "THE END OF THE QUESTIONS, IF YOU ARE READY TO GET THE TEST, PLEASE GO TO THIS WEBSITE:";
+            localStorage.currentTask;
 
-            //2の場合編集不可能オプションをtrueにしたい。ｌ
-
-            $('#font-size').click(function (e) {
-                editor.setFontSize($(e.target).data('size'));
+            $('#start').on('click', function () {
+                localStorage.currentTask = task1;
+                document.getElementById('quiz').innerHTML = task1;
+                $('#answer').hide();
+                $('#choices').hide();
             });
+            $('#submit').on('click', function () {
+                $('#answer').show();
+                document.getElementById('task1ans').style.visibility = 'visible';
+//                if (localStorage.currentTask == task1) {
+//
+//                    document.getElementById('answer').style.width = "200px";
+//                    document.getElementById('answer').style.height = "200px";
+//                    document.getElementById('task1ans').style.visibility = 'visible';
+//                }
 
-            editor.setReadOnly(!canWrite);
-            if (canWrite) {
-                $('#exec').click(function (e) {
-                    var form = document.createElement('form');
-                    document.body.appendChild(form);
-                    var input = document.createElement('input');
-                    input.setAttribute('type', 'hidden');
-                    input.setAttribute('name', 'name');
-                    var text = editor.getValue();
+            });
+            $('#next').on('click', function () {
+                $('#answer').hide();
+                if (localStorage.currentTask == startEnd) {
+                    document.getElementById('quiz').innerHTML = task1;
+                    localStorage.currentTask = task1;
+                    $('#choices').hide();
+                }
+                else if (localStorage.currentTask == task1) {
+                    document.getElementById('quiz').innerHTML = task2;
+                    localStorage.currentTask = task2;
+                    $('#choices').hide();
+                }
+                else if (localStorage.currentTask == task2) {
+                    document.getElementById('quiz').innerHTML = task3;
+                    localStorage.currentTask = task3;
+                    $('#choices').hide();
+                }
+                else if (localStorage.currentTask == task3) {
+                    document.getElementById('quiz').innerHTML = question1;
+                    localStorage.currentTask = question1;
+                    $('#choices').show();
+
+                }
+            });
+            $('#prev').on('click', function () {
+                $('#answer').hide();
+                if (localStorage.currentTask == task1) {
+                    document.getElementById('quiz').innerHTML = startEnd;
+                    localStorage.currentTask = startEnd;
+                    $('#choices').hide();
+                } else if (localStorage.currentTask == task2) {
+                    document.getElementById('quiz').innerHTML = task1;
+                    localStorage.currentTask = task1;
+                    $('#choices').hide();
+                } else if (localStorage.currentTask == task3) {
+                    document.getElementById('quiz').innerHTML = task2;
+                    localStorage.currentTask = task2;
+                    $('#choices').hide();
+                } else if (localStorage.currentTask == question1) {
+                    document.getElementById('quiz').innerHTML = task3;
+                    localStorage.currentTask = task3;
+                    $('#choices').hide();
+
+                }
+            })
+            function createEditor(idName, canWrite, initText, mode, AnsEditor) {
+                var editor = ace.edit(idName);
+                if (canWrite) {
+                    editor.$blockScrolling = Infinity;
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,//基本的な自動補完
+                        enableSnippets: true,//スニペット
+                        enableLiveAutocompletion: true//ライブ補完
+                    });
+                }
+                editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
+                //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
+                //2の場合編集不可能オプションをtrueにしたい。ｌ
+//                $('#font-size').click(function (e) {
+//                    editor.setFontSize($(e.target).data('size'));
+//                });
+                editor.setReadOnly(!canWrite);
+                if (canWrite) {
+                    $('#exec').click(function (e) {
+                        var form = document.createElement('form');
+                        document.body.appendChild(form);
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'hidden');
+                        input.setAttribute('name', 'name');
+                        var text = editor.getValue();
 //                    text = text.split(`"`).join(`"`);
-                    localStorage.text = text;
-                    input.setAttribute('value', text);
-                    form.appendChild(input);
-                    form.setAttribute('action', '/converter');
-                    form.setAttribute('method', 'POST');
-                    form.submit();
-                });
 
-                $('#step').click(function (e) {
-                    //var obj = editor.getCursorPosition();
-                    //var pos = editor.getCursorPositionScreen();
-                    var curpos = editor.getSelection().getCursor();
-                    editor.gotoLine(curpos.row+2 , curpos.column); //1行列目が1
-                });
+                        if (idName == 'editorMain') {
+                            if (AnsEditor != null) {
+                                localStorage.textSwiftAns = AnsEditor.getValue();
+                            }
+                            localStorage.textJavaMain = text;
+                            input.setAttribute('value', text);
+                            form.appendChild(input);
+                            form.setAttribute('action', '/converter');
+                            form.setAttribute('method', 'POST');
+                            form.submit();
+
+                        }
+                    });
+//                    $('#step').click(function (e) {
+//                        //var obj = editor.getCursorPosition();
+//                        //var pos = editor.getCursorPositionScreen();
+//                        var curpos = editor.getSelection().getCursor();
+//                        editor.gotoLine(curpos.row+2 , curpos.column); //1行列目が1
+//                    });
+                }
+                if (initText != null && initText != '')
+                    editor.setValue(initText, -1);
+                return editor;
+            }
+            var mes = `@Html(message)`;
+            var mes1 = mes.replace(/<br>/g, `
+`) ;
+            var mes2 = mes.replace(/<br>/g, `
+//`) ;
+            if (mes2 == "NULL_POINTER") {
+                alert("Error in the Java Program");
+                mes2 = "";
             }
 
+            var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
+            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain, "java", editorAnswer);
+            var editorResult = createEditor('editorResult', false, mes2, "swift", null);
 
-            if (initText != '')
-                editor.setValue(initText, -1);
-        }
-        var mes =`@Html(message)`;
-        var mes1 = mes.replace( /<br>/g , `
-`) ;
-        var mes2 =  mes.replace( /<br>/g , `
-//`) ;
-        if(mes2 == "NULL_POINTER"){
-            alert("Error in the Java Program");
-            mes2 = "";
-        }
-        createEditor('editorMain',true,localStorage.text,"java");
-        createEditor('editorResult',false,mes2,"swift");
-        createEditor('editorAnswer',true,localStorage.text,"swift")
+
     </script>
-
 }
