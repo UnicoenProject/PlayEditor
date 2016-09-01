@@ -26,14 +26,14 @@
     <div id = "logo">
         <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
     </div>
-    <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
+
     <div>
         <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
         document.getElementById('answer').style.display = 'block';"> Submit </button>
         <button id="prev" class="btn btn-default"> Previous </button>
         <button id="next" class="btn btn-default"> Next </button>
     </div>
-
+    <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
     <div id = "editorAnswer" style="height: 400px;
         width: 500px;
         float: left;
@@ -47,41 +47,13 @@
     </div>
 
     <div id="choices" style="padding-top: 20px;
-        padding-bottom: 200px;
+        padding-bottom: 300px;
         float: left">
         <form>
             <input id="choice1" name="choice" class="level1" type="radio"><label id="A"></label><br>
-            <div id="choice12" class="level2">
-                <input name="choice2" type="radio"><label id="choice1a"></label><br>
-                <input name="choice2" type="radio"><label id="choice1b"></label><br>
-                <input name="choice2" type="radio"><label id="choice1c"></label><br>
-                <input name="choice2" type="radio"><label id="choice1d"></label><br>
-            </div>
-
-
             <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
-            <div id="choice22" class="level2">
-                <input name="choice2" type="radio"><label id="choice2a"></label><br>
-                <input name="choice2" type="radio"><label id="choice2b"></label><br>
-                <input name="choice2" type="radio"><label id="choice2c"></label><br>
-                <input name="choice2" type="radio"><label id="choice2d"></label><br>
-            </div>
             <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
-            <div id="choice32" class="level2">
-                <input name="choice2" type="radio"><label id="choice3a"></label><br>
-                <input name="choice2" type="radio"><label id="choice3b"></label><br>
-                <input name="choice2" type="radio"><label id="choice3c"></label><br>
-                <input name="choice2" type="radio"><label id="choice3d"></label><br>
-            </div>
             <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
-
-            <div id="choice42" class="level2">
-                <input name="choice2" type="radio"><label id="choice4a"></label><br>
-                <input name="choice2" type="radio"><label id="choice4b"></label><br>
-                <input name="choice2" type="radio"><label id="choice4c"></label><br>
-                <input name="choice2" type="radio"><label id="choice4d"></label><br>
-            </div>
-
         </form>
 
 
@@ -127,7 +99,7 @@
 
             </div>
             <div class="col-lg-6 col-md-6">
-                Swift(ReadOnly)
+                Swift
                 <div id="editorResult" style="height: 600px"></div>
             </div>
         </div>
@@ -137,32 +109,7 @@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
-            $('#choice1').on('click', function () {
-                document.getElementById('choice12').style.visibility = 'visible';
-                document.getElementById('choice22').style.visibility = 'hidden';
-                document.getElementById('choice32').style.visibility = 'hidden';
 
-                document.getElementById('choice42').style.visibility = 'hidden';
-
-            });
-            $('#choice2').on('click', function () {
-                document.getElementById('choice12').style.visibility = 'hidden';
-                document.getElementById('choice22').style.visibility = 'visible';
-                document.getElementById('choice32').style.visibility = 'hidden';
-                document.getElementById('choice42').style.visibility = 'hidden';
-            });
-            $('#choice3').on('click', function () {
-                document.getElementById('choice12').style.visibility = 'hidden';
-                document.getElementById('choice22').style.visibility = 'hidden';
-                document.getElementById('choice32').style.visibility = 'visible';
-                document.getElementById('choice42').style.visibility = 'hidden';
-            });
-            $('#choice4').on('click', function () {
-                document.getElementById('choice12').style.visibility = 'hidden';
-                document.getElementById('choice22').style.visibility = 'hidden';
-                document.getElementById('choice32').style.visibility = 'hidden';
-                document.getElementById('choice42').style.visibility = 'visible';
-            });
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
                 if (curHeight > 200) {//appeared
@@ -177,28 +124,15 @@
                     $('#converter').fadeIn();
                 }
             });
-            let tasks = ["問１。以下のforループはSwift1.0の時のものです。それを今のSwift文法を用いて、もっと簡潔な方法で宣言してください。<br>"+
-                `
+            let tasks = ["問１。以下のforループはSwift1.0の時のものです。それを今のSwift文法を用いて、もっと簡潔な方法で宣言してください。<br>" +
+            `
 for var i = 0; i<5; i++{
 	print("Hello!")
 }
                 `,
-                "問２。以下は割り算を実現したコードです。if let文を使ってこの関数を書き直してください。<br>"+
-                `
-func divide(dividend:Double?, divisor:Double?) -> Double?{
-	if dividend == nil{
-	    return nil
-	}
-	if divisor == nil{
-	    return nil
-	}
-	if divisor == 0{
-	    return nil
-	}
-	return dividend!/devisor!
-}
-                `,
-                "問３。"
+                "問２。二つの引数の値を交換するswap(Int, Int)を実装してくださあい。<br>",
+                "問３。一つの文字列が回文かどうかを判断するメソットを実装してください。回文であればtrue, そうでなければfalseを返してください。<br>",
+                "問４。ソートされた数字の配列から重複している要素を消すメソット実装してください。最後、重複している要素のない配列の長さを返してください。<br>"
             ];
             let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
             `
@@ -256,20 +190,44 @@ print(result)
 
                      `,
 
-                "問４。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？<br>"+
+                "問４。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？<br>" +
                 `
-func foo(number: Int) -> Int {
-    func bar(number: Int) -> Int {
-        return number * 5
+func printMonth(firstDay:Int, days:Int){
+    func daysstr(d:Int) -> String{
+        if d<=0{
+            return "    "
+        }else{
+            return (d<10 ? \"  \\(d)\": \"  \\(d)\")
+        }
     }
-
-    return number * bar(3)
+    var d = 1-firstDay
+    while d<=days{
+        var line = ""
+        for i in 0..<7 {
+            line+=daysstr(d)
+            d=d+1
+            if d > days{
+                break
+            }
+        }
+        print(line)
+    }
 }
-
-print(foo(2))
+printMonth(0,days:31)
 
                   `,
-                "問５。以下のコードの実行結果に関して正しい結論はどれですか？<br>"+`
+                "問５。tutorial1.difficultyとtutorial2.difficultyの値は何ですか？また、Tutorialがstructではなく、classだったら二つの値は何ですか？<br>" +
+                `
+struct Tutorial {
+  var difficulty: Int = 1
+}
+
+var tutorial1 = Tutorial()
+var tutorial2 = tutorial1
+tutorial2.difficulty = 2
+
+                `,
+                "問6。以下のコードの実行結果に関して正しい結論はどれですか？<br>" + `
 let year : Int? = Int("2020")
 let remain : Int = year! - 2016
 
@@ -281,18 +239,73 @@ if let remain3 = year3 {
     print("remain \\(remain3)years")
 }
                 `,
-                    "問６。以下のコードの実行結果に関して正しい結論はどれですか？<br>"+
-                            `
+                "問7。以下のコードの実行結果に関して正しい結論はどれですか？<br>" +
+                `
 let i = 11
 let j = 20
 
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
+                            `,
+                "問８。以下のコードの正しい実行結果はなんですか？<br>" +
+                `
+var crew = ["Caption": "Malcom", "Doctor": "Simon"]
+crew = [:]
+print(crew.count)
+                            `,
+                "問９。以下のコードの正しい実行結果はなんですか？<br>" +
+                `
+ let d:Double = 0.5
+ let f:Float = r
+                            `,
+                "問１０。以下のコードの正しい１０個結果はなんですか？<br>" +
+                `
+enum Weather {
+    case Sunny
+    case Cloudy
+    case Windy(speed: Int)
+}
+let today: Weather = .Windy(speed: 10)
+
+switch today {
+case .Sunny, .Cloudy:
+    print("It's not that windy")
+case .Windy(let speed) where speed >= 10:
+    print("It's very windy")
+default:
+    print("It's a bit windy")
+}
                             `
             ];
             let ans1s = ["Decimal",
                 "Double",
                 "Float",
-                "コンパイルエラー"
+                "Compile error"
+            ];
+            let ans3s = ["[\"Kaylee\", \"River\", \"Zoe\"]",
+                "[\"Kaylee\"]",
+                "[\"Zoe\", \"River\", \"Kaylee\"]",
+                "[\"Zoe\"]"
+            ];
+            let ans6s = [];
+            let ans7s = ["\"\"",
+                "Larry",
+                "Laura",
+                "Libby"
+            ];
+            let ans8s = ["0",
+                "1",
+                "2",
+                "3"
+            ];
+            let ans9s = ["0.5",
+                "0.0",
+                "0",
+                "Compile error"
+            ];
+            let ans10s = ["\"It's a bit windy\"",
+                "\"It's not that windy\"",
+                "\"It's very windy\"",
+                "Nothing will output"
             ];
 
             let startEnd = "THE END OF START";
@@ -323,13 +336,13 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                     localStorage.currentTask = questions[0];
 
                 }
-                else if (localStorage.currentTask == questions[questions.length-1]) {
+                else if (localStorage.currentTask == questions[questions.length - 1]) {
                     document.getElementById('quiz').innerHTML = tasks[0];
                     localStorage.currentTask = tasks[0];
                     $('#choices').hide();
                     document.getElementById('editorAnswer').style.display = 'block';
                 }
-                else if (localStorage.currentTask == tasks[tasks.length-1]) {
+                else if (localStorage.currentTask == tasks[tasks.length - 1]) {
                     document.getElementById('quiz').innerHTML = endEnd;
                     localStorage.currentTask = endEnd;
                     $('#choices').hide();
@@ -337,7 +350,7 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
 
                 }
                 else {
-                    for (var i = 0; i < questions.length-1; i++) {
+                    for (var i = 0; i < questions.length - 1; i++) {
                         if (localStorage.currentTask == questions[i]) {
                             document.getElementById('quiz').innerHTML = questions[i + 1];
                             localStorage.currentTask = questions[i + 1];
@@ -345,7 +358,7 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             break;
                         }
                     }
-                    for (var i = 0; i < tasks.length-1; i++) {
+                    for (var i = 0; i < tasks.length - 1; i++) {
                         if (localStorage.currentTask == tasks[i]) {
                             document.getElementById('quiz').innerHTML = tasks[i + 1];
                             localStorage.currentTask = tasks[i + 1];
@@ -365,13 +378,13 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
 
                 }
                 else if (localStorage.currentTask == endEnd) {
-                    document.getElementById('quiz').innerHTML = tasks[tasks.length-1];
-                    localStorage.currentTask = tasks[tasks.length-1];
+                    document.getElementById('quiz').innerHTML = tasks[tasks.length - 1];
+                    localStorage.currentTask = tasks[tasks.length - 1];
                     document.getElementById('editorAnswer').style.display = 'block';
                 }
                 else if (localStorage.currentTask == tasks[0]) {
-                    document.getElementById('quiz').innerHTML = questions[questions.length-1];
-                    localStorage.currentTask = questions[questions.length-1];
+                    document.getElementById('quiz').innerHTML = questions[questions.length - 1];
+                    localStorage.currentTask = questions[questions.length - 1];
                     document.getElementById('choices').style.display = 'block';
                     $('#editorAnswer').hide();
 
@@ -385,7 +398,7 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             break;
                         }
                     }
-                    for (var i =1; i < tasks.length; i++) {
+                    for (var i = 1; i < tasks.length; i++) {
                         if (localStorage.currentTask == tasks[i]) {
                             document.getElementById('quiz').innerHTML = tasks[i - 1];
                             localStorage.currentTask = tasks[i - 1];
