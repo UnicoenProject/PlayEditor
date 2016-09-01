@@ -136,31 +136,31 @@ for var i = 0; i<5; i++{
             ];
             let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
             `
- class Address {
-    var fullAddress:String
+ class Workplace {
+    var workplaceAddress:String
     var city:String
-    init(fullAddress:String, city:String){
-        self.fullAddress = fullAddress
+    init(workplaceAddress:String, city:String){
+        self.workplaceAddress = workplaceAddress
         self.city = city
     }
  }
 
  class Person{
     var name:String
-    var address:Address
+    var workplace:Workplace
 
-    init(name:String, address:Address){
+    init(name:String, workplace:Workplace){
         self.name = name
-        self.address = address
+        self.workplace = workplace
     }
  }
- var headquarters = Address(fullAddress:"123 Tutorial Street", city:"Appletown")
- var ray = Person(name:"Ray", address:headquarters)
- var brain = Person(name:"Brain", address:headquarters)
+ var address = Workplace(workplaceAddress:"112 Jasmin Street", city:"JasminTown")
+ var bob = Person(name:"Bob", workplace:address)
+ var amy = Person(name:"Amy", workplace:address)
 
-もしbrainが隣の街に引っ越して、住所を変更したい場合、
+もしAmyが転職して、就職先を変更したい場合、
 
-brain.address.fullAddress = "148 Tutorial Street"
+amy.workplace.workplaceAddress = "123 New Street"
 
 このコードに関して、以下のどれが正しいですか？
                      `,
@@ -192,39 +192,26 @@ print(result)
 
                 "問４。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？<br>" +
                 `
-func printMonth(firstDay:Int, days:Int){
-    func daysstr(d:Int) -> String{
-        if d<=0{
-            return "    "
-        }else{
-            return (d<10 ? \"  \\(d)\": \"  \\(d)\")
-        }
-    }
-    var d = 1-firstDay
-    while d<=days{
-        var line = ""
-        for i in 0..<7 {
-            line+=daysstr(d)
-            d=d+1
-            if d > days{
-                break
-            }
-        }
-        print(line)
-    }
+func foo(function: (Int) -> Int) -> Int {
+    return function(function(5))
 }
-printMonth(0,days:31)
+
+func bar<T: IntegerType>(number: T) -> T {
+    return number * 3
+}
+
+print(foo(bar))
 
                   `,
-                "問５。tutorial1.difficultyとtutorial2.difficultyの値は何ですか？また、Tutorialがstructではなく、classだったら二つの値は何ですか？<br>" +
+                "問５。lecture1.difficulty, lecture2.difficultyの値は何ですか？また、Lectureがstructではなく、classだったら二つの値は何ですか？<br>" +
                 `
-struct Tutorial {
+struct Lecture {
   var difficulty: Int = 1
 }
 
-var tutorial1 = Tutorial()
-var tutorial2 = tutorial1
-tutorial2.difficulty = 2
+var lecture1 = Lecture()
+var lecture2 = lecture1
+lecture2.difficulty = 2
 
                 `,
                 "問6。以下のコードの実行結果に関して正しい結論はどれですか？<br>" + `
@@ -236,7 +223,7 @@ let remain2 : Int = year! - 2016
 
 let year3 : Int? = nil
 if let remain3 = year3 {
-    print("remain \\(remain3)years")
+    print("remain \\(remain3-2016)years")
 }
                 `,
                 "問7。以下のコードの実行結果に関して正しい結論はどれですか？<br>" +
@@ -276,17 +263,37 @@ default:
 }
                             `
             ];
-            let ans1s = ["Decimal",
-                "Double",
-                "Float",
-                "Compile error"
+            let ans1s = ["Bobの就職先住所も一緒に変わる",
+                "Amyの就職先住所だけが変わる",
+                "両方何も変わらない",
+                "コンパイルエラー"
             ];
+            let ans2s = ["両方\"Hello, world!\"を出力",
+                    "両方\"Goodbye, world!\"を出力",
+                    "一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
+                "一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
+
+            ]
             let ans3s = ["[\"Kaylee\", \"River\", \"Zoe\"]",
                 "[\"Kaylee\"]",
                 "[\"Zoe\", \"River\", \"Kaylee\"]",
                 "[\"Zoe\"]"
             ];
-            let ans6s = [];
+            let ans4s = ["15",
+                    "3",
+                    "45",
+                    "5"
+            ];
+            let ans5s = ["両方１である、classだっても変わらない",
+                    "両方２である、classだったら両方１になる",
+                    "lecture1.difficultyは１、lecture2.difficultyは２である、classだったら両方２になる",
+                "lecture1.difficultyは１、lecture2.difficultyは２である、classだったら両方１になる"
+            ]
+            let ans6s = ["remain=4, remain2=nil, remain3=nil",
+                    "remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
+                    "remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
+                    "remain=nil, remain2=4, remain3=nil"
+            ];
             let ans7s = ["\"\"",
                 "Larry",
                 "Laura",
@@ -313,14 +320,12 @@ default:
             localStorage.currentTask = questions[0];
             document.getElementById('quiz').innerHTML = questions[0];
             $('#answer').hide();
-            document.getElementById('A').innerHTML = ans1s[0];
-            document.getElementById('B').innerHTML = ans1s[1];
-            document.getElementById('C').innerHTML = ans1s[2];
-            document.getElementById('D').innerHTML = ans1s[3];
+            showAnswers(0);
 
             if (localStorage.currentTask != tasks[0]
                     && localStorage.currentTask != tasks[1]
                     && localStorage.currentTask != tasks[2]
+                    && localStorage.currentTask != tasks[3]
             ) {
                 $('#editorAnswer').hide();
             } else {
@@ -328,6 +333,69 @@ default:
                 document.getElementById('editorAnswer').style.visibility = 'visible';
             }
 
+            function showAnswers(questionNum) {
+                if(questionNum==0){
+                    document.getElementById('A').innerHTML = ans1s[0];
+                    document.getElementById('B').innerHTML = ans1s[1];
+                    document.getElementById('C').innerHTML = ans1s[2];
+                    document.getElementById('D').innerHTML = ans1s[3];
+                }
+                else if(questionNum==1){
+                    document.getElementById('A').innerHTML = ans2s[0];
+                    document.getElementById('B').innerHTML = ans2s[1];
+                    document.getElementById('C').innerHTML = ans2s[2];
+                    document.getElementById('D').innerHTML = ans2s[3];
+                }
+                else if(questionNum==2){
+                    document.getElementById('A').innerHTML = ans3s[0];
+                    document.getElementById('B').innerHTML = ans3s[1];
+                    document.getElementById('C').innerHTML = ans3s[2];
+                    document.getElementById('D').innerHTML = ans3s[3];
+                }
+                else if(questionNum==3){
+                    document.getElementById('A').innerHTML = ans4s[0];
+                    document.getElementById('B').innerHTML = ans4s[1];
+                    document.getElementById('C').innerHTML = ans4s[2];
+                    document.getElementById('D').innerHTML = ans4s[3];
+                }
+                else if(questionNum==4){
+                    document.getElementById('A').innerHTML = ans5s[0];
+                    document.getElementById('B').innerHTML = ans5s[1];
+                    document.getElementById('C').innerHTML = ans5s[2];
+                    document.getElementById('D').innerHTML = ans5s[3];
+                }
+                else if(questionNum==5){
+                    document.getElementById('A').innerHTML = ans6s[0];
+                    document.getElementById('B').innerHTML = ans6s[1];
+                    document.getElementById('C').innerHTML = ans6s[2];
+                    document.getElementById('D').innerHTML = ans6s[3];
+                }
+                else if(questionNum==6){
+                    document.getElementById('A').innerHTML = ans7s[0];
+                    document.getElementById('B').innerHTML = ans7s[1];
+                    document.getElementById('C').innerHTML = ans7s[2];
+                    document.getElementById('D').innerHTML = ans7s[3];
+                }
+                else if(questionNum==7){
+                    document.getElementById('A').innerHTML = ans8s[0];
+                    document.getElementById('B').innerHTML = ans8s[1];
+                    document.getElementById('C').innerHTML = ans8s[2];
+                    document.getElementById('D').innerHTML = ans8s[3];
+                }
+                else if(questionNum==8){
+                    document.getElementById('A').innerHTML = ans9s[0];
+                    document.getElementById('B').innerHTML = ans9s[1];
+                    document.getElementById('C').innerHTML = ans9s[2];
+                    document.getElementById('D').innerHTML = ans9s[3];
+                }
+                else if(questionNum==9){
+                    document.getElementById('A').innerHTML = ans10s[0];
+                    document.getElementById('B').innerHTML = ans10s[1];
+                    document.getElementById('C').innerHTML = ans10s[2];
+                    document.getElementById('D').innerHTML = ans10s[3];
+                }
+
+            }
 
             $('#next').on('click', function () {
                 $('#answer').hide();
@@ -355,6 +423,7 @@ default:
                             document.getElementById('quiz').innerHTML = questions[i + 1];
                             localStorage.currentTask = questions[i + 1];
                             $('#choices').show();
+                            showAnswers(i+1);
                             break;
                         }
                     }
@@ -395,6 +464,7 @@ default:
                             document.getElementById('quiz').innerHTML = questions[i - 1];
                             localStorage.currentTask = questions[i - 1];
                             $('#choices').show();
+                            showAnswers(i-1);
                             break;
                         }
                     }
