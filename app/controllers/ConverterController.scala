@@ -35,7 +35,7 @@ class ConverterController @Inject() extends Controller {
 
   }
 
-  val form = Form( "name" -> text )
+
 
   def replaceLn(string:String):String={
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
@@ -52,6 +52,7 @@ class ConverterController @Inject() extends Controller {
   }
 
   def compile = Action { implicit request =>
+    val form = Form( "name" -> text )
     val data = form.bindFromRequest.get
     val dataSplit = replaceLn(data)
     Ok(views.html.converter(dataSplit))
