@@ -10,7 +10,7 @@
 *@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-        window.CONTROLE_GROUP = false;
+        window.CONTROLE_GROUP = true;
 
     </script>
     <style>
@@ -33,32 +33,39 @@
     <p>
         <button id="prev" class="btn btn-default"> 前の問題 </button>
         <button id="next" class="btn btn-default"> 次の問題 </button>
+        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';
+        document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>
     </p>
-    <p width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></p>
-    <p id = "editorAnswer" style="height: 400px;
-        width: 500px;
-        float: left;
-        padding-right: 250px;padding-bottom:50px"></p>
-    <p id="choices" style="padding-top: 20px;
-        float: left">
+    <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
+    <div id="choices" style="padding-top: 20px;　float: left">
         <form>
             <label><input id="choice1" name="choice" class="level1" type="radio"> <span id="A"></span></label><br>
             <label><input id="choice2" name="choice" class="level1" type="radio"> <span id="B"></span></label><br>
             <label><input id="choice3" name="choice" class="level1" type="radio"> <span id="C"></span></label><br>
             <label><input id="choice4" name="choice" class="level1" type="radio"> <span id="D"></span></label><br>
         </form>
+@*<<<<<<< HEAD*@
 
-        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';
-        document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>
-    </p>
-    <p id="answer" width="500px" height="400px" style="float: left;
-        visibility: hidden;
-        overflow:auto;">
+        @*<button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';*@
+        @*document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>*@
+    @*</p>*@
+    @*<p id="answer" width="500px" height="400px" style="float: left;*@
+        @*visibility: hidden;*@
+        @*overflow:auto;">*@
+@*=======*@
+    </div>
+    <div id="editorAnswer" style="height: 400px; width: 500px; float: left; padding-right: 250px;padding-bottom:50px">
+    </div>
+    <div id="answer" width="500px" height="400px" style="float: left; visibility: hidden; overflow:auto;">
+
         <pre>
-        <img id = "ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
+            <img id="ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
         </pre>
+
+    </div>
+    <div>
         <pre id = "ansWord"></pre>
-    </p>
+    </div>
     @* Converter in the bottom *@
     <div id="tool_margin" style="height: 250px; clear: both;"></div>
     <div id="tool" style="background-color: white;
@@ -270,9 +277,9 @@ switch score {
             ];
             var ansNoTranslation =["A", "C", "C", "C", "D", "B", "C", "A", "D", "A"];
             var ans1s = [
-                "A. Bobの就職先住所も一緒に変わる",
-                "B. Amyの就職先住所だけが変わる",
-                "C. 両方何も変わらない",
+                "A. Bobの就職先の住所も一緒に変わる",
+                "B. Amyの就職先の住所だけが変わる",
+                "C. どちらも何も変わらない",
                 "D. コンパイルエラー"
             ];
             var ans2s = [
@@ -333,7 +340,7 @@ switch score {
 
             var startEnd = "<h2>サンプルテスト<h2>";
             var url = window.CONTROL_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
-            var endEnd = "<h2>学習お疲れ様でした！</h2>続いて" + 
+            var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" + 
                     "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" + 
                     "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
                     "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
@@ -479,7 +486,6 @@ switch score {
                 $('#choices').hide();
                 $('#editorAnswer').hide();
                 $('#submit').hide();
-
               } else if (type == 'E') {
                 document.getElementById('quiz').innerHTML = endEnd;
                 localStorage.currentTask = endEnd;
@@ -487,7 +493,6 @@ switch score {
                 $('#choices').hide();
                 $('#editorAnswer').hide();
                 $('#submit').hide();
-
               } else if (type == 'Q') {
                 document.getElementById('quiz').innerHTML = questions[index];
                 localStorage.currentTask = questions[index];
@@ -496,16 +501,13 @@ switch score {
                 $('#choices').show();
                 $('#editorAnswer').hide();
                 showAnswers(index);
-                document.getElementById('submit').style.display = 'block';
-
               } else if (type == 'T') {
                 document.getElementById('quiz').innerHTML = tasks[index];
                 localStorage.currentTask = tasks[index];
 
                 $('#choices').hide();
+                $('#editorAnswer').show();
                 setTaskAnswers(index);
-                document.getElementById('editorAnswer').style.display = 'block';
-                document.getElementById('submit').style.display = 'block';
               }
             }
 
