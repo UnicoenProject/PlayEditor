@@ -10,16 +10,15 @@
 *@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-
         window.CONTROLE_GROUP = false;
 
-        function isCodingTask(){
-            for(var i=0;i<tasks.length;i++){
-                if(localStorage.currentTask==tasks[i]){
+        function isCodingTask() {
+            for (var i = 0; i < tasks.length; i++) {
+                if (localStorage.currentTask == tasks[i]) {
                     return true;
                 }
-            }return false;
-
+            }
+            return false;
         }
     </script>
     <style>
@@ -344,7 +343,7 @@ default:
             ];
 
             var startEnd = "<h2>サンプルテスト<h2>";
-            var url = window.CONTROL_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
+            var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
             var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
                     "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
                     "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
@@ -503,18 +502,12 @@ default:
                     document.getElementById('quiz').innerHTML = questions[index];
                     localStorage.currentTask = questions[index];
 
-
                     $('#choices').show();
                     $('#editorAnswer').hide();
                     showAnswers(index);
                 } else if (type == 'T') {
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
-
-                    if(index==3){
-                        document.getElementById('submit').style.display='block';
-                    }
-                    document.getElementById('ansImg').style.display='block';
 
                     $('#choices').hide();
                     $('#editorAnswer').show();
