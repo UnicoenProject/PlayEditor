@@ -37,9 +37,10 @@ class ConverterController @Inject() extends Controller {
 
 
 
-  def replaceLn(string:String):String={
+  def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
     val mapper = new Java8Mapper(true)
+<<<<<<< HEAD
     try{
       val tree = mapper.parse(format)
       val modified = JavaToSwiftTreeConverter.convert(tree)
@@ -49,6 +50,14 @@ class ConverterController @Inject() extends Controller {
       case ex: NullPointerException => "NULL_POINTER"
 
     }
+=======
+    val tree = mapper.parse(format)
+    val modified = JavaToSwiftTreeConverter.convert(tree)
+    val result = SwiftGenerator.generate(modified)
+    return result
+  } catch {
+    case e: Exception => "FAILED TO TRANSLATE"
+>>>>>>> khlee
   }
 
   def compile = Action { implicit request =>
@@ -57,5 +66,9 @@ class ConverterController @Inject() extends Controller {
     val dataSplit = replaceLn(data)
     Ok(views.html.converter(dataSplit))
   }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> khlee

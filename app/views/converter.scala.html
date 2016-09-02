@@ -8,7 +8,12 @@
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-@main("Welcome to Play") {
+
+@main("Jasminを使ってSwiftを学ぼう") {
+    <script>
+        window.CONTROLE_GROUP = false;
+    </script>
+
     <style>
     .level2 {
         visibility: hidden;
@@ -23,49 +28,39 @@
     @*
     @play20.welcome(message, style = "Scala")
     *@
-    <div id = "logo">
-        <img src="@routes.Assets.versioned("images/Jasmine.png")" width="300" height="88">
-    </div>
-
-    <div>
-
-        <button id="prev" class="btn btn-default"> Previous </button>
-        <button id="next" class="btn btn-default"> Next </button>
-    </div>
+    <p id = "logo">
+        <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
+    </p>
+    <p>
+        <button id="prev" class="btn btn-default"> 前の問題 </button>
+        <button id="next" class="btn btn-default"> 次の問題 </button>
+        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';
+        document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>
+    </p>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
-    <div id = "editorAnswer" style="height: 400px;
-        width: 500px;
-        float: left;
-        padding-right: 250px;padding-bottom:50px"></div>
-
-
-
-
-    <div id="choices" style="padding-top: 20px;
-        padding-bottom: 100px;
-        float: left">
+    <div id="choices" style="padding-top: 20px;　float: left">
         <form>
-            <input id="choice1" name="choice" class="level1" type="radio"><label id="A"></label><br>
-            <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
-            <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
-            <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
-
+            <label><input id="choice1" name="choice" class="level1" type="radio"> <span id="A"></span></label><br>
+            <label><input id="choice2" name="choice" class="level1" type="radio"> <span id="B"></span></label><br>
+            <label><input id="choice3" name="choice" class="level1" type="radio"> <span id="C"></span></label><br>
+            <label><input id="choice4" name="choice" class="level1" type="radio"> <span id="D"></span></label><br>
         </form>
+    </div>
+    <div id="editorAnswer" style="height: 400px; width: 500px; float: left; padding-right: 250px;padding-bottom:50px">
+    </div>
+    <div id="answer" width="500px" height="400px" style="float: left; visibility: hidden; overflow:auto;">
 
-
+        <pre>
+            <img id="ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
+        </pre>
 
     </div>
-    <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
-    document.getElementById('answer').style.display = 'block';"> Submit </button>
-    <div id="answer" width="500px" height="400px" style="float: left;
-        visibility: hidden;
-        padding-bottom: 100px;
-        overflow:auto;"><pre>
-        <img id = "ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
-    </pre>
+    <div>
+        <pre id = "ansWord"></pre>
     </div>
     @* Converter in the bottom *@
-    <div id = "tool" style="background-color: white;
+    <div id="tool_margin" style="height: 250px; clear: both;"></div>
+    <div id="tool" style="background-color: white;
         position: fixed;
         bottom: 0;
         border: solid;
@@ -110,12 +105,28 @@
             </div>
         </div>
     </div>
+
     @*処理の流れ<br>*@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
+            $(function() {
+                if(window.CONTROLE_GROUP) {
+                    $('#tool, #tool_margin').hide();
+                    $('#ansImg').hide();
+                    setQuizAnswersWithoutTranslation(localStorage.currentTask);
+                }
+            })
 
+            function setQuizAnswersWithoutTranslation(task){
+                for(var i=0;i<questions.length;i++){
+                    if(task==questions[i]){
+                        document.getElementById('ansWord').innerHTML = ansNoTranslation[i];
+                    }
+
+                }
+            }
 
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
@@ -131,36 +142,36 @@
                     $('#converter').fadeIn();
                 }
             });
-            let tasks = ["問１１。長方形の面積を計算する関数area(Double,Double)->Doubleを実装してください。そのあと幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
-                "問１２。データタイプがAnyObject?である配列があります。この配列の中にはどのデータタイプのオブジェクトも格納可能です。<br>"+
-                "その中でnilではないオブジェクトのみプリントする関数を実装してください。<br>"+
-                "例：let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
-                "問１３。一つの文字列が回文かどうかを判断するメソットを実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
-                "問１４。ソートされた数字の配列から重複している要素を消し、重複している要素のない配列の長さを返してください。<br>"
+            var tasks = ["問1. 長方形の面積を計算する関数 area(Double, Double) -> Double を実装してください。その後、area関数を用いて幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
+                "問2. AnyObject? 型の配列に関する問題です。この配列の中には任意の型のオブジェクトを格納できます。<br>"+
+                "AnyObject? 型の配列を受け取って、その中に格納されている nil ではないオブジェクトのみを表示する関数を実装してください。<br>"+
+                "入力する配列の例： let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
+                "問3. 一つの文字列が回文かどうかを判断する関数を実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
+                "問4. ソートされた数字の配列から重複している要素を削除して、重複している要素のない配列の長さを返す関数を実装してください。<br>"
             ];
-            let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
+            var questions = ["問1. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
             `
  class Workplace {
-    var workplaceAddress:String
-    var city:String
-    init(workplaceAddress:String, city:String){
+    var workplaceAddress:　String
+    var city:　String
+    init(workplaceAddress:　String, city:　String) {
         self.workplaceAddress = workplaceAddress
         self.city = city
     }
  }
 
  class Person{
-    var name:String
-    var workplace:Workplace
+    var name:　String
+    var workplace:　Workplace
 
-    init(name:String, workplace:Workplace){
+    init(name:　String, workplace:　Workplace) {
         self.name = name
         self.workplace = workplace
     }
  }
- var address = Workplace(workplaceAddress:"112 Jasmin Street", city:"JasminTown")
- var bob = Person(name:"Bob", workplace:address)
- var amy = Person(name:"Amy", workplace:address)
+ var address = Workplace(workplaceAddress:　"112 Jasmin Street", city:　"JasminTown")
+ var bob = Person(name:　"Bob", workplace:　address)
+ var amy = Person(name:　"Amy", workplace:　address)
 
 もしAmyが転職して、就職先を変更したい場合、
 
@@ -169,7 +180,7 @@ amy.workplace.workplaceAddress = "123 New Street"
 このコードに関して、以下のどれが正しいですか？
                      `,
 
-                "問２。以下の二つのif文の実行結果に関して、正しい結論はどれですか？その理由はなんですか？。<br>" +
+                "問2. 以下の2つのif文を実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let i = 101
 
@@ -186,7 +197,7 @@ if case 100..<101 = i {
 }
 
                      `,
-                "問３。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？。<br>" +
+                "問3. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let names = ["River", "Kaylee", "Zoe"]
 let result = names.sort { $0 > $1 }
@@ -194,7 +205,7 @@ print(result)
 
                      `,
 
-                "問４。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？<br>" +
+                "問4. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 func foo(function: (Int) -> Int) -> Int {
     return function(function(5))
@@ -207,309 +218,249 @@ func bar<Int: IntegerType>(number: Int) -> Int {
 print(foo(bar))
 
                   `,
-                "問５。" +
-                "以下の宣言を一番簡潔かつ正確に定義したものはどれですか？<br>" +
+
+                "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
-let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one < two
+let sortedAnimals = animals.sort {(one:　String, two:　String) -> Bool in return one < two
 }
 
                 `,
-                "問6。以下のコードの実行結果に関して正しい結論はどれですか？<br>" + `
-let year : Int? = Int("2020")
-let remain : Int = year! - 2016
+                "問6. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" + `
+let year: Int? = Int("2020")
+let remain: Int = year! - 2016
 
-let year2 : Int? = nil
-let remain2 : Int = year! - 2016
+let year2: Int? = nil
+let remain2: Int = year! - 2016
 
-let year3 : Int? = nil
+let year3: Int? = nil
+>>>>>>> khlee
 if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
 }
                 `,
-                "問7。以下のコードの実行結果に関して正しい結論はどれですか？<br>" +
+
+                "問7. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
+
                 `
 let i = 11
 let j = 20
 
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
-                "問８。以下のコードの正しい実行結果はなんですか？<br>" +
+
+                "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
+
                 `
 var crew = ["Caption": "Malcom", "Doctor": "Simon"]
 crew = [:]
 print(crew.count)
                             `,
-                "問９。以下のコードの正しい実行結果はなんですか？<br>" +
+
+                "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
- let d:Double = 0.5
- let f:Float = d
+let d:　Double = 0.5
+let f:　Float = d
                             `,
-                "問１０。以下のコードの正しい１０個結果はなんですか？<br>" +
+                "問10. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 var score = 65
 switch score {
-case 45..<75: print("追試")
-case 90...100: print("秀")
-case 80..<90: print("優")
-case 70..<80: print("良")
-case 60..<70: print("可")
-default:print("追試不可")
+　　case 45..<75: print("追試")
+　　case 90...100: print("秀")
+　　case 80..<90: print("優")
+　　case 70..<80: print("良")
+　　case 60..<70: print("可")
+　　default:　print("追試不可")
 }
                             `
             ];
-            let ans1s = ["A. Bobの就職先住所も一緒に変わる",
-                "B. Amyの就職先住所だけが変わる",
-                "C. 両方何も変わらない",
+            var ansNoTranslation =["A", "C", "C", "C", "D", "B", "C", "A", "D", "A"];
+            var ans1s = [
+                "A. Bobの就職先の住所も一緒に変わる",
+                "B. Amyの就職先の住所だけが変わる",
+                "C. どちらも何も変わらない",
                 "D. コンパイルエラー"
             ];
-            let ans2s = ["A. 両方\"Hello, world!\"を出力",
-                    "B. 両方\"Goodbye, world!\"を出力",
-                    "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
+            var ans2s = [
+                "A. 両方\"Hello, world!\"を出力",
+                "B. 両方\"Goodbye, world!\"を出力",
+                "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
                 "D. 一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
 
             ]
-            let ans3s = ["A. [\"Kaylee\", \"River\", \"Zoe\"]",
+            var ans3s = [
+                "A. [\"Kaylee\", \"River\", \"Zoe\"]",
+
                 "B. [\"Kaylee\"]",
                 "C. [\"Zoe\", \"River\", \"Kaylee\"]",
                 "D. [\"Zoe\"]"
             ];
-            let ans4s = ["A. 15",
-                    "B. 3",
-                    "C. 45",
-                    "D. 5"
+
+            var ans4s = [
+                "A. 15",
+                "B. 3",
+                "C. 45",
+                "D. 5"
             ];
-            let ans5s = ["A. let sortedAnimals = animals.sort{(one,two)->Bool in return one<two}",
-                    "B. let sortedAnimals = animals.sort{(one,two) in return one<two}",
-                    "C. let sortedAnimals = animals.sort{return $0<$1}",
-                "D. let sortedAnimals = animals.sort{$0<$1}"
+            var ans5s = [
+                "A. let sortedAnimals = animals.sort　{　(one,　two)　->　Bool in return one　<　two　}",
+                "B. let sortedAnimals = animals.sort　{　(one,　two) in return one　<　two　}",
+                "C. let sortedAnimals = animals.sort　{　return $0　<　$1　}",
+                "D. let sortedAnimals = animals.sort　{　$0　<　$1　}"
             ]
-            let ans6s = ["A. remain=4, remain2=nil, remain3=nil",
-                    "B. remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
-                    "C. remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
-                    "D. remain=nil, remain2=4, remain3=nil"
+            var ans6s = [
+                "A. remain　=　4, remain2　=　nil, remain3　=　nil",
+                "B. remain　=　4, remain2はコンパイルエラーで実行できない, remain3はif文が実行不可能で宣言されない",
+                "C. remain　=　nil, remain2　=　nil, remain3はif文が実行不可能で宣言されない",
+                "D. remain　=　nil, remain2　=　4, remain3　=　nil"
             ];
-            let ans7s = ["A. \"\"",
+            var ans7s = [
+                "A. \"\"",
+
                 "B. Larry",
                 "C. Laura",
                 "D. Libby"
             ];
-            let ans8s = ["A. 0",
+
+            var ans8s = [
+                "A. 0",
+
                 "B. 1",
                 "C. 2",
                 "D. 3"
             ];
-            let ans9s = ["A. 0.5",
+
+            var ans9s = [
+                "A. 0.5",
+
                 "B. 0.0",
                 "C. 0",
                 "D. コンパイルエラー"
             ];
-            let ans10s = ["A. 追試",
+            var ans10s = [
+                "A. 追試",
+
                 "B. 可",
                 "C. 追試不可",
                 "D. 何も出力されない"
             ];
 
-            let startEnd = "<h2>サンプルテスト<h2>";
-            let endEnd = "<h2>勉強ご苦労様でした!</h2>これからテストに移りたいと思いますので、以下のサイトにアクセスし受験を行ってください。<br>"+
-                    "受験するときはすべての資料とツールが参考不可能になってます（XCode）含む<br>"+
-                    "https://docs.google.com/forms/d/e/1FAIpQLSeQRAaIUoEdIrWL5SBtImUtDO0thz4j-GfFgn5Mh1Ty2T8aXw/viewform<br>"+
-                    "<br>テストが終わった後には、アンケートにご協力をお願い致します。<br>"+
-                    "https://docs.google.com/forms/d/e/1FAIpQLScsqaZHdcUtrl94jkjlUT6r5ISWpb3mrdtWyuT0EUvHUFwRvQ/viewform";
-            localStorage.currentTask = questions[0];
-            document.getElementById('quiz').innerHTML = questions[0];
-            $('#answer').hide();
-            showAnswers(0);
 
-            if (localStorage.currentTask != tasks[0]
-                    && localStorage.currentTask != tasks[1]
-                    && localStorage.currentTask != tasks[2]
-                    && localStorage.currentTask != tasks[3]
-            ) {
-                $('#editorAnswer').hide();
-            } else {
-                document.getElementById('editorAnswer').style.display = 'block'
-                document.getElementById('editorAnswer').style.visibility = 'visible';
-            }
+            var startEnd = "<h2>サンプルテスト<h2>";
+            var url = window.CONTROL_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
+            var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" + 
+                    "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" + 
+                    "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
+                    "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
+            showCurrentTask('Q0');
 
             function showAnswers(questionNum) {
-                if(questionNum==0){
+                if (questionNum == 0) {
                     document.getElementById('A').innerHTML = ans1s[0];
                     document.getElementById('B').innerHTML = ans1s[1];
                     document.getElementById('C').innerHTML = ans1s[2];
                     document.getElementById('D').innerHTML = ans1s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz1AnsBoth.png")";
-                }
-                else if(questionNum==1){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[0];
+                } else if (questionNum == 1) {
                     document.getElementById('A').innerHTML = ans2s[0];
                     document.getElementById('B').innerHTML = ans2s[1];
                     document.getElementById('C').innerHTML = ans2s[2];
                     document.getElementById('D').innerHTML = ans2s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz2AnsBoth.png")";
-                }
-                else if(questionNum==2){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[1];
+                } else if (questionNum == 2) {
                     document.getElementById('A').innerHTML = ans3s[0];
                     document.getElementById('B').innerHTML = ans3s[1];
                     document.getElementById('C').innerHTML = ans3s[2];
                     document.getElementById('D').innerHTML = ans3s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz3AnsBoth.png")";
-                }
-                else if(questionNum==3){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[2];
+                } else if (questionNum == 3) {
                     document.getElementById('A').innerHTML = ans4s[0];
                     document.getElementById('B').innerHTML = ans4s[1];
                     document.getElementById('C').innerHTML = ans4s[2];
                     document.getElementById('D').innerHTML = ans4s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz4AnsBoth.png")";
-                }
-                else if(questionNum==4){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[3];
+                } else if (questionNum == 4) {
                     document.getElementById('A').innerHTML = ans5s[0];
                     document.getElementById('B').innerHTML = ans5s[1];
                     document.getElementById('C').innerHTML = ans5s[2];
                     document.getElementById('D').innerHTML = ans5s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz5AnsBoth.png")";
-
-                }
-                else if(questionNum==5){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[4];
+                } else if (questionNum == 5) {
                     document.getElementById('A').innerHTML = ans6s[0];
                     document.getElementById('B').innerHTML = ans6s[1];
                     document.getElementById('C').innerHTML = ans6s[2];
                     document.getElementById('D').innerHTML = ans6s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz6AnsBoth.png")";
-                }
-                else if(questionNum==6){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[5];
+                } else if (questionNum == 6) {
                     document.getElementById('A').innerHTML = ans7s[0];
                     document.getElementById('B').innerHTML = ans7s[1];
                     document.getElementById('C').innerHTML = ans7s[2];
                     document.getElementById('D').innerHTML = ans7s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz7AnsBoth.png")";
-                }
-                else if(questionNum==7){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[6];
+                } else if (questionNum == 7) {
                     document.getElementById('A').innerHTML = ans8s[0];
                     document.getElementById('B').innerHTML = ans8s[1];
                     document.getElementById('C').innerHTML = ans8s[2];
                     document.getElementById('D').innerHTML = ans8s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz8AnsBoth.png")";
-                }
-                else if(questionNum==8){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[7];
+                } else if (questionNum == 8) {
                     document.getElementById('A').innerHTML = ans9s[0];
                     document.getElementById('B').innerHTML = ans9s[1];
                     document.getElementById('C').innerHTML = ans9s[2];
                     document.getElementById('D').innerHTML = ans9s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz9AnsBoth.png")";
-                }
-                else if(questionNum==9){
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[8];
+                } else if (questionNum == 9) {
                     document.getElementById('A').innerHTML = ans10s[0];
                     document.getElementById('B').innerHTML = ans10s[1];
                     document.getElementById('C').innerHTML = ans10s[2];
                     document.getElementById('D').innerHTML = ans10s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz10AnsBoth.png")";
+                    document.getElementById('ansWord').innerHTML = ansNoTranslation[9];
                 }
-
             }
 
             $('#next').on('click', function () {
-                $('#answer').hide();
-                if (localStorage.currentTask == startEnd) {
-                    document.getElementById('quiz').innerHTML = questions[0];
-                    localStorage.currentTask = questions[0];
-
-                }
-                else if (localStorage.currentTask == questions[questions.length - 1]) {
-                    document.getElementById('quiz').innerHTML = tasks[0];
-                    localStorage.currentTask = tasks[0];
-                    $('#choices').hide();
-                    setTaskAnswers(0);
-                    document.getElementById('editorAnswer').style.display = 'block';
-
-                }
-                else if (localStorage.currentTask == tasks[tasks.length - 1]) {
-                    document.getElementById('quiz').innerHTML = endEnd;
-                    localStorage.currentTask = endEnd;
-                    $('#choices').hide();
-                    $('#editorAnswer').hide();
-                    $('#submit').hide();
-
-                }
-                else {
-                    for (var i = 0; i < questions.length - 1; i++) {
-                        if (localStorage.currentTask == questions[i]) {
-                            document.getElementById('quiz').innerHTML = questions[i + 1];
-                            localStorage.currentTask = questions[i + 1];
-                            $('#choices').show();
-                            showAnswers(i+1);
-                            break;
-                        }
-                    }
-                    for (var i = 0; i < tasks.length - 1; i++) {
-                        if (localStorage.currentTask == tasks[i]) {
-                            document.getElementById('quiz').innerHTML = tasks[i + 1];
-                            localStorage.currentTask = tasks[i + 1];
-                            $('#choices').hide();
-                            setTaskAnswers(i+1);
-                            document.getElementById('editorAnswer').style.display = 'block';
-
-                            break;
-                        }
-                    }
-                }
+              var code = nextCode(localStorage.currentCode);
+              showCurrentTask(code, true);
             });
             $('#prev').on('click', function () {
-                $('#answer').hide();
+                var code = prevCode(localStorage.currentCode);
+                showCurrentTask(code, true);
 
-                if (localStorage.currentTask == questions[0]) {
-                    document.getElementById('quiz').innerHTML = startEnd;
-                    localStorage.currentTask = startEnd;
-                    $('#submit').hide();
-
-                }
-                else if (localStorage.currentTask == endEnd) {
-                    document.getElementById('quiz').innerHTML = tasks[tasks.length - 1];
-                    localStorage.currentTask = tasks[tasks.length - 1];
-                    setTaskAnswers(tasks.length-1);
-                    document.getElementById('editorAnswer').style.display = 'block';
-
-                }
-                else if (localStorage.currentTask == tasks[0]) {
-                    document.getElementById('quiz').innerHTML = questions[questions.length - 1];
-                    localStorage.currentTask = questions[questions.length - 1];
-                    document.getElementById('choices').style.display = 'block';
-                    $('#editorAnswer').hide();
-
-                }
-                else {
-                    for (var i = 1; i < questions.length; i++) {
-                        if (localStorage.currentTask == questions[i]) {
-                            document.getElementById('quiz').innerHTML = questions[i - 1];
-                            localStorage.currentTask = questions[i - 1];
-                            $('#choices').show();
-                            showAnswers(i-1);
-                            break;
-                        }
-                    }
-                    for (var i = 1; i < tasks.length; i++) {
-                        if (localStorage.currentTask == tasks[i]) {
-                            document.getElementById('quiz').innerHTML = tasks[i - 1];
-                            localStorage.currentTask = tasks[i - 1];
-                            $('#choices').hide();
-                            setTaskAnswers(i-1);
-                            document.getElementById('editorAnswer').style.display = 'block';
-                            document.getElementById('submit').style.display = 'block';
-
-                            break;
-                        }
-                    }
-                }
             })
-            function setTaskAnswers(taskNum){
-                if(localStorage.currentTask==tasks[0]) {
-                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
-                }else if(localStorage.currentTask==tasks[1]) {
-                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task2Ans.png")";
-                }else if(localStorage.currentTask==tasks[2]) {
-                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task3Ans.png")";
-                }else if(localStorage.currentTask==tasks[3]) {
-                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task4Ans.png")";
+            $(function() {
+                var hash = location.hash;
+                if (hash) {
+                  var code = hash.substring(1);
+                  showCurrentTask(code);
                 }
+            });
+
+            function nextCode(code) {
+              var type = code[0];
+              var index = parseInt(code.substring(1)) | 0;
+
+              if (type == 'S') {
+                return 'Q0';
+              }
+              if (type == 'Q' && index == questions.length - 1) {
+                return 'T0';
+              }
+              if (type == 'T' && index == tasks.length - 1) {
+                return 'E';
+              }
+              return type + (index + 1);
+
             }
             function createEditor(idName, canWrite, initText, mode, AnsEditor) {
 
@@ -552,9 +503,119 @@ default:print("追試不可")
                             form.setAttribute('method', 'POST');
                             form.submit();
 
+
+            function prevCode(code) {
+              var type = code[0];
+              var index = parseInt(code.substring(1)) | 0;
+
+              if (type == 'Q' && index == 0) {
+                return 'Q0';
+              }
+              if (type == 'T' && index == 0) {
+                return 'Q' + (questions.length - 1);
+              }
+              if (type == 'E') {
+                return 'T' + (tasks.length - 1);
+              }
+              return type + (index - 1);
+            }
+
+            function showCurrentTask(code, updateHash) {
+              localStorage.currentCode = code;
+              if (updateHash) {
+                location.hash = code;
+              }
+              var type = code[0];
+              var index = parseInt(code.substring(1));
+
+              $('#answer').hide();
+                $('#ansWord').hide();
+              if (type == 'S') {
+                document.getElementById('quiz').innerHTML = startEnd;
+                localStorage.currentTask = startEnd;
+
+                $('#choices').hide();
+                $('#editorAnswer').hide();
+                $('#submit').hide();
+              } else if (type == 'E') {
+                document.getElementById('quiz').innerHTML = endEnd;
+                localStorage.currentTask = endEnd;
+
+                $('#choices').hide();
+                $('#editorAnswer').hide();
+                $('#submit').hide();
+              } else if (type == 'Q') {
+                document.getElementById('quiz').innerHTML = questions[index];
+                localStorage.currentTask = questions[index];
+
+
+                $('#choices').show();
+                $('#editorAnswer').hide();
+                showAnswers(index);
+              } else if (type == 'T') {
+                document.getElementById('quiz').innerHTML = tasks[index];
+                localStorage.currentTask = tasks[index];
+
+                $('#choices').hide();
+                $('#editorAnswer').show();
+                setTaskAnswers(index);
+              }
+            }
+
+            function setTaskAnswers(taskNum) {
+                if (localStorage.currentTask == tasks[0]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
+                } else if (localStorage.currentTask == tasks[1]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task2Ans.png")";
+                } else if (localStorage.currentTask == tasks[2]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task3Ans.png")";
+                } else if (localStorage.currentTask == tasks[3]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task4Ans.png")";
+                }
+            }
+            function createEditor(idName, canWrite, initText, mode, AnsEditor) {
+                var editor = ace.edit(idName);
+                if (canWrite) {
+                    editor.$blockScrolling = Infinity;
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,//基本的な自動補完
+                        enableSnippets: true,//スニペット
+                        enableLiveAutocompletion: true//ライブ補完
+                    });
+                }
+                editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
+                //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
+                //2の場合編集不可能オプションをtrueにしたい。ｌ
+//                $('#font-size').click(function (e) {
+//                    editor.setFontSize($(e.target).data('size'));
+//                });
+                editor.setReadOnly(!canWrite);
+                if (canWrite) {
+                    $('#exec').click(function (e) {
+                        var form = document.createElement('form');
+                        document.body.appendChild(form);
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'hidden');
+                        input.setAttribute('name', 'name');
+                        var text = editor.getValue();
+//                    text = text.split(`"`).join(`"`);
+
+                        if (idName == 'editorMain') {
+                            if (AnsEditor != null) {
+                                localStorage.textSwiftAns = AnsEditor.getValue();
+                            }
+                            localStorage.textJavaMain = text;
+                            input.setAttribute('value', text);
+                            form.appendChild(input);
+                            form.setAttribute('action', '/converter' + location.hash);
+                            form.setAttribute('method', 'POST');
+                            form.submit();
+
                         }
                     });
                 }
+
 
                 if (initText != null && initText != '')
                     editor.setValue(initText, -1);
@@ -570,8 +631,17 @@ default:print("追試不可")
                 mes2 = "";
             }
 
+
+            var defaultJavaCode =
+              'public class Main {\n' +
+              '    public static void main(String[] args) {\n' +
+              '        System.out.println("Hello, world");\n' +
+              '    }\n' +
+              '}\n';
+
             var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
-            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain, "java", editorAnswer);
+            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
+
             var editorResult = createEditor('editorResult', false, mes2, "swift", null);
     </script>
 }
