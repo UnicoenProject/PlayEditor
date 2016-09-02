@@ -495,6 +495,9 @@ switch score {
                 } else if (type == 'T') {
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
+                    if(index==3){
+                        document.getElementById('submit').style.display='block';
+                    }
 
                     $('#choices').hide();
                     $('#editorAnswer').show();
