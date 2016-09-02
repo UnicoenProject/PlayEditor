@@ -8,12 +8,10 @@
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-        window.CONTROLE_GROUP = false;
+            window.CONTROLE_GROUP = false;
     </script>
-
     <style>
     .level2 {
         visibility: hidden;
@@ -35,7 +33,7 @@
         <button id="prev" class="btn btn-default"> 前の問題 </button>
         <button id="next" class="btn btn-default"> 次の問題 </button>
         <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';
-        document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>
+            document.getElementById('answer').style.display = 'block';}"> 解答を見る </button>
     </p>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
     <div id="choices" style="padding-top: 20px;　float: left">
@@ -105,7 +103,6 @@
             </div>
         </div>
     </div>
-
     @*処理の流れ<br>*@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
@@ -218,7 +215,6 @@ func bar<Int: IntegerType>(number: Int) -> Int {
 print(foo(bar))
 
                   `,
-
                 "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
@@ -234,29 +230,23 @@ let year2: Int? = nil
 let remain2: Int = year! - 2016
 
 let year3: Int? = nil
->>>>>>> khlee
 if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
 }
                 `,
-
                 "問7. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
-
                 `
 let i = 11
 let j = 20
 
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
-
                 "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
-
                 `
 var crew = ["Caption": "Malcom", "Doctor": "Simon"]
 crew = [:]
 print(crew.count)
                             `,
-
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let d:　Double = 0.5
@@ -291,12 +281,10 @@ switch score {
             ]
             var ans3s = [
                 "A. [\"Kaylee\", \"River\", \"Zoe\"]",
-
                 "B. [\"Kaylee\"]",
                 "C. [\"Zoe\", \"River\", \"Kaylee\"]",
                 "D. [\"Zoe\"]"
             ];
-
             var ans4s = [
                 "A. 15",
                 "B. 3",
@@ -317,40 +305,33 @@ switch score {
             ];
             var ans7s = [
                 "A. \"\"",
-
                 "B. Larry",
                 "C. Laura",
                 "D. Libby"
             ];
-
             var ans8s = [
                 "A. 0",
-
                 "B. 1",
                 "C. 2",
                 "D. 3"
             ];
-
             var ans9s = [
                 "A. 0.5",
-
                 "B. 0.0",
                 "C. 0",
                 "D. コンパイルエラー"
             ];
             var ans10s = [
                 "A. 追試",
-
                 "B. 可",
                 "C. 追試不可",
                 "D. 何も出力されない"
             ];
 
-
             var startEnd = "<h2>サンプルテスト<h2>";
             var url = window.CONTROL_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
-            var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" + 
-                    "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" + 
+            var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
+                    "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
                     "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
                     "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
             showCurrentTask('Q0');
@@ -430,8 +411,8 @@ switch score {
             }
 
             $('#next').on('click', function () {
-              var code = nextCode(localStorage.currentCode);
-              showCurrentTask(code, true);
+                var code = nextCode(localStorage.currentCode);
+                showCurrentTask(code, true);
             });
             $('#prev').on('click', function () {
                 var code = prevCode(localStorage.currentCode);
@@ -441,125 +422,83 @@ switch score {
             $(function() {
                 var hash = location.hash;
                 if (hash) {
-                  var code = hash.substring(1);
-                  showCurrentTask(code);
+                    var code = hash.substring(1);
+                    showCurrentTask(code);
                 }
             });
 
             function nextCode(code) {
-              var type = code[0];
-              var index = parseInt(code.substring(1)) | 0;
+                var type = code[0];
+                var index = parseInt(code.substring(1)) | 0;
 
-              if (type == 'S') {
-                return 'Q0';
-              }
-              if (type == 'Q' && index == questions.length - 1) {
-                return 'T0';
-              }
-              if (type == 'T' && index == tasks.length - 1) {
-                return 'E';
-              }
-              return type + (index + 1);
-
-            }
-            function createEditor(idName, canWrite, initText, mode, AnsEditor) {
-
-                var editor = ace.edit(idName);
-                if (canWrite) {
-                    editor.$blockScrolling = Infinity;
-                    editor.setOptions({
-                        enableBasicAutocompletion: true,//基本的な自動補完
-                        enableSnippets: true,//スニペット
-                        enableLiveAutocompletion: true//ライブ補完
-                    });
+                if (type == 'S') {
+                    return 'Q0';
                 }
-                editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
-
-                //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
-                //2の場合編集不可能オプションをtrueにしたい。ｌ
-//                $('#font-size').click(function (e) {
-//                    editor.setFontSize($(e.target).data('size'));
-//                });
-                editor.setReadOnly(!canWrite);
-                if (canWrite) {
-                    $('#exec').click(function (e) {
-                        var form = document.createElement('form');
-                        document.body.appendChild(form);
-                        var input = document.createElement('input');
-                        input.setAttribute('type', 'hidden');
-                        input.setAttribute('name', 'name');
-                        var text = editor.getValue();
-//                    text = text.split(`"`).join(`"`);
-
-                        if (idName == 'editorMain') {
-                            if (AnsEditor != null) {
-                                localStorage.textSwiftAns = AnsEditor.getValue();
-                            }
-                            localStorage.textJavaMain = text;
-                            input.setAttribute('value', text);
-                            form.appendChild(input);
-                            form.setAttribute('action', '/converter');
-                            form.setAttribute('method', 'POST');
-                            form.submit();
-
+                if (type == 'Q' && index == questions.length - 1) {
+                    return 'T0';
+                }
+                if (type == 'T' && index == tasks.length - 1) {
+                    return 'E';
+                }
+                return type + (index + 1);
+            }
 
             function prevCode(code) {
-              var type = code[0];
-              var index = parseInt(code.substring(1)) | 0;
+                var type = code[0];
+                var index = parseInt(code.substring(1)) | 0;
 
-              if (type == 'Q' && index == 0) {
-                return 'Q0';
-              }
-              if (type == 'T' && index == 0) {
-                return 'Q' + (questions.length - 1);
-              }
-              if (type == 'E') {
-                return 'T' + (tasks.length - 1);
-              }
-              return type + (index - 1);
+                if (type == 'Q' && index == 0) {
+                    return 'Q0';
+                }
+                if (type == 'T' && index == 0) {
+                    return 'Q' + (questions.length - 1);
+                }
+                if (type == 'E') {
+                    return 'T' + (tasks.length - 1);
+                }
+                return type + (index - 1);
             }
 
             function showCurrentTask(code, updateHash) {
-              localStorage.currentCode = code;
-              if (updateHash) {
-                location.hash = code;
-              }
-              var type = code[0];
-              var index = parseInt(code.substring(1));
+                localStorage.currentCode = code;
+                if (updateHash) {
+                    location.hash = code;
+                }
+                var type = code[0];
+                var index = parseInt(code.substring(1));
 
-              $('#answer').hide();
+                $('#answer').hide();
                 $('#ansWord').hide();
-              if (type == 'S') {
-                document.getElementById('quiz').innerHTML = startEnd;
-                localStorage.currentTask = startEnd;
+                if (type == 'S') {
+                    document.getElementById('quiz').innerHTML = startEnd;
+                    localStorage.currentTask = startEnd;
 
-                $('#choices').hide();
-                $('#editorAnswer').hide();
-                $('#submit').hide();
-              } else if (type == 'E') {
-                document.getElementById('quiz').innerHTML = endEnd;
-                localStorage.currentTask = endEnd;
+                    $('#choices').hide();
+                    $('#editorAnswer').hide();
+                    $('#submit').hide();
+                } else if (type == 'E') {
+                    document.getElementById('quiz').innerHTML = endEnd;
+                    localStorage.currentTask = endEnd;
 
-                $('#choices').hide();
-                $('#editorAnswer').hide();
-                $('#submit').hide();
-              } else if (type == 'Q') {
-                document.getElementById('quiz').innerHTML = questions[index];
-                localStorage.currentTask = questions[index];
+                    $('#choices').hide();
+                    $('#editorAnswer').hide();
+                    $('#submit').hide();
+                } else if (type == 'Q') {
+                    document.getElementById('quiz').innerHTML = questions[index];
+                    localStorage.currentTask = questions[index];
 
 
-                $('#choices').show();
-                $('#editorAnswer').hide();
-                showAnswers(index);
-              } else if (type == 'T') {
-                document.getElementById('quiz').innerHTML = tasks[index];
-                localStorage.currentTask = tasks[index];
+                    $('#choices').show();
+                    $('#editorAnswer').hide();
+                    showAnswers(index);
+                } else if (type == 'T') {
+                    document.getElementById('quiz').innerHTML = tasks[index];
+                    localStorage.currentTask = tasks[index];
 
-                $('#choices').hide();
-                $('#editorAnswer').show();
-                setTaskAnswers(index);
-              }
+                    $('#choices').hide();
+                    $('#editorAnswer').show();
+                    setTaskAnswers(index);
+                }
             }
 
             function setTaskAnswers(taskNum) {
@@ -616,7 +555,6 @@ switch score {
                     });
                 }
 
-
                 if (initText != null && initText != '')
                     editor.setValue(initText, -1);
                 return editor;
@@ -631,17 +569,15 @@ switch score {
                 mes2 = "";
             }
 
-
             var defaultJavaCode =
-              'public class Main {\n' +
-              '    public static void main(String[] args) {\n' +
-              '        System.out.println("Hello, world");\n' +
-              '    }\n' +
-              '}\n';
+                    'public class Main {\n' +
+                    '    public static void main(String[] args) {\n' +
+                    '        System.out.println("Hello, world");\n' +
+                    '    }\n' +
+                    '}\n';
 
             var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
             var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
-
             var editorResult = createEditor('editorResult', false, mes2, "swift", null);
     </script>
 }
