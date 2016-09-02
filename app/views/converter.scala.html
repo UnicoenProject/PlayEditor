@@ -320,21 +320,7 @@ default:print("追試不可")
                     "https://docs.google.com/forms/d/e/1FAIpQLSeQRAaIUoEdIrWL5SBtImUtDO0thz4j-GfFgn5Mh1Ty2T8aXw/viewform<br>"+
                     "<br>テストが終わった後には、アンケートにご協力をお願い致します。<br>"+
                     "https://docs.google.com/forms/d/e/1FAIpQLScsqaZHdcUtrl94jkjlUT6r5ISWpb3mrdtWyuT0EUvHUFwRvQ/viewform";
-            localStorage.currentTask = questions[0];
-            document.getElementById('quiz').innerHTML = questions[0];
-            $('#answer').hide();
-            showAnswers(0);
-
-            if (localStorage.currentTask != tasks[0]
-                    && localStorage.currentTask != tasks[1]
-                    && localStorage.currentTask != tasks[2]
-                    && localStorage.currentTask != tasks[3]
-            ) {
-                $('#editorAnswer').hide();
-            } else {
-                document.getElementById('editorAnswer').style.display = 'block'
-                document.getElementById('editorAnswer').style.visibility = 'visible';
-            }
+            showCurrentTask('Q0');
 
             function showAnswers(questionNum) {
                 if(questionNum==0){
@@ -412,98 +398,99 @@ default:print("追試不可")
             }
 
             $('#next').on('click', function () {
-                $('#answer').hide();
-                if (localStorage.currentTask == startEnd) {
-                    document.getElementById('quiz').innerHTML = questions[0];
-                    localStorage.currentTask = questions[0];
-
-                }
-                else if (localStorage.currentTask == questions[questions.length - 1]) {
-                    document.getElementById('quiz').innerHTML = tasks[0];
-                    localStorage.currentTask = tasks[0];
-                    $('#choices').hide();
-                    setTaskAnswers(0);
-                    document.getElementById('editorAnswer').style.display = 'block';
-
-                }
-                else if (localStorage.currentTask == tasks[tasks.length - 1]) {
-                    document.getElementById('quiz').innerHTML = endEnd;
-                    localStorage.currentTask = endEnd;
-                    $('#choices').hide();
-                    $('#editorAnswer').hide();
-                    $('#submit').hide();
-
-                }
-                else {
-                    for (var i = 0; i < questions.length - 1; i++) {
-                        if (localStorage.currentTask == questions[i]) {
-                            document.getElementById('quiz').innerHTML = questions[i + 1];
-                            localStorage.currentTask = questions[i + 1];
-                            $('#choices').show();
-                            showAnswers(i+1);
-                            break;
-                        }
-                    }
-                    for (var i = 0; i < tasks.length - 1; i++) {
-                        if (localStorage.currentTask == tasks[i]) {
-                            document.getElementById('quiz').innerHTML = tasks[i + 1];
-                            localStorage.currentTask = tasks[i + 1];
-                            $('#choices').hide();
-                            setTaskAnswers(i+1);
-                            document.getElementById('editorAnswer').style.display = 'block';
-
-                            break;
-                        }
-                    }
-                }
+              var code = nextCode(localStorage.currentCode);
+              showCurrentTask(code, true);
             });
             $('#prev').on('click', function () {
-                $('#answer').hide();
-
-                if (localStorage.currentTask == questions[0]) {
-                    document.getElementById('quiz').innerHTML = startEnd;
-                    localStorage.currentTask = startEnd;
-                    $('#submit').hide();
-
-                }
-                else if (localStorage.currentTask == endEnd) {
-                    document.getElementById('quiz').innerHTML = tasks[tasks.length - 1];
-                    localStorage.currentTask = tasks[tasks.length - 1];
-                    setTaskAnswers(tasks.length-1);
-                    document.getElementById('editorAnswer').style.display = 'block';
-
-                }
-                else if (localStorage.currentTask == tasks[0]) {
-                    document.getElementById('quiz').innerHTML = questions[questions.length - 1];
-                    localStorage.currentTask = questions[questions.length - 1];
-                    document.getElementById('choices').style.display = 'block';
-                    $('#editorAnswer').hide();
-
-                }
-                else {
-                    for (var i = 1; i < questions.length; i++) {
-                        if (localStorage.currentTask == questions[i]) {
-                            document.getElementById('quiz').innerHTML = questions[i - 1];
-                            localStorage.currentTask = questions[i - 1];
-                            $('#choices').show();
-                            showAnswers(i-1);
-                            break;
-                        }
-                    }
-                    for (var i = 1; i < tasks.length; i++) {
-                        if (localStorage.currentTask == tasks[i]) {
-                            document.getElementById('quiz').innerHTML = tasks[i - 1];
-                            localStorage.currentTask = tasks[i - 1];
-                            $('#choices').hide();
-                            setTaskAnswers(i-1);
-                            document.getElementById('editorAnswer').style.display = 'block';
-                            document.getElementById('submit').style.display = 'block';
-
-                            break;
-                        }
-                    }
-                }
+                var code = prevCode(localStorage.currentCode);
+                showCurrentTask(code, true);
             })
+            $(function() {
+                var hash = location.hash;
+                if (hash) {
+                  var code = hash.substring(1);
+
+                  showCurrentTask(code);
+                }
+            });
+
+            function nextCode(code) {
+              var type = code[0];
+              var index = parseInt(code.substring(1)) | 0;
+
+              if (type == 'S') {
+                return 'Q0';
+              }
+              if (type == 'Q' && index == questions.length - 1) {
+                return 'T0';
+              }
+              if (type == 'T' && index == tasks.length - 1) {
+                return 'E';
+              }
+              return type + (index + 1);
+            }
+
+            function prevCode(code) {
+              var type = code[0];
+              var index = parseInt(code.substring(1)) | 0;
+
+              if (type == 'Q' && index == 0) {
+                return 'S';
+              }
+              if (type == 'T' && index == 0) {
+                return 'Q' + (questions.length - 1);
+              }
+              if (type == 'E') {
+                return 'T' + (tasks.length - 1);
+              }
+              return type + (index - 1);
+            }
+
+            function showCurrentTask(code, updateHash) {
+              localStorage.currentCode = code;
+              if (updateHash) {
+                location.hash = code;
+              }
+              var type = code[0];
+              var index = parseInt(code.substring(1));
+
+              $('#answer').hide();
+              if (type == 'S') {
+                document.getElementById('quiz').innerHTML = startEnd;
+                localStorage.currentTask = startEnd;
+
+                $('#choices').hide();
+                $('#editorAnswer').hide();
+                $('#submit').hide();
+
+              } else if (type == 'E') {
+                document.getElementById('quiz').innerHTML = endEnd;
+                localStorage.currentTask = endEnd;
+
+                $('#choices').hide();
+                $('#editorAnswer').hide();
+                $('#submit').hide();
+
+              } else if (type == 'Q') {
+                document.getElementById('quiz').innerHTML = questions[index];
+                localStorage.currentTask = questions[index];
+
+                $('#choices').show();
+                $('#editorAnswer').hide();
+                showAnswers(index);
+                document.getElementById('submit').style.display = 'block';
+
+              } else if (type == 'T') {
+                document.getElementById('quiz').innerHTML = tasks[index];
+                localStorage.currentTask = tasks[index];
+
+                $('#choices').hide();
+                setTaskAnswers(index);
+                document.getElementById('editorAnswer').style.display = 'block';
+                document.getElementById('submit').style.display = 'block';
+              }
+            }
+
             function setTaskAnswers(taskNum){
                 if(localStorage.currentTask==tasks[0]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
@@ -551,7 +538,7 @@ default:print("追試不可")
                             localStorage.textJavaMain = text;
                             input.setAttribute('value', text);
                             form.appendChild(input);
-                            form.setAttribute('action', '/converter');
+                            form.setAttribute('action', '/converter' + location.hash);
                             form.setAttribute('method', 'POST');
                             form.submit();
 
