@@ -31,7 +31,6 @@
     </div>
 
     <div>
-
         <button id="prev" class="btn btn-default"> 前の問題 </button>
         <button id="next" class="btn btn-default"> 次の問題 </button>
     </div>
@@ -40,9 +39,6 @@
         width: 500px;
         float: left;
         padding-right: 250px;padding-bottom:50px"></div>
-
-
-
 
     <div id="choices" style="padding-top: 20px;
         float: left">
@@ -142,26 +138,26 @@
             var questions = ["問1. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
             `
  class Workplace {
-    var workplaceAddress:String
-    var city:String
-    init(workplaceAddress:String, city:String) {
+    var workplaceAddress:　String
+    var city:　String
+    init(workplaceAddress:　String, city:　String) {
         self.workplaceAddress = workplaceAddress
         self.city = city
     }
  }
 
  class Person{
-    var name:String
-    var workplace:Workplace
+    var name:　String
+    var workplace:　Workplace
 
-    init(name:String, workplace:Workplace) {
+    init(name:　String, workplace:　Workplace) {
         self.name = name
         self.workplace = workplace
     }
  }
- var address = Workplace(workplaceAddress:"112 Jasmin Street", city:"JasminTown")
- var bob = Person(name:"Bob", workplace:address)
- var amy = Person(name:"Amy", workplace:address)
+ var address = Workplace(workplaceAddress:　"112 Jasmin Street", city:　"JasminTown")
+ var bob = Person(name:　"Bob", workplace:　address)
+ var amy = Person(name:　"Amy", workplace:　address)
 
 もしAmyが転職して、就職先を変更したい場合、
 
