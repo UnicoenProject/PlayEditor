@@ -43,7 +43,7 @@
         <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>
     </p>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
-    <div id="choices" style="padding-top: 20px;　float: left">
+    <div id="choices" style="padding-top: 20px; float: left">
         <form>
             <label><input id="choice1" name="choice" class="level1" type="radio"> <span id="A"></span></label><br>
             <label><input id="choice2" name="choice" class="level1" type="radio"> <span id="B"></span></label><br>
@@ -156,26 +156,26 @@
             var questions = ["問1. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
             `
  class Workplace {
-    var workplaceAddress:　String
-    var city:　String
-    init(workplaceAddress:　String, city:　String) {
+    var workplaceAddress: String
+    var city: String
+    init(workplaceAddress: String, city: String) {
         self.workplaceAddress = workplaceAddress
         self.city = city
     }
  }
 
- class Person{
-    var name:　String
-    var workplace:　Workplace
+ class Person {
+    var name: String
+    var workplace: Workplace
 
-    init(name:　String, workplace:　Workplace) {
+    init(name: String, workplace: Workplace) {
         self.name = name
         self.workplace = workplace
     }
  }
- var address = Workplace(workplaceAddress:　"112 Jasmin Street", city:　"JasminTown")
- var bob = Person(name:　"Bob", workplace:　address)
- var amy = Person(name:　"Amy", workplace:　address)
+ var address = Workplace(workplaceAddress: "112 Jasmin Street", city: "JasminTown")
+ var bob = Person(name: "Bob", workplace: address)
+ var amy = Person(name: "Amy", workplace: address)
 
 もしAmyが転職して、就職先を変更したい場合、
 
@@ -225,7 +225,7 @@ print(foo(bar))
                 "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
-let sortedAnimals = animals.sort {(one:　String, two:　String) -> Bool in return one < two
+let sortedAnimals = animals.sort {(one: String, two: String) -> Bool in return one < two
 }
 
                 `,
@@ -256,19 +256,25 @@ print(crew.count)
                             `,
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
-let d:　Double = 0.5
-let f:　Float = d
+let d: Double = 0.5
+let f: Float = d
                             `,
                 "問10. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 var score = 65
 switch score {
-　　case 45..<75: print("追試")
-　　case 90...100: print("秀")
-　　case 80..<90: print("優")
-　　case 70..<80: print("良")
-　　case 60..<70: print("可")
-　　default:　print("追試不可")
+case 45..<75:
+    print("追試")
+case 90...100:
+    print("秀")
+case 80..<90:
+    print("優")
+case 70..<80:
+    print("良")
+case 60..<70:
+    print("可")
+default:
+    print("追試不可")
 }
                             `
             ];
@@ -299,16 +305,16 @@ switch score {
                 "D. 5"
             ];
             var ans5s = [
-                "A. let sortedAnimals = animals.sort　{　(one,　two)　->　Bool in return one　<　two　}",
-                "B. let sortedAnimals = animals.sort　{　(one,　two) in return one　<　two　}",
-                "C. let sortedAnimals = animals.sort　{　return $0　<　$1　}",
-                "D. let sortedAnimals = animals.sort　{　$0　<　$1　}"
+                "A. let sortedAnimals = animals.sort { (one, two) -> Bool in return one < two }",
+                "B. let sortedAnimals = animals.sort { (one, two) in return one < two }",
+                "C. let sortedAnimals = animals.sort { return $0 < $1 }",
+                "D. let sortedAnimals = animals.sort { $0 < $1 }"
             ]
             var ans6s = [
-                "A. remain　=　4, remain2　=　nil, remain3　=　nil",
-                "B. remain　=　4, remain2はコンパイルエラーで実行できない, remain3はif文が実行不可能で宣言されない",
-                "C. remain　=　nil, remain2　=　nil, remain3はif文が実行不可能で宣言されない",
-                "D. remain　=　nil, remain2　=　4, remain3　=　nil"
+                "A. remain = 4, remain2 = nil, remain3 = nil",
+                "B. remain = 4, remain2はコンパイルエラーで実行できない, remain3はif文が実行不可能で宣言されない",
+                "C. remain = nil, remain2 = nil, remain3はif文が実行不可能で宣言されない",
+                "D. remain = nil, remain2 = 4, remain3 = nil"
             ];
             var ans7s = [
                 "A. \"\"",
@@ -502,6 +508,7 @@ switch score {
                 } else if (type == 'T') {
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
+
                     if(index==3){
                         document.getElementById('submit').style.display='block';
                     }
@@ -509,6 +516,7 @@ switch score {
 
                     $('#choices').hide();
                     $('#editorAnswer').show();
+                    $('#submit').show();
                     setTaskAnswers(index);
                 }
             }
