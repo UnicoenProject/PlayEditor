@@ -573,8 +573,15 @@ default:print("追試不可")
                 mes2 = "";
             }
 
+            var defaultJavaCode =
+              'public class Main {\n' +
+              '    public static void main(String[] args) {\n' +
+              '        System.out.println("Hello, world");\n' +
+              '    }\n' +
+              '}\n';
+
             var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
-            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain, "java", editorAnswer);
+            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
             var editorResult = createEditor('editorResult', false, mes2, "swift", null);
     </script>
 }
