@@ -14,6 +14,13 @@
     @*<form action="/visualizer" method="GET">*@
     @*<input type="submit" value="Visualizerページ"/>*@
     @*</form>*@
+    <script>
+            window.CONTROLE_GROUP = false;
+        if(window.CONTROLE_GROUP){
+            document.getElementById('part1').src = "@routes.Assets.versioned("images/noPart1.png")";
+            document.getElementById('part2').src = "@routes.Assets.versioned("images/noPart2.png")";
+        }
+    </script>
     <h1>Jasminを使ってSwiftを学ぼう</h1>
     <h3>この度は、私たちの科学実験にご協力いただきまして、誠にありがとうございます。</h3>
     <p>
@@ -33,9 +40,9 @@
         練習問題は前半と後半に分かれており、前半はリーディング問題、後半はライティング問題になります。
     </p>
     <p>
-        <img src="@routes.Assets.versioned("images/firstPart.png")" width="700" height="400" style="border:solid">
+        <img id="part1" src="@routes.Assets.versioned("images/firstPart.png")" width="700" height="400" style="border:solid">
 <h3>                </h3>
-    <img src="@routes.Assets.versioned("images/secondPart.png")" width="700" height="400" style="border:solid">
+    <img id="part2" src="@routes.Assets.versioned("images/secondPart.png")" width="700" height="400" style="border:solid">
     </p>
     <p>
         最下部にはJavaプログラムをSwiftプログラムに変換できる変換器があります。<br>
