@@ -45,18 +45,18 @@
         padding-bottom: 100px;
         float: left">
         <form>
-            <input id="choice1" name="choice" class="level1" type="radio"><label id="A"></label><br>
-            <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
-            <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
-            <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
+            <label><input id="choice1" name="choice" class="level1" type="radio"> <span id="A"></span></label><br>
+            <label><input id="choice2" name="choice" class="level1" type="radio"> <span id="B"></span></label><br>
+            <label><input id="choice3" name="choice" class="level1" type="radio"> <span id="C"></span></label><br>
+            <label><input id="choice4" name="choice" class="level1" type="radio"> <span id="D"></span></label><br>
 
         </form>
 
 
 
+        <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
+        document.getElementById('answer').style.display = 'block';"> Submit </button>
     </div>
-    <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
-    document.getElementById('answer').style.display = 'block';"> Submit </button>
     <div id="answer" width="500px" height="400px" style="float: left;
         visibility: hidden;
         padding-bottom: 100px;
