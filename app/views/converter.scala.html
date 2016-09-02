@@ -502,18 +502,12 @@ default:
                     document.getElementById('quiz').innerHTML = questions[index];
                     localStorage.currentTask = questions[index];
 
-
                     $('#choices').show();
                     $('#editorAnswer').hide();
                     showAnswers(index);
                 } else if (type == 'T') {
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
-
-                    if(index==3){
-                        document.getElementById('submit').style.display='block';
-                    }
-                    document.getElementById('ansImg').style.display='block';
 
                     $('#choices').hide();
                     $('#editorAnswer').show();
