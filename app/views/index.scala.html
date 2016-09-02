@@ -45,22 +45,22 @@
     <p>
         例えば、<br>
 <pre>
-    class Klass {
+class Klass {
     for (int i = 0; i < 5; i++) {
     }
-    }
+}
 </pre>
     上記のコードはエラーとなり、正確にSwiftプログラムに変換できません。
     </p>
     <p>
         一方、
 <pre>
-    class Klass {
+class Klass {
     void method() {
-    for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
+        }
     }
-    }
-    }
+}
 </pre>
     上記コードは正しく変換できるJavaプログラムです。
     </p>
