@@ -28,8 +28,7 @@
     </div>
 
     <div>
-        <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
-        document.getElementById('answer').style.display = 'block';"> Submit </button>
+
         <button id="prev" class="btn btn-default"> Previous </button>
         <button id="next" class="btn btn-default"> Next </button>
     </div>
@@ -50,10 +49,14 @@
             <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
             <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
             <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
+
         </form>
+        <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
+        document.getElementById('answer').style.display = 'block';"> Submit </button>
 
 
     </div>
+
     <div id="answer" width="500px" height="400px" style="float: left;
         visibility: hidden;
         padding-bottom: 100px;
