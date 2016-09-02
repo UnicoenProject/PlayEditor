@@ -28,8 +28,7 @@
     </div>
 
     <div>
-        <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
-        document.getElementById('answer').style.display = 'block';"> Submit </button>
+
         <button id="prev" class="btn btn-default"> Previous </button>
         <button id="next" class="btn btn-default"> Next </button>
     </div>
@@ -37,7 +36,7 @@
     <div id = "editorAnswer" style="height: 400px;
         width: 500px;
         float: left;
-        padding-right: 250px;"></div>
+        padding-right: 250px;padding-bottom:50px"></div>
 
 
 
@@ -50,10 +49,14 @@
             <input id="choice2" name="choice" class="level1" type="radio"><label id="B"></label><br>
             <input id="choice3" name="choice" class="level1" type="radio"><label id="C"></label><br>
             <input id="choice4" name="choice" class="level1" type="radio"><label id="D"></label><br>
+
         </form>
 
 
+
     </div>
+    <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
+    document.getElementById('answer').style.display = 'block';"> Submit </button>
     <div id="answer" width="500px" height="400px" style="float: left;
         visibility: hidden;
         padding-bottom: 100px;
@@ -98,7 +101,7 @@
             overflow: auto">
             <div class="col-lg-6 col-md-6">
                 Java
-                <div id="editorMain" style="height: 600px"></div>
+                <div id="editorMain" style="height: 600px;"></div>
 
             </div>
             <div class="col-lg-6 col-md-6">
@@ -112,6 +115,7 @@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
+
 
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
@@ -127,12 +131,12 @@
                     $('#converter').fadeIn();
                 }
             });
-            let tasks = ["問１二つの引数の値を交換するswap(Int, Int)を実装してくださあい。<br>",
+            let tasks = ["問１。長方形の面積を計算する関数area(Double,Double)->Doubleを実装してください。そのあと幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
                 "問２。データタイプがAnyObject?である配列があります。この配列の中にはどのデータタイプのオブジェクトも格納可能です。<br>"+
                 "その中でnilではないオブジェクトのみプリントする関数を実装してください。<br>"+
                 "例：let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
                 "問３。一つの文字列が回文かどうかを判断するメソットを実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
-                "問４。ソートされた数字の配列から重複している要素を消すメソット実装してください。<br>最後、重複している要素のない配列の長さを返してください。<br>"
+                "問４。ソートされた数字の配列から重複している要素を消し、重複している要素のない配列の長さを返してください。<br>"
             ];
             let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
             `
@@ -196,7 +200,7 @@ func foo(function: (Int) -> Int) -> Int {
     return function(function(5))
 }
 
-func bar<T: IntegerType>(number: T) -> T {
+func bar<Int: IntegerType>(number: Int) -> Int {
     return number * 3
 }
 
@@ -207,7 +211,7 @@ print(foo(bar))
                 "以下の宣言を一番簡潔かつ正確に定義したものはどれですか？<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
-let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one<two
+let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one < two
 }
 
                 `,
@@ -306,8 +310,12 @@ default:print("追試不可")
                 "D. 何も出力されない"
             ];
 
-            let startEnd = "THE END OF START";
-            let endEnd = "THE END OF THE QUESTIONS, IF YOU ARE READY TO GET THE TEST, PLEASE GO TO THIS WEBSITE:";
+            let startEnd = "<h2>サンプルテスト<h2>";
+            let endEnd = "<h2>勉強ご苦労様でした!</h2>これからテストに移りたいと思いますので、以下のサイトにアクセスし受験を行ってください。<br>"+
+                    "受験するときはすべての資料とツールが参考不可能になってます（XCode）含む<br>"+
+                    "https://docs.google.com/forms/d/e/1FAIpQLSeQRAaIUoEdIrWL5SBtImUtDO0thz4j-GfFgn5Mh1Ty2T8aXw/viewform<br>"+
+                    "<br>テストが終わった後には、アンケートにご協力をお願い致します。<br>"+
+                    "https://docs.google.com/forms/d/e/1FAIpQLScsqaZHdcUtrl94jkjlUT6r5ISWpb3mrdtWyuT0EUvHUFwRvQ/viewform";
             localStorage.currentTask = questions[0];
             document.getElementById('quiz').innerHTML = questions[0];
             $('#answer').hide();
@@ -344,18 +352,22 @@ default:print("追試不可")
                     document.getElementById('B').innerHTML = ans3s[1];
                     document.getElementById('C').innerHTML = ans3s[2];
                     document.getElementById('D').innerHTML = ans3s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz3AnsBoth.png")";
                 }
                 else if(questionNum==3){
                     document.getElementById('A').innerHTML = ans4s[0];
                     document.getElementById('B').innerHTML = ans4s[1];
                     document.getElementById('C').innerHTML = ans4s[2];
                     document.getElementById('D').innerHTML = ans4s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz4AnsBoth.png")";
                 }
                 else if(questionNum==4){
                     document.getElementById('A').innerHTML = ans5s[0];
                     document.getElementById('B').innerHTML = ans5s[1];
                     document.getElementById('C').innerHTML = ans5s[2];
                     document.getElementById('D').innerHTML = ans5s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz5AnsBoth.png")";
+
                 }
                 else if(questionNum==5){
                     document.getElementById('A').innerHTML = ans6s[0];
@@ -406,13 +418,16 @@ default:print("追試不可")
                     document.getElementById('quiz').innerHTML = tasks[0];
                     localStorage.currentTask = tasks[0];
                     $('#choices').hide();
+                    setTaskAnswers(0);
                     document.getElementById('editorAnswer').style.display = 'block';
+
                 }
                 else if (localStorage.currentTask == tasks[tasks.length - 1]) {
                     document.getElementById('quiz').innerHTML = endEnd;
                     localStorage.currentTask = endEnd;
                     $('#choices').hide();
                     $('#editorAnswer').hide();
+                    $('#submit').hide();
 
                 }
                 else {
@@ -430,7 +445,9 @@ default:print("追試不可")
                             document.getElementById('quiz').innerHTML = tasks[i + 1];
                             localStorage.currentTask = tasks[i + 1];
                             $('#choices').hide();
+                            setTaskAnswers(i+1);
                             document.getElementById('editorAnswer').style.display = 'block';
+
                             break;
                         }
                     }
@@ -442,12 +459,15 @@ default:print("追試不可")
                 if (localStorage.currentTask == questions[0]) {
                     document.getElementById('quiz').innerHTML = startEnd;
                     localStorage.currentTask = startEnd;
+                    $('#submit').hide();
 
                 }
                 else if (localStorage.currentTask == endEnd) {
                     document.getElementById('quiz').innerHTML = tasks[tasks.length - 1];
                     localStorage.currentTask = tasks[tasks.length - 1];
+                    setTaskAnswers(tasks.length-1);
                     document.getElementById('editorAnswer').style.display = 'block';
+
                 }
                 else if (localStorage.currentTask == tasks[0]) {
                     document.getElementById('quiz').innerHTML = questions[questions.length - 1];
@@ -471,13 +491,28 @@ default:print("追試不可")
                             document.getElementById('quiz').innerHTML = tasks[i - 1];
                             localStorage.currentTask = tasks[i - 1];
                             $('#choices').hide();
+                            setTaskAnswers(i-1);
                             document.getElementById('editorAnswer').style.display = 'block';
+                            document.getElementById('submit').style.display = 'block';
+
                             break;
                         }
                     }
                 }
             })
+            function setTaskAnswers(taskNum){
+                if(localStorage.currentTask==tasks[0]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
+                }else if(localStorage.currentTask==tasks[1]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task2Ans.png")";
+                }else if(localStorage.currentTask==tasks[2]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task3Ans.png")";
+                }else if(localStorage.currentTask==tasks[3]) {
+                    document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task4Ans.png")";
+                }
+            }
             function createEditor(idName, canWrite, initText, mode, AnsEditor) {
+
                 var editor = ace.edit(idName);
                 if (canWrite) {
                     editor.$blockScrolling = Infinity;
@@ -519,6 +554,7 @@ default:print("追試不可")
                         }
                     });
                 }
+
                 if (initText != null && initText != '')
                     editor.setValue(initText, -1);
                 return editor;
