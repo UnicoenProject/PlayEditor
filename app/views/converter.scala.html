@@ -428,19 +428,20 @@ switch score {
             });
 
             function nextCode(code) {
-                var type = code[0];
-                var index = parseInt(code.substring(1)) | 0;
+              var type = code[0];
+              var index = parseInt(code.substring(1)) | 0;
 
-                if (type == 'S') {
-                    return 'Q0';
-                }
-                if (type == 'Q' && index == questions.length - 1) {
-                    return 'T0';
-                }
-                if (type == 'T' && index == tasks.length - 1) {
-                    return 'E';
-                }
-                return type + (index + 1);
+              if (type == 'S') {
+                return 'Q0';
+              }
+              if (type == 'Q' && index == questions.length - 1) {
+                return 'T0';
+              }
+              if (type == 'T' && index == tasks.length - 1) {
+                return 'E';
+              }
+              return type + (index + 1);
+
             }
 
             function prevCode(code) {

@@ -40,10 +40,9 @@ class ConverterController @Inject() extends Controller {
   def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
     val mapper = new Java8Mapper(true)
-
     val tree = mapper.parse(format)
     val modified = JavaToSwiftTreeConverter.convert(tree)
-    val result = SwiftGenerator.generate(modified)
+    val result = SwiftCodeGenerator.generate(modified)
     return result
   } catch {
     case e: Exception => "FAILED TO TRANSLATE"
