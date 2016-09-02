@@ -8,12 +8,10 @@
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
         window.CONTROLE_GROUP = false;
     </script>
-
     <style>
     .level2 {
         visibility: hidden;
@@ -105,7 +103,6 @@
             </div>
         </div>
     </div>
-
     @*処理の流れ<br>*@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
@@ -218,7 +215,6 @@ func bar<Int: IntegerType>(number: Int) -> Int {
 print(foo(bar))
 
                   `,
-
                 "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
@@ -234,29 +230,23 @@ let year2: Int? = nil
 let remain2: Int = year! - 2016
 
 let year3: Int? = nil
->>>>>>> khlee
 if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
 }
                 `,
-
                 "問7. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
-
                 `
 let i = 11
 let j = 20
 
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
-
                 "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
-
                 `
 var crew = ["Caption": "Malcom", "Doctor": "Simon"]
 crew = [:]
 print(crew.count)
                             `,
-
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let d:　Double = 0.5
@@ -291,12 +281,10 @@ switch score {
             ]
             var ans3s = [
                 "A. [\"Kaylee\", \"River\", \"Zoe\"]",
-
                 "B. [\"Kaylee\"]",
                 "C. [\"Zoe\", \"River\", \"Kaylee\"]",
                 "D. [\"Zoe\"]"
             ];
-
             var ans4s = [
                 "A. 15",
                 "B. 3",
@@ -317,35 +305,28 @@ switch score {
             ];
             var ans7s = [
                 "A. \"\"",
-
                 "B. Larry",
                 "C. Laura",
                 "D. Libby"
             ];
-
             var ans8s = [
                 "A. 0",
-
                 "B. 1",
                 "C. 2",
                 "D. 3"
             ];
-
             var ans9s = [
                 "A. 0.5",
-
                 "B. 0.0",
                 "C. 0",
                 "D. コンパイルエラー"
             ];
             var ans10s = [
                 "A. 追試",
-
                 "B. 可",
                 "C. 追試不可",
                 "D. 何も出力されない"
             ];
-
 
             var startEnd = "<h2>サンプルテスト<h2>";
             var url = window.CONTROL_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
@@ -460,49 +441,7 @@ switch score {
                 return 'E';
               }
               return type + (index + 1);
-
             }
-            function createEditor(idName, canWrite, initText, mode, AnsEditor) {
-
-                var editor = ace.edit(idName);
-                if (canWrite) {
-                    editor.$blockScrolling = Infinity;
-                    editor.setOptions({
-                        enableBasicAutocompletion: true,//基本的な自動補完
-                        enableSnippets: true,//スニペット
-                        enableLiveAutocompletion: true//ライブ補完
-                    });
-                }
-                editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
-
-                //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
-                //2の場合編集不可能オプションをtrueにしたい。ｌ
-//                $('#font-size').click(function (e) {
-//                    editor.setFontSize($(e.target).data('size'));
-//                });
-                editor.setReadOnly(!canWrite);
-                if (canWrite) {
-                    $('#exec').click(function (e) {
-                        var form = document.createElement('form');
-                        document.body.appendChild(form);
-                        var input = document.createElement('input');
-                        input.setAttribute('type', 'hidden');
-                        input.setAttribute('name', 'name');
-                        var text = editor.getValue();
-//                    text = text.split(`"`).join(`"`);
-
-                        if (idName == 'editorMain') {
-                            if (AnsEditor != null) {
-                                localStorage.textSwiftAns = AnsEditor.getValue();
-                            }
-                            localStorage.textJavaMain = text;
-                            input.setAttribute('value', text);
-                            form.appendChild(input);
-                            form.setAttribute('action', '/converter');
-                            form.setAttribute('method', 'POST');
-                            form.submit();
-
 
             function prevCode(code) {
               var type = code[0];
@@ -616,7 +555,6 @@ switch score {
                     });
                 }
 
-
                 if (initText != null && initText != '')
                     editor.setValue(initText, -1);
                 return editor;
@@ -631,7 +569,6 @@ switch score {
                 mes2 = "";
             }
 
-
             var defaultJavaCode =
               'public class Main {\n' +
               '    public static void main(String[] args) {\n' +
@@ -641,7 +578,6 @@ switch score {
 
             var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
             var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
-
             var editorResult = createEditor('editorResult', false, mes2, "swift", null);
     </script>
 }
