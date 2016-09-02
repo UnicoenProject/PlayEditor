@@ -11,11 +11,7 @@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
         window.CONTROLE_GROUP = false;
-        if(window.CONTROLE_GROUP==true){
-            //変換なし
 
-
-        }
     </script>
     <style>
     .level2 {
@@ -61,6 +57,7 @@
         <pre>
         <img id = "ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
         </pre>
+        <pre id = "ansWord"></pre>
     </p>
     @* Converter in the bottom *@
     <div id="tool_margin" style="height: 250px; clear: both;"></div>
@@ -115,8 +112,21 @@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
             $(function() {
-                if(CONTROLE_GROUP) { $('#tool, #tool_margin').hide(); }
+                if(window.CONTROLE_GROUP) {
+                    $('#tool, #tool_margin').hide();
+                    $('#ansImg').hide();
+                    setQuizAnswersWithoutTranslation(localStorage.currentTask);
+                }
             })
+
+            function setQuizAnswersWithoutTranslation(task){
+                for(var i=0;i<questions.length;i++){
+                    if(task==questions[i]){
+                        document.getElementById('ansWord').innerHTML = ansNoTranslation[i];
+                    }
+
+                }
+            }
 
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
