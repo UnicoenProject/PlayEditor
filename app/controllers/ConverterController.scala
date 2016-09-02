@@ -35,14 +35,15 @@ class ConverterController @Inject() extends Controller {
 
   val form = Form( "name" -> text )
 
-  def replaceLn(string:String):String={
+  def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
     val mapper = new Java8Mapper(true)
     val tree = mapper.parse(format)
     val modified = JavaToSwiftTreeConverter.convert(tree)
     val result = SwiftGenerator.generate(modified)
     return result
-
+  } catch {
+    case e: Exception => "FAILED TO TRANSLATE"
   }
 
   def compile = Action { implicit request =>
