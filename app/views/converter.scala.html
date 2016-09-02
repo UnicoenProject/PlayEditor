@@ -9,6 +9,9 @@
 * argument is an `Html` object containing the body of the page.
 *@
 @main("Welcome to Play") {
+    <script>
+        window.CONTROLE_GROUP = true;
+    </script>
     <style>
     .level2 {
         visibility: hidden;
@@ -63,8 +66,8 @@
     </pre>
     </div>
     @* Converter in the bottom *@
-    <div style="height: 250px; clear: both;"></div>
-    <div id = "tool" style="background-color: white;
+    <div id="tool_margin" style="height: 250px; clear: both;"></div>
+    <div id="tool" style="background-color: white;
         position: fixed;
         bottom: 0;
         border: solid;
@@ -114,7 +117,9 @@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
     <script>
-
+            $(function() {
+                if(CONTROLE_GROUP) { $('#tool, #tool_margin').hide(); }
+            })
 
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
