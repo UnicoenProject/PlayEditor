@@ -11,8 +11,7 @@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
 
-            window.CONTROLE_GROUP = false;
-
+        window.CONTROLE_GROUP = false;
         function isCodingTask(){
             for(var i=0;i<tasks.length;i++){
                 if(localStorage.currentTask==tasks[i]){
@@ -251,10 +250,11 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
                 "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
-var crew = ["Caption": "Malcom", "Doctor": "Simon"]
-crew = [:]
+var crew = ["Captain": "Malcom", "Doctor": "Simon"]
+var crew2 = crew
+crew2 = [:]
 print(crew.count)
-                            `,
+print(crew2.count)                            `,
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let d: Double = 0.5
@@ -324,10 +324,10 @@ default:
                 "D. Libby"
             ];
             var ans8s = [
-                "A. 0",
-                "B. 1",
-                "C. 2",
-                "D. 3"
+                "A. 1個目のprintが2で、2個目のprintが0",
+                "B. 1個目のprintが0で、2個目のprintが2",
+                "C. 1個目のprintが0で、2個目のprintが0",
+                "D. 1個目のprintが2で、2個目のprintが2",
             ];
             var ans9s = [
                 "A. 0.5",
