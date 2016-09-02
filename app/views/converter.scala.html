@@ -207,18 +207,18 @@ print(foo(bar))
                 "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
-let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one < two
+let sortedAnimals = animals.sort {(one:　String, two:　String) -> Bool in return one < two
 }
 
                 `,
                 "問6. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" + `
-let year : Int? = Int("2020")
-let remain : Int = year! - 2016
+let year: Int? = Int("2020")
+let remain: Int = year! - 2016
 
-let year2 : Int? = nil
-let remain2 : Int = year! - 2016
+let year2: Int? = nil
+let remain2: Int = year! - 2016
 
-let year3 : Int? = nil
+let year3: Int? = nil
 if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
 }
@@ -238,69 +238,79 @@ print(crew.count)
                             `,
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
- let d:Double = 0.5
- let f:Float = d
+let d:　Double = 0.5
+let f:　Float = d
                             `,
                 "問10. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 var score = 65
 switch score {
-case 45..<75: print("追試")
-case 90...100: print("秀")
-case 80..<90: print("優")
-case 70..<80: print("良")
-case 60..<70: print("可")
-default:print("追試不可")
+　　case 45..<75: print("追試")
+　　case 90...100: print("秀")
+　　case 80..<90: print("優")
+　　case 70..<80: print("良")
+　　case 60..<70: print("可")
+　　default:　print("追試不可")
 }
                             `
             ];
-            var ans1s = ["A. Bobの就職先住所も一緒に変わる",
+            var ans1s = [
+                "A. Bobの就職先住所も一緒に変わる",
                 "B. Amyの就職先住所だけが変わる",
                 "C. 両方何も変わらない",
                 "D. コンパイルエラー"
             ];
-            var ans2s = ["A. 両方\"Hello, world!\"を出力",
-                    "B. 両方\"Goodbye, world!\"を出力",
-                    "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
+            var ans2s = [
+                "A. 両方\"Hello, world!\"を出力",
+                "B. 両方\"Goodbye, world!\"を出力",
+                "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
                 "D. 一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
 
             ]
-            var ans3s = ["A. [\"Kaylee\", \"River\", \"Zoe\"]",
+            var ans3s = [
+                "A. [\"Kaylee\", \"River\", \"Zoe\"]",
                 "B. [\"Kaylee\"]",
                 "C. [\"Zoe\", \"River\", \"Kaylee\"]",
                 "D. [\"Zoe\"]"
             ];
-            var ans4s = ["A. 15",
-                    "B. 3",
-                    "C. 45",
-                    "D. 5"
+            var ans4s = [
+                "A. 15",
+                "B. 3",
+                "C. 45",
+                "D. 5"
             ];
-            var ans5s = ["A. let sortedAnimals = animals.sort{(one,two)->Bool in return one<two}",
-                    "B. let sortedAnimals = animals.sort{(one,two) in return one<two}",
-                    "C. let sortedAnimals = animals.sort{return $0<$1}",
-                "D. let sortedAnimals = animals.sort{$0<$1}"
+            var ans5s = [
+                "A. let sortedAnimals = animals.sort　{　(one,　two)　->　Bool in return one　<　two　}",
+                "B. let sortedAnimals = animals.sort　{　(one,　two) in return one　<　two　}",
+                "C. let sortedAnimals = animals.sort　{　return $0　<　$1　}",
+                "D. let sortedAnimals = animals.sort　{　$0　<　$1　}"
             ]
-            var ans6s = ["A. remain=4, remain2=nil, remain3=nil",
-                    "B. remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
-                    "C. remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
-                    "D. remain=nil, remain2=4, remain3=nil"
+            var ans6s = [
+                "A. remain　=　4, remain2　=　nil, remain3　=　nil",
+                "B. remain　=　4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
+                "C. remain　=　nil, remain2　=　nil,remain3はif文実行不可能で宣言されない",
+                "D. remain　=　nil, remain2　=　4, remain3　=　nil"
             ];
-            var ans7s = ["A. \"\"",
+            var ans7s = [
+                "A. \"\"",
                 "B. Larry",
                 "C. Laura",
                 "D. Libby"
             ];
-            var ans8s = ["A. 0",
+            var ans8s = [
+                "A. 0",
                 "B. 1",
                 "C. 2",
                 "D. 3"
             ];
-            var ans9s = ["A. 0.5",
+            var ans9s = [
+                "A. 0.5",
                 "B. 0.0",
                 "C. 0",
                 "D. コンパイルエラー"
             ];
-            var ans10s = ["A. 追試",
+            var ans10s = [
+                "A. 追試",
                 "B. 可",
                 "C. 追試不可",
                 "D. 何も出力されない"
