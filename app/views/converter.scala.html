@@ -31,21 +31,19 @@
     @*
     @play20.welcome(message, style = "Scala")
     *@
-    <div id = "logo">
+    <p id = "logo">
         <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
-    </div>
-
-    <div>
+    </p>
+    <p>
         <button id="prev" class="btn btn-default"> 前の問題 </button>
         <button id="next" class="btn btn-default"> 次の問題 </button>
-    </div>
-    <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
-    <div id = "editorAnswer" style="height: 400px;
+    </p>
+    <p width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></p>
+    <p id = "editorAnswer" style="height: 400px;
         width: 500px;
         float: left;
-        padding-right: 250px;padding-bottom:50px"></div>
-
-    <div id="choices" style="padding-top: 20px;
+        padding-right: 250px;padding-bottom:50px"></p>
+    <p id="choices" style="padding-top: 20px;
         float: left">
         <form>
             <label><input id="choice1" name="choice" class="level1" type="radio"> <span id="A"></span></label><br>
@@ -56,13 +54,14 @@
 
         <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
         document.getElementById('answer').style.display = 'block';"> 解答を見る </button>
-    </div>
-    <div id="answer" width="500px" height="400px" style="float: left;
+    </p>
+    <p id="answer" width="500px" height="400px" style="float: left;
         visibility: hidden;
-        overflow:auto;"><pre>
+        overflow:auto;">
+        <pre>
         <img id = "ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
-    </pre>
-    </div>
+        </pre>
+    </p>
     @* Converter in the bottom *@
     <div id="tool_margin" style="height: 250px; clear: both;"></div>
     <div id="tool" style="background-color: white;
