@@ -32,8 +32,8 @@
 
     <div>
 
-        <button id="prev" class="btn btn-default"> Previous </button>
-        <button id="next" class="btn btn-default"> Next </button>
+        <button id="prev" class="btn btn-default"> 前の問題 </button>
+        <button id="next" class="btn btn-default"> 次の問題 </button>
     </div>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
     <div id = "editorAnswer" style="height: 400px;
@@ -51,13 +51,10 @@
             <label><input id="choice2" name="choice" class="level1" type="radio"> <span id="B"></span></label><br>
             <label><input id="choice3" name="choice" class="level1" type="radio"> <span id="C"></span></label><br>
             <label><input id="choice4" name="choice" class="level1" type="radio"> <span id="D"></span></label><br>
-
         </form>
 
-
-
         <button id="submit" class="btn btn-default" onclick="document.getElementById('answer').style.visibility = 'visible';
-        document.getElementById('answer').style.display = 'block';"> Submit </button>
+        document.getElementById('answer').style.display = 'block';"> 解答を見る </button>
     </div>
     <div id="answer" width="500px" height="400px" style="float: left;
         visibility: hidden;
@@ -135,19 +132,19 @@
                     $('#converter').fadeIn();
                 }
             });
-            let tasks = ["問１。長方形の面積を計算する関数area(Double,Double)->Doubleを実装してください。そのあと幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
+            var tasks = ["問１。長方形の面積を計算する関数area(Double,Double)->Doubleを実装してください。そのあと幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
                 "問２。データタイプがAnyObject?である配列があります。この配列の中にはどのデータタイプのオブジェクトも格納可能です。<br>"+
                 "その中でnilではないオブジェクトのみプリントする関数を実装してください。<br>"+
                 "例：let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
                 "問３。一つの文字列が回文かどうかを判断するメソットを実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
                 "問４。ソートされた数字の配列から重複している要素を消し、重複している要素のない配列の長さを返してください。<br>"
             ];
-            let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
+            var questions = ["問1. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
             `
  class Workplace {
     var workplaceAddress:String
     var city:String
-    init(workplaceAddress:String, city:String){
+    init(workplaceAddress:String, city:String) {
         self.workplaceAddress = workplaceAddress
         self.city = city
     }
@@ -157,7 +154,7 @@
     var name:String
     var workplace:Workplace
 
-    init(name:String, workplace:Workplace){
+    init(name:String, workplace:Workplace) {
         self.name = name
         self.workplace = workplace
     }
@@ -173,7 +170,7 @@ amy.workplace.workplaceAddress = "123 New Street"
 このコードに関して、以下のどれが正しいですか？
                      `,
 
-                "問２。以下の二つのif文の実行結果に関して、正しい結論はどれですか？その理由はなんですか？。<br>" +
+                "問2. 以下の2つのif文を実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let i = 101
 
@@ -190,7 +187,7 @@ if case 100..<101 = i {
 }
 
                      `,
-                "問３。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？。<br>" +
+                "問3. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let names = ["River", "Kaylee", "Zoe"]
 let result = names.sort { $0 > $1 }
@@ -198,7 +195,7 @@ print(result)
 
                      `,
 
-                "問４。次のコードの実行結果に関して正しいのはどれですか？その理由はなんですか？<br>" +
+                "問4. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 func foo(function: (Int) -> Int) -> Int {
     return function(function(5))
@@ -211,15 +208,14 @@ func bar<Int: IntegerType>(number: Int) -> Int {
 print(foo(bar))
 
                   `,
-                "問５。" +
-                "以下の宣言を一番簡潔かつ正確に定義したものはどれですか？<br>" +
+                "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
 let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one < two
 }
 
                 `,
-                "問6。以下のコードの実行結果に関して正しい結論はどれですか？<br>" + `
+                "問6. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" + `
 let year : Int? = Int("2020")
 let remain : Int = year! - 2016
 
@@ -231,25 +227,25 @@ if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
 }
                 `,
-                "問7。以下のコードの実行結果に関して正しい結論はどれですか？<br>" +
+                "問7. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let i = 11
 let j = 20
 
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
-                "問８。以下のコードの正しい実行結果はなんですか？<br>" +
+                "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 var crew = ["Caption": "Malcom", "Doctor": "Simon"]
 crew = [:]
 print(crew.count)
                             `,
-                "問９。以下のコードの正しい実行結果はなんですか？<br>" +
+                "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
  let d:Double = 0.5
  let f:Float = d
                             `,
-                "問１０。以下のコードの正しい実行結果はなんですか？<br>" +
+                "問10. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 var score = 65
 switch score {
@@ -262,139 +258,127 @@ default:print("追試不可")
 }
                             `
             ];
-            let ans1s = ["A. Bobの就職先住所も一緒に変わる",
+            var ans1s = ["A. Bobの就職先住所も一緒に変わる",
                 "B. Amyの就職先住所だけが変わる",
                 "C. 両方何も変わらない",
                 "D. コンパイルエラー"
             ];
-            let ans2s = ["A. 両方\"Hello, world!\"を出力",
+            var ans2s = ["A. 両方\"Hello, world!\"を出力",
                     "B. 両方\"Goodbye, world!\"を出力",
                     "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
                 "D. 一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
 
             ]
-            let ans3s = ["A. [\"Kaylee\", \"River\", \"Zoe\"]",
+            var ans3s = ["A. [\"Kaylee\", \"River\", \"Zoe\"]",
                 "B. [\"Kaylee\"]",
                 "C. [\"Zoe\", \"River\", \"Kaylee\"]",
                 "D. [\"Zoe\"]"
             ];
-            let ans4s = ["A. 15",
+            var ans4s = ["A. 15",
                     "B. 3",
                     "C. 45",
                     "D. 5"
             ];
-            let ans5s = ["A. let sortedAnimals = animals.sort{(one,two)->Bool in return one<two}",
+            var ans5s = ["A. let sortedAnimals = animals.sort{(one,two)->Bool in return one<two}",
                     "B. let sortedAnimals = animals.sort{(one,two) in return one<two}",
                     "C. let sortedAnimals = animals.sort{return $0<$1}",
                 "D. let sortedAnimals = animals.sort{$0<$1}"
             ]
-            let ans6s = ["A. remain=4, remain2=nil, remain3=nil",
+            var ans6s = ["A. remain=4, remain2=nil, remain3=nil",
                     "B. remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
                     "C. remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
                     "D. remain=nil, remain2=4, remain3=nil"
             ];
-            let ans7s = ["A. \"\"",
+            var ans7s = ["A. \"\"",
                 "B. Larry",
                 "C. Laura",
                 "D. Libby"
             ];
-            let ans8s = ["A. 0",
+            var ans8s = ["A. 0",
                 "B. 1",
                 "C. 2",
                 "D. 3"
             ];
-            let ans9s = ["A. 0.5",
+            var ans9s = ["A. 0.5",
                 "B. 0.0",
                 "C. 0",
                 "D. コンパイルエラー"
             ];
-            let ans10s = ["A. 追試",
+            var ans10s = ["A. 追試",
                 "B. 可",
                 "C. 追試不可",
                 "D. 何も出力されない"
             ];
 
-            let startEnd = "<h2>サンプルテスト<h2>";
-            let endEnd = "<h2>勉強ご苦労様でした!</h2>これからテストに移りたいと思いますので、以下のサイトにアクセスし受験を行ってください。<br>"+
-                    "受験するときはすべての資料とツールが参考不可能になってます（XCode）含む<br>"+
-                    "https://docs.google.com/forms/d/e/1FAIpQLSeQRAaIUoEdIrWL5SBtImUtDO0thz4j-GfFgn5Mh1Ty2T8aXw/viewform<br>"+
-                    "<br>テストが終わった後には、アンケートにご協力をお願い致します。<br>"+
-                    "https://docs.google.com/forms/d/e/1FAIpQLScsqaZHdcUtrl94jkjlUT6r5ISWpb3mrdtWyuT0EUvHUFwRvQ/viewform";
+            var startEnd = "<h2>サンプルテスト<h2>";
+            var endEnd = "<h2>学習お疲れ様でした！</h2>続いて" + 
+                    "<a href='https://docs.google.com/forms/d/e/1FAIpQLSeQRAaIUoEdIrWL5SBtImUtDO0thz4j-GfFgn5Mh1Ty2T8aXw/viewform'>学習効果の評価テスト</a>と" + 
+                    "<a href='https://docs.google.com/forms/d/e/1FAIpQLScsqaZHdcUtrl94jkjlUT6r5ISWpb3mrdtWyuT0EUvHUFwRvQ/viewform'>評価テスト</a>にお答えください。<br>"+
+                    "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
             showCurrentTask('Q0');
 
             function showAnswers(questionNum) {
-                if(questionNum==0){
+                if (questionNum == 0) {
                     document.getElementById('A').innerHTML = ans1s[0];
                     document.getElementById('B').innerHTML = ans1s[1];
                     document.getElementById('C').innerHTML = ans1s[2];
                     document.getElementById('D').innerHTML = ans1s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz1AnsBoth.png")";
-                }
-                else if(questionNum==1){
+                } else if (questionNum == 1) {
                     document.getElementById('A').innerHTML = ans2s[0];
                     document.getElementById('B').innerHTML = ans2s[1];
                     document.getElementById('C').innerHTML = ans2s[2];
                     document.getElementById('D').innerHTML = ans2s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz2AnsBoth.png")";
-                }
-                else if(questionNum==2){
+                } else if (questionNum == 2) {
                     document.getElementById('A').innerHTML = ans3s[0];
                     document.getElementById('B').innerHTML = ans3s[1];
                     document.getElementById('C').innerHTML = ans3s[2];
                     document.getElementById('D').innerHTML = ans3s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz3AnsBoth.png")";
-                }
-                else if(questionNum==3){
+                } else if (questionNum == 3) {
                     document.getElementById('A').innerHTML = ans4s[0];
                     document.getElementById('B').innerHTML = ans4s[1];
                     document.getElementById('C').innerHTML = ans4s[2];
                     document.getElementById('D').innerHTML = ans4s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz4AnsBoth.png")";
-                }
-                else if(questionNum==4){
+                } else if (questionNum == 4) {
                     document.getElementById('A').innerHTML = ans5s[0];
                     document.getElementById('B').innerHTML = ans5s[1];
                     document.getElementById('C').innerHTML = ans5s[2];
                     document.getElementById('D').innerHTML = ans5s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz5AnsBoth.png")";
-
-                }
-                else if(questionNum==5){
+                } else if (questionNum == 5) {
                     document.getElementById('A').innerHTML = ans6s[0];
                     document.getElementById('B').innerHTML = ans6s[1];
                     document.getElementById('C').innerHTML = ans6s[2];
                     document.getElementById('D').innerHTML = ans6s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz6AnsBoth.png")";
-                }
-                else if(questionNum==6){
+                } else if (questionNum == 6) {
                     document.getElementById('A').innerHTML = ans7s[0];
                     document.getElementById('B').innerHTML = ans7s[1];
                     document.getElementById('C').innerHTML = ans7s[2];
                     document.getElementById('D').innerHTML = ans7s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz7AnsBoth.png")";
-                }
-                else if(questionNum==7){
+                } else if (questionNum == 7) {
                     document.getElementById('A').innerHTML = ans8s[0];
                     document.getElementById('B').innerHTML = ans8s[1];
                     document.getElementById('C').innerHTML = ans8s[2];
                     document.getElementById('D').innerHTML = ans8s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz8AnsBoth.png")";
-                }
-                else if(questionNum==8){
+                } else if (questionNum == 8) {
                     document.getElementById('A').innerHTML = ans9s[0];
                     document.getElementById('B').innerHTML = ans9s[1];
                     document.getElementById('C').innerHTML = ans9s[2];
                     document.getElementById('D').innerHTML = ans9s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz9AnsBoth.png")";
-                }
-                else if(questionNum==9){
+                } else if (questionNum == 9) {
                     document.getElementById('A').innerHTML = ans10s[0];
                     document.getElementById('B').innerHTML = ans10s[1];
                     document.getElementById('C').innerHTML = ans10s[2];
                     document.getElementById('D').innerHTML = ans10s[3];
                     document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz10AnsBoth.png")";
                 }
-
             }
 
             $('#next').on('click', function () {
@@ -409,7 +393,6 @@ default:print("追試不可")
                 var hash = location.hash;
                 if (hash) {
                   var code = hash.substring(1);
-
                   showCurrentTask(code);
                 }
             });
@@ -435,7 +418,7 @@ default:print("追試不可")
               var index = parseInt(code.substring(1)) | 0;
 
               if (type == 'Q' && index == 0) {
-                return 'S';
+                return 'Q0';
               }
               if (type == 'T' && index == 0) {
                 return 'Q' + (questions.length - 1);
@@ -491,19 +474,18 @@ default:print("追試不可")
               }
             }
 
-            function setTaskAnswers(taskNum){
-                if(localStorage.currentTask==tasks[0]) {
+            function setTaskAnswers(taskNum) {
+                if (localStorage.currentTask == tasks[0]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
-                }else if(localStorage.currentTask==tasks[1]) {
+                } else if (localStorage.currentTask == tasks[1]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task2Ans.png")";
-                }else if(localStorage.currentTask==tasks[2]) {
+                } else if (localStorage.currentTask == tasks[2]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task3Ans.png")";
-                }else if(localStorage.currentTask==tasks[3]) {
+                } else if (localStorage.currentTask == tasks[3]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task4Ans.png")";
                 }
             }
             function createEditor(idName, canWrite, initText, mode, AnsEditor) {
-
                 var editor = ace.edit(idName);
                 if (canWrite) {
                     editor.$blockScrolling = Infinity;
