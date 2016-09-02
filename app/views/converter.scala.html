@@ -10,7 +10,9 @@
 *@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-            window.CONTROLE_GROUP = true;
+
+        window.CONTROLE_GROUP = false;
+
         function isCodingTask(){
             for(var i=0;i<tasks.length;i++){
                 if(localStorage.currentTask==tasks[i]){
@@ -147,9 +149,8 @@
                 }
             });
             var tasks = ["問1. 長方形の面積を計算する関数 area(Double, Double) -> Double を実装してください。その後、area関数を用いて幅4.5、長さ5.5の長方形の面積を計算してください。<br>",
-                "問2. AnyObject? 型の配列に関する問題です。この配列の中には任意の型のオブジェクトを格納できます。<br>"+
-                "AnyObject? 型の配列を受け取って、その中に格納されている nil ではないオブジェクトのみを表示する関数を実装してください。<br>"+
-                "入力する配列の例： let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
+                "問2. 文字列（String）をCharacterの配列に変える関数 toArray(String) -> [Character] を実装してください。<br>"+
+                "そのあと、関数から返された配列にCharacterである”S”を追加してください。",
                 "問3. 一つの文字列が回文かどうかを判断する関数を実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
                 "問4. ソートされた数字の配列から重複している要素を削除して、重複している要素のない配列の長さを返す関数を実装してください。<br>"
             ];
@@ -250,10 +251,11 @@ let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
                 "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
-var crew = ["Caption": "Malcom", "Doctor": "Simon"]
-crew = [:]
+var crew = ["Captain": "Malcom", "Doctor": "Simon"]
+var crew2 = crew
+crew2 = [:]
 print(crew.count)
-                            `,
+print(crew2.count)                            `,
                 "問9. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let d: Double = 0.5
@@ -323,10 +325,10 @@ default:
                 "D. Libby"
             ];
             var ans8s = [
-                "A. 0",
-                "B. 1",
-                "C. 2",
-                "D. 3"
+                "A. 1個目のprintが2で、2個目のprintが0",
+                "B. 1個目のprintが0で、2個目のprintが2",
+                "C. 1個目のprintが0で、2個目のprintが0",
+                "D. 1個目のprintが2で、2個目のprintが2",
             ];
             var ans9s = [
                 "A. 0.5",
