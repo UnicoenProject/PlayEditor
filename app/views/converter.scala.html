@@ -509,6 +509,11 @@ default:
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
 
+                    if(index==3){
+                        document.getElementById('submit').style.display='block';
+                    }
+                    document.getElementById('ansImg').style.display='block';
+
                     $('#choices').hide();
                     $('#editorAnswer').show();
                     $('#submit').show();
