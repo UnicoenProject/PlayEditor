@@ -40,14 +40,10 @@
         padding-right: 250px;"></div>
 
 
-    <div id="answer" width="500px" height="400px" style="float: right;
-        visibility: hidden;
-        padding-bottom: 100px">
-        <img id = "task1ans" src="@routes.Assets.versioned("images/task1.png")">
-    </div>
+
 
     <div id="choices" style="padding-top: 20px;
-        padding-bottom: 300px;
+        padding-bottom: 100px;
         float: left">
         <form>
             <input id="choice1" name="choice" class="level1" type="radio"><label id="A"></label><br>
@@ -57,6 +53,13 @@
         </form>
 
 
+    </div>
+    <div id="answer" width="500px" height="400px" style="float: left;
+        visibility: hidden;
+        padding-bottom: 100px;
+        overflow:auto;"><pre>
+        <img id = "ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
+    </pre>
     </div>
     @* Converter in the bottom *@
     <div id = "tool" style="background-color: white;
@@ -124,15 +127,12 @@
                     $('#converter').fadeIn();
                 }
             });
-            let tasks = ["問１。以下のforループはSwift1.0の時のものです。それを今のSwift文法を用いて、もっと簡潔な方法で宣言してください。<br>" +
-            `
-for var i = 0; i<5; i++{
-	print("Hello!")
-}
-                `,
-                "問２。二つの引数の値を交換するswap(Int, Int)を実装してくださあい。<br>",
-                "問３。一つの文字列が回文かどうかを判断するメソットを実装してください。回文であればtrue, そうでなければfalseを返してください。<br>",
-                "問４。ソートされた数字の配列から重複している要素を消すメソット実装してください。最後、重複している要素のない配列の長さを返してください。<br>"
+            let tasks = ["問１二つの引数の値を交換するswap(Int, Int)を実装してくださあい。<br>",
+                "問２。データタイプがAnyObject?である配列があります。この配列の中にはどのデータタイプのオブジェクトも格納可能です。<br>"+
+                "その中でnilではないオブジェクトのみプリントする関数を実装してください。<br>"+
+                "例：let data: [AnyObject?] = [\"Bill\", nil, 69, \"Ted\"]",
+                "問３。一つの文字列が回文かどうかを判断するメソットを実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
+                "問４。ソートされた数字の配列から重複している要素を消すメソット実装してください。<br>最後、重複している要素のない配列の長さを返してください。<br>"
             ];
             let questions = ["問１。以下のSwiftコードを読んで、出力を選択ください。<br>" +
             `
@@ -203,15 +203,12 @@ func bar<T: IntegerType>(number: T) -> T {
 print(foo(bar))
 
                   `,
-                "問５。lecture1.difficulty, lecture2.difficultyの値は何ですか？また、Lectureがstructではなく、classだったら二つの値は何ですか？<br>" +
+                "問５。" +
+                "以下の宣言を一番簡潔かつ正確に定義したものはどれですか？<br>" +
                 `
-struct Lecture {
-  var difficulty: Int = 1
+let animals = ["fish", "cat", "chicken", "dog"]
+let sortedAnimals = animals.sort {(one:String, two:String) -> Bool in return one<two
 }
-
-var lecture1 = Lecture()
-var lecture2 = lecture1
-lecture2.difficulty = 2
 
                 `,
                 "問6。以下のコードの実行結果に関して正しい結論はどれですか？<br>" + `
@@ -242,77 +239,71 @@ print(crew.count)
                 "問９。以下のコードの正しい実行結果はなんですか？<br>" +
                 `
  let d:Double = 0.5
- let f:Float = r
+ let f:Float = d
                             `,
                 "問１０。以下のコードの正しい１０個結果はなんですか？<br>" +
                 `
-enum Weather {
-    case Sunny
-    case Cloudy
-    case Windy(speed: Int)
-}
-let today: Weather = .Windy(speed: 10)
-
-switch today {
-case .Sunny, .Cloudy:
-    print("It's not that windy")
-case .Windy(let speed) where speed >= 10:
-    print("It's very windy")
-default:
-    print("It's a bit windy")
+var score = 65
+switch score {
+case 45..<75: print("追試")
+case 90...100: print("秀")
+case 80..<90: print("優")
+case 70..<80: print("良")
+case 60..<70: print("可")
+default:print("追試不可")
 }
                             `
             ];
-            let ans1s = ["Bobの就職先住所も一緒に変わる",
-                "Amyの就職先住所だけが変わる",
-                "両方何も変わらない",
-                "コンパイルエラー"
+            let ans1s = ["A. Bobの就職先住所も一緒に変わる",
+                "B. Amyの就職先住所だけが変わる",
+                "C. 両方何も変わらない",
+                "D. コンパイルエラー"
             ];
-            let ans2s = ["両方\"Hello, world!\"を出力",
-                    "両方\"Goodbye, world!\"を出力",
-                    "一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
-                "一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
+            let ans2s = ["A. 両方\"Hello, world!\"を出力",
+                    "B. 両方\"Goodbye, world!\"を出力",
+                    "C. 一個目のif文は\"Hello, world!\", 二個目のif文は\"Goodbye, world!\"を出力",
+                "D. 一個目のif文は\"Goodbye, world!\", 二個目のif文は\"Hello, world!\"を出力"
 
             ]
-            let ans3s = ["[\"Kaylee\", \"River\", \"Zoe\"]",
-                "[\"Kaylee\"]",
-                "[\"Zoe\", \"River\", \"Kaylee\"]",
-                "[\"Zoe\"]"
+            let ans3s = ["A. [\"Kaylee\", \"River\", \"Zoe\"]",
+                "B. [\"Kaylee\"]",
+                "C. [\"Zoe\", \"River\", \"Kaylee\"]",
+                "D. [\"Zoe\"]"
             ];
-            let ans4s = ["15",
-                    "3",
-                    "45",
-                    "5"
+            let ans4s = ["A. 15",
+                    "B. 3",
+                    "C. 45",
+                    "D. 5"
             ];
-            let ans5s = ["両方１である、classだっても変わらない",
-                    "両方２である、classだったら両方１になる",
-                    "lecture1.difficultyは１、lecture2.difficultyは２である、classだったら両方２になる",
-                "lecture1.difficultyは１、lecture2.difficultyは２である、classだったら両方１になる"
+            let ans5s = ["A. let sortedAnimals = animals.sort{(one,two)->Bool in return one<two}",
+                    "B. let sortedAnimals = animals.sort{(one,two) in return one<two}",
+                    "C. let sortedAnimals = animals.sort{return $0<$1}",
+                "D. let sortedAnimals = animals.sort{$0<$1}"
             ]
-            let ans6s = ["remain=4, remain2=nil, remain3=nil",
-                    "remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
-                    "remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
-                    "remain=nil, remain2=4, remain3=nil"
+            let ans6s = ["A. remain=4, remain2=nil, remain3=nil",
+                    "B. remain=4, remain2はコンパイルエラーで実行できない、remain3はif文実行不可能で宣言されない",
+                    "C. remain=nil, remain2=nil,remain3はif文実行不可能で宣言されない",
+                    "D. remain=nil, remain2=4, remain3=nil"
             ];
-            let ans7s = ["\"\"",
-                "Larry",
-                "Laura",
-                "Libby"
+            let ans7s = ["A. \"\"",
+                "B. Larry",
+                "C. Laura",
+                "D. Libby"
             ];
-            let ans8s = ["0",
-                "1",
-                "2",
-                "3"
+            let ans8s = ["A. 0",
+                "B. 1",
+                "C. 2",
+                "D. 3"
             ];
-            let ans9s = ["0.5",
-                "0.0",
-                "0",
-                "Compile error"
+            let ans9s = ["A. 0.5",
+                "B. 0.0",
+                "C. 0",
+                "D. コンパイルエラー"
             ];
-            let ans10s = ["\"It's a bit windy\"",
-                "\"It's not that windy\"",
-                "\"It's very windy\"",
-                "Nothing will output"
+            let ans10s = ["A. 追試",
+                "B. 可",
+                "C. 追試不可",
+                "D. 何も出力されない"
             ];
 
             let startEnd = "THE END OF START";
@@ -339,12 +330,14 @@ default:
                     document.getElementById('B').innerHTML = ans1s[1];
                     document.getElementById('C').innerHTML = ans1s[2];
                     document.getElementById('D').innerHTML = ans1s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz1AnsBoth.png")";
                 }
                 else if(questionNum==1){
                     document.getElementById('A').innerHTML = ans2s[0];
                     document.getElementById('B').innerHTML = ans2s[1];
                     document.getElementById('C').innerHTML = ans2s[2];
                     document.getElementById('D').innerHTML = ans2s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz2AnsBoth.png")";
                 }
                 else if(questionNum==2){
                     document.getElementById('A').innerHTML = ans3s[0];
@@ -369,30 +362,35 @@ default:
                     document.getElementById('B').innerHTML = ans6s[1];
                     document.getElementById('C').innerHTML = ans6s[2];
                     document.getElementById('D').innerHTML = ans6s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz6AnsBoth.png")";
                 }
                 else if(questionNum==6){
                     document.getElementById('A').innerHTML = ans7s[0];
                     document.getElementById('B').innerHTML = ans7s[1];
                     document.getElementById('C').innerHTML = ans7s[2];
                     document.getElementById('D').innerHTML = ans7s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz7AnsBoth.png")";
                 }
                 else if(questionNum==7){
                     document.getElementById('A').innerHTML = ans8s[0];
                     document.getElementById('B').innerHTML = ans8s[1];
                     document.getElementById('C').innerHTML = ans8s[2];
                     document.getElementById('D').innerHTML = ans8s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz8AnsBoth.png")";
                 }
                 else if(questionNum==8){
                     document.getElementById('A').innerHTML = ans9s[0];
                     document.getElementById('B').innerHTML = ans9s[1];
                     document.getElementById('C').innerHTML = ans9s[2];
                     document.getElementById('D').innerHTML = ans9s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz9AnsBoth.png")";
                 }
                 else if(questionNum==9){
                     document.getElementById('A').innerHTML = ans10s[0];
                     document.getElementById('B').innerHTML = ans10s[1];
                     document.getElementById('C').innerHTML = ans10s[2];
                     document.getElementById('D').innerHTML = ans10s[3];
+                    document.getElementById('ansImg').src="@routes.Assets.versioned("images/quiz10AnsBoth.png")";
                 }
 
             }
