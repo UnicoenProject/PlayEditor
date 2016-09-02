@@ -10,7 +10,15 @@
 *@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-            window.CONTROLE_GROUP = false;
+            window.CONTROLE_GROUP = true;
+        function isCodingTask(){
+            for(var i=0;i<tasks.length;i++){
+                if(localStorage.currentTask==tasks[i]){
+                    return true;
+                }
+            }return false;
+
+        }
     </script>
     <style>
     .level2 {
@@ -32,8 +40,7 @@
     <p>
         <button id="prev" class="btn btn-default"> 前の問題 </button>
         <button id="next" class="btn btn-default"> 次の問題 </button>
-        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){document.getElementById('ansWord').style.display='block'; }else{document.getElementById('answer').style.visibility = 'visible';
-            document.getElementById('answer').style.display = 'block';}"> 解答を見る（最下部に表示） </button>
+        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>
     </p>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
     <div id="choices" style="padding-top: 20px;　float: left">
@@ -498,6 +505,7 @@ switch score {
                     if(index==3){
                         document.getElementById('submit').style.display='block';
                     }
+                    document.getElementById('ansImg').style.display='block';
 
                     $('#choices').hide();
                     $('#editorAnswer').show();
