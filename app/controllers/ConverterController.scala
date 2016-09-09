@@ -35,26 +35,29 @@ class ConverterController @Inject() extends Controller {
 
   }
 
-  val form = Form( "name" -> text )
+  def exIndex = Action {
+    Ok(views.html.converterIndex("This is Visualizer Page."))
+  }
 
-  def replaceLn(string:String):String={
+
+  def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
     val mapper = new Java8Mapper(true)
-    try{
-      val tree = mapper.parse(format)
-      val modified = JavaToSwiftTreeConverter.convert(tree)
-      val result = SwiftCodeGenerator.generate(modified)
-      return result
-    }catch {
-      case ex: NullPointerException => "NULL_POINTER"
+    val tree = mapper.parse(format)
+    val modified = JavaToSwiftTreeConverter.convert(tree)
+    val result = SwiftCodeGenerator.generate(modified)
+    return result
+  } catch {
+    case e: Exception => "FAILED TO TRANSLATE"
 
-    }
   }
 
   def compile = Action { implicit request =>
+    val form = Form( "name" -> text )
     val data = form.bindFromRequest.get
     val dataSplit = replaceLn(data)
     Ok(views.html.converter(dataSplit))
   }
 
 }
+

@@ -31,4 +31,5 @@ POST    /visualizer/back            controllers.VisualizerController.execBackSte
 POST    /visualizer/stop            controllers.VisualizerController.stopDebug
 
 GET     /converter                  controllers.ConverterController.index
+GET     /converterIndex             controllers.ConverterController.exIndex
 POST    /converter                  controllers.ConverterController.compile
