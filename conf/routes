@@ -21,8 +21,8 @@ GET     /experiment2                 controllers.VisualizerController.ex2
 GET     /experiment3                 controllers.VisualizerController.ex3
 GET     /experiment4                 controllers.VisualizerController.ex4
 
-
 GET     /visualizer                 controllers.VisualizerController.index
+GET     /visualizerIndex            controllers.VisualizerController.exIndex
 POST    /visualizer/compile         controllers.VisualizerController.compile
 POST    /visualizer/debug           controllers.VisualizerController.startStepExec
 POST    /visualizer/exec            controllers.VisualizerController.execAll

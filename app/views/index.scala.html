@@ -10,50 +10,15 @@
 * argument is an `Html` object containing the body of the page.
 *@
 @main("Welcome to Play Frameworkd") {
-
-    <script>
-            localStorage.startTime="";
-            localStorage.currentex="";
-            localStorage.sourcefile = "";
-    </script>
-    @message
-
-    <br>
-    <form action="/visualizer" method="GET">
-        <input type="submit" value="visualizerデモページへ"/>
-    </form>
-    <br>
-
-    初めにデモページで本ツールの基本的な機能について理解し、<br>
-    その後、以下の実験用ページ1,2,3,4で問題を解いてください。<br>
-
-    「回答にかかった時間」「正解・不正解」が調査対象です。<br>
-    用紙にメモして報告してください。<br>
-    <hr>
-    <form action="/experiment1" method="GET">
-        <input type="submit" value="experiment1へ"/>
-    </form>
-    <br>
-    <form action="/experiment2" method="GET">
-        <input type="submit" value="experiment2へ"/>
-    </form>
-    <br>
-    <form action="/experiment3" method="GET">
-        <input type="submit" value="experiment3へ"/>
-    </form>
-    <br>
-    <form action="/experiment4" method="GET">
-        <input type="submit" value="experiment4へ"/>
-    </form>
-    <br>
-@*    <form action="/visualizer" method="GET">
+    <!--<form action="/visualizerIndex" method="GET">--><!--実験用-->
+    <form action="/visualizer" method="GET"><!--公開用-->
         <input type="submit" value="Visualizerページ"/>
     </form>
     <br>
     <form action="/converter" method="GET">
         <input type="submit" value="Converterページ"/>
     </form>
-    <br>*@
+    <br>
     @*以下はPlayのデフォルトトップページ*@
     @*
     * Get an `Html` object by calling the built-in Play welcome

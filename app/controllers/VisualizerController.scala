@@ -58,6 +58,11 @@ class VisualizerController @Inject() extends Controller {
 
   def getfield(uuid:String):Fields={return fields.get(uuid)}
   //index.scala.htmlがview
+  
+  def exIndex = Action {
+    Ok(views.html.visualizerIndex("This is Visualizer Page."))
+  }
+
   def index = Action {
     Ok(views.html.visualizer("This is Visualizer Page.","","",""))
   }
