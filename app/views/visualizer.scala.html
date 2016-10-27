@@ -18,11 +18,11 @@
     @*
     @play20.welcome(message, style = "Scala")
     *@
-    @Messages.get(Lang.forCode("en"),"demopage.buttons")
+    @Messages.get("demopage.buttons")
     <div clsee="row">
         <div class="btn-group">
             <div class="btn-group">
-                <button title="@Messages.get(Lang.forCode("en"),"tooltip.fontsize")" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>
+                <button title="@Messages.get("tooltip.fontsize")" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>
                 <ul class="dropdown-menu" id="font-size">
                     <li><a href="#" data-size="10">小さい</a></li>
                     <li><a href="#" data-size="12">普通</a></li>
@@ -33,18 +33,18 @@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
             @*<button id="compile" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i></button> *@@*コンパイルしてメッセージ出力*@
-            <button id="debug" title="@Messages.get(Lang.forCode("en"),"tooltip.debug")" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
-            <button id="exec" title="@Messages.get(Lang.forCode("en"),"tooltip.exec")" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
-            <button id="step" title="@Messages.get(Lang.forCode("en"),"tooltip.step")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
-            <button id="back" title="@Messages.get(Lang.forCode("en"),"tooltip.back")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
-            <button id="stop" title="@Messages.get(Lang.forCode("en"),"tooltip.stop")" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
+            <button id="debug" title="@Messages.get("tooltip.debug")" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
+            <button id="exec" title="@Messages.get("tooltip.exec")" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
+            <button id="step" title="@Messages.get("tooltip.step")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
+            <button id="back" title="@Messages.get("tooltip.back")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
+            <button id="stop" title="@Messages.get("tooltip.stop")" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
         </div>
     </div>
     <div clsee="row">
         <div class="col-lg-6 col-md-6">
             DebugStatus:@Html(debugState)<br>
-            <button id="exstart">@Messages.get(Lang.forCode("en"),"expage.start")</button>
-            <button id="exans">@Messages.get(Lang.forCode("en"),"expage.ans")</button>
+            <button id="exstart">@Messages.get("expage.start")</button>
+            <button id="exans">@Messages.get("expage.ans")</button>
             <br>
             <div id="description"></div>
             <div id="editorMain" style="height: 500px"></div>
@@ -65,30 +65,30 @@
     <script src="@routes.Assets.versioned("javascripts/visualizer.js")" type="text/javascript"></script>
     <script>
 
-            var exText = "@Messages.get(Lang.forCode("en"),"ex.text1")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text2")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text3")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text4")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text5")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text6")"+"<br>";
-            exText += "@Messages.get(Lang.forCode("en"),"ex.text7")"+"<br>";
+            var exText = "@Messages.get("ex.text1")"+"<br>";
+            exText += "@Messages.get("ex.text2")"+"<br>";
+            exText += "@Messages.get("ex.text3")"+"<br>";
+            exText += "@Messages.get("ex.text4")"+"<br>";
+            exText += "@Messages.get("ex.text5")"+"<br>";
+            exText += "@Messages.get("ex.text6")"+"<br>";
+            exText += "@Messages.get("ex.text7")"+"<br>";
 
-            var ex1Text  = "@Messages.get(Lang.forCode("en"),"ex1.text1")"+"<br>";
-            ex1Text += "@Messages.get(Lang.forCode("en"),"ex1.text2")"+"<br>";
+            var ex1Text  = "@Messages.get("ex1.text1")"+"<br>";
+            ex1Text += "@Messages.get("ex1.text2")"+"<br>";
 
-            var ex2Text  = "@Messages.get(Lang.forCode("en"),"ex2.text1")"+"<br>";
-            ex2Text += "@Messages.get(Lang.forCode("en"),"ex2.text2")"+"<br>";
-            ex2Text += "@Messages.get(Lang.forCode("en"),"ex2.text3")"+"<br>";
+            var ex2Text  = "@Messages.get("ex2.text1")"+"<br>";
+            ex2Text += "@Messages.get("ex2.text2")"+"<br>";
+            ex2Text += "@Messages.get("ex2.text3")"+"<br>";
 
-            var ex3Text  = "@Messages.get(Lang.forCode("en"),"ex3.text1")"+"<br>";
-            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text2")"+"<br>";
-            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text3")"+"<br>";
-            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text4")"+"<br>";
+            var ex3Text  = "@Messages.get("ex3.text1")"+"<br>";
+            ex3Text += "@Messages.get("ex3.text2")"+"<br>";
+            ex3Text += "@Messages.get("ex3.text3")"+"<br>";
+            ex3Text += "@Messages.get("ex3.text4")"+"<br>";
 
-            var ex4Text  = "@Messages.get(Lang.forCode("en"),"ex4.text1")"+"<br>";
-            ex4Text += "@Messages.get(Lang.forCode("en"),"ex4.text2")"+"<br>";
-            ex4Text += "@Messages.get(Lang.forCode("en"),"ex4.text3")"+"<br>";
-            
+            var ex4Text  = "@Messages.get("ex4.text1")"+"<br>";
+            ex4Text += "@Messages.get("ex4.text2")"+"<br>";
+            ex4Text += "@Messages.get("ex4.text3")"+"<br>";
+
             if("@debugState" == "")
             {
                 localStorage.currentex = "";
@@ -164,7 +164,7 @@ int main(){
             }
             else if("@debugState" == "ex1" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4") {
                 localStorage.currentex = "@debugState";
-                localStorage.startTime = "@Messages.get(Lang.forCode("en"),"expage.start")";
+                localStorage.startTime = "@Messages.get("expage.start")";
                 localStorage.sourcefile = "";
                 localStorage.debug="false";
             }
@@ -172,11 +172,11 @@ int main(){
             if(localStorage.currentex == ""){
                 document.getElementById("exstart").style.display = "none";
                 document.getElementById("exans").style.display = "none";
-                document.getElementById("description").innerHTML = "@Messages.get(Lang.forCode("en"),"demmopage.toolexplain")";
+                document.getElementById("description").innerHTML = "@Messages.get("demmopage.toolexplain")";
                 localStorage.startTime = "";
             }
             else  if(localStorage.currentex == "ex1" || localStorage.currentex == "ex2" || localStorage.currentex == "ex3" || localStorage.currentex == "ex4") {
-                if(localStorage.startTime == "@Messages.get(Lang.forCode("en"),"expage.start")" ) {
+                if(localStorage.startTime == "@Messages.get("expage.start")" ) {
                     document.getElementById("description").innerHTML = exText;
                 }
                 else {
@@ -202,9 +202,9 @@ int main(){
                 var hour = jikan.getHours();
                 var minute = jikan.getMinutes();
                 var second = jikan.getSeconds();
-                localStorage.startTime = hour+"@Messages.get(Lang.forCode("en"),"time.h")"
-                        +minute+"@Messages.get(Lang.forCode("en"),"time.m")"
-                        +second+"@Messages.get(Lang.forCode("en"),"time.s")";
+                localStorage.startTime = hour+"@Messages.get("time.h")"
+                        +minute+"@Messages.get("time.m")"
+                        +second+"@Messages.get("time.s")";
                 document.getElementById("exstart").innerHTML = localStorage.startTime;
                 document.getElementById("exstart").disabled = "true";
                 var text = "";
@@ -325,27 +325,27 @@ int main()
                 var hour = jikan.getHours();
                 var minute = jikan.getMinutes();
                 var second = jikan.getSeconds();
-                var time = hour+"@Messages.get(Lang.forCode("en"),"time.h")"
-                        +minute+"@Messages.get(Lang.forCode("en"),"time.m")"
-                        +second+"@Messages.get(Lang.forCode("en"),"time.s")";
+                var time = hour+"@Messages.get("time.h")"
+                        +minute+"@Messages.get("time.m")"
+                        +second+"@Messages.get("time.s")";
 
                 if(localStorage.currentex == "ex1"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex1.ans")"+"<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get("ex1.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex2"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex2.ans")"+"<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get("ex2.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex3"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex3.ans")"+"<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get("ex3.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex4"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex4.ans")"+"<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get("ex4.ans")"+"<br>";
                 }
-                document.getElementById("description").innerHTML += "@Messages.get(Lang.forCode("en"),"ex.anstext")";
+                document.getElementById("description").innerHTML += "@Messages.get("ex.anstext")";
             });
 
             document.getElementById("exstart").innerHTML = localStorage.startTime;//開始時刻更新

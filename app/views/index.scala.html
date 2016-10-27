@@ -23,7 +23,7 @@
 
     <br>
     <form action="/visualizer" method="GET">
-        <input type="submit" value = "@Messages.get(Lang.forCode("en"),"toppage.toDemoPage")"/>
+        <input type="submit" value = "@Messages.get("toppage.toDemoPage")"/>
     </form>
     <br>
 
@@ -62,6 +62,6 @@
 
     @play20.welcome(message, style = "Scala")
     <script>
-            document.getElementById("topexpr").innerHTML = "@Messages.get(Lang.forCode("en"),"toppage.experimenttext")";
+            document.getElementById("topexpr").innerHTML = "@Messages.get("demmopage.toolexplain")";
     </script>
 }
