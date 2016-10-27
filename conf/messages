@@ -1,2 +1,51 @@
-toppage.experimenttext=First, please understand the basic features of this tool in the demo page.<br>Then, please solve the problem in a experiment page 1-4.<br> Please record "The time to answer each tasks" and "correct or incorrect”
+toppage.experimenttext=First, please understand the basic features of this tool in the demo page.<br>Then, please solve the problem in a experiment page 1-4.<br> Please record "The time to answer each task" and "correct or incorrect”
 toppage.toDemoPage=Go To Visualizer Demo Page
+demopage.buttons=Execution controller buttons
+tooltip.fontsize=change editor font size
+tooltip.debug=initiate program execution
+tooltip.exec=go forward all steps
+tooltip.step=go forward one step
+tooltip.back=go backwards one step
+tooltip.stop=stop program execution
+
+toppage.toTopPage=Go To Top Page
+
+demmopage.toolexplain=You can execute and visualize a program by execution controller buttons after writing your code on the editor.<br>(Tooltips of buttons are shown by Mouse hover)<br>Please understand how this tool visualize the program with the example program.<br>Please start experiment after the trial. You can return to the top page by the button at the bottom of the page<br>
+
+expage.start=START
+expage.ans=CHECK ANSWER
+
+ex.text1=Question and program source code are shown after pressing [START] button.
+ex.text2=if you find the answer, please pressing "CHECK ANSWER" button.
+ex.text3=Please press each button only once.
+ex.text4=Time is shown after pressing each button.
+ex.text5=Please record each time and your answer after checking answer.
+ex.text6=After that, please go to the next task from top page.
+ex.text7=(This description is common to all of the task experiment page.)
+
+time.h=h
+time.m=m
+time.s=s
+
+ex.anstext=Please go to next task from top page after recording the START and CHECK ANSWER Time, correct or incorrect.
+
+ex1.text1 = This is a program using function calls whose arguments are parsed by pointers.T
+ex1.text2 = What are the final values of the variables a, b, c, d, e?
+
+ex2.text1 = This is a program calculating the factorial.
+ex2.text2 = What are the values of the variables n, r, (*pn) when the function f is returned for a third time?
+ex2.text3 = (e.g.:n=1,r=2,(*pn)=3)
+
+ex3.text1 = This is a program using dyamic memory allocation.
+ex3.text2 = What are the final values of heap memory which has not been freed, and of the 
+ex3.text3 = pointer variable which refer to the memory when the main function return?
+ex3.text4 = e.g.:ps[0]=1,2,3  ps[3]=0,3,2)
+
+ex4.text1 = This is a program using recursive function calls.
+ex4.text2 = When are the values of n=1, a=’B’, b=’A’, c=’C’?
+ex4.text3 = (e.g.:10 time)
+
+ex1.ans = Ans. a=3,b=2,c=1,d=4,e=6
+ex2.ans = Ans. n=2,r=2,(*pn)=0
+ex3.ans = Ans. ps[1]=1,2,5
+ex4.ans = Ans. 5 time

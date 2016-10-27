@@ -27,8 +27,7 @@
     </form>
     <br>
 
-
-    @Messages.get(Lang.forCode("en"),"toppage.experimenttext")
+    <div id="topexpr"></div>
 
     <hr>
     <form action="/experiment1" method="GET">
@@ -62,4 +61,7 @@
     *@
 
     @play20.welcome(message, style = "Scala")
+    <script>
+            document.getElementById("topexpr").innerHTML = "@Messages.get(Lang.forCode("en"),"toppage.experimenttext")";
+    </script>
 }

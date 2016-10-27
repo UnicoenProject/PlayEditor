@@ -4,7 +4,7 @@
 * message to display.
 *@
 @(stackData:String,debugState:String,output:String,sourcetext:String)
-
+@import play.i18n._
 @*
 * Call the `main` template with two arguments. The first
 * argument is a `String` with the title of the page, the second
@@ -18,11 +18,11 @@
     @*
     @play20.welcome(message, style = "Scala")
     *@
-    可視化デバッグ用ボタン
+    @Messages.get(Lang.forCode("en"),"demopage.buttons")
     <div clsee="row">
         <div class="btn-group">
             <div class="btn-group">
-                <button title="エディタのフォントサイズ変更" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>
+                <button title="@Messages.get(Lang.forCode("en"),"tooltip.fontsize")" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i> <span class="caret"></span></button>
                 <ul class="dropdown-menu" id="font-size">
                     <li><a href="#" data-size="10">小さい</a></li>
                     <li><a href="#" data-size="12">普通</a></li>
@@ -33,18 +33,18 @@
             @*<button id="save" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i></button>*@
             @*<button id="load" class="btn btn-default"><i class="glyphicon glyphicon-folder-open"></i></button>*@
             @*<button id="compile" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i></button> *@@*コンパイルしてメッセージ出力*@
-            <button id="debug" title="可視化デバッグ実行開始(最初に1回必ず押す)" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
-            <button id="exec" title="実行中のプログラムを最後まで実行する" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
-            <button id="step" title="次の式を実行する(次に実行する式をハイライト)" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
-            <button id="back" title="前の式に戻る" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
-            <button id="stop" title="可視化デバッグ終了" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
+            <button id="debug" title="@Messages.get(Lang.forCode("en"),"tooltip.debug")" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>@*コンパイル済みならデバッグ開始*@
+            <button id="exec" title="@Messages.get(Lang.forCode("en"),"tooltip.exec")" class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> @*コンパイル済みなら実行*@
+            <button id="step" title="@Messages.get(Lang.forCode("en"),"tooltip.step")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-down"></i></button>@*デバッグ開始済みなら1ステップ進む*@
+            <button id="back" title="@Messages.get(Lang.forCode("en"),"tooltip.back")" class="btn btn-default"><i class="glyphicon glyphicon-arrow-up"></i></button>@*デバッグ開始済みなら1ステップ戻る*@
+            <button id="stop" title="@Messages.get(Lang.forCode("en"),"tooltip.stop")" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>@*デバッグ中なら停止*@
         </div>
     </div>
     <div clsee="row">
         <div class="col-lg-6 col-md-6">
             DebugStatus:@Html(debugState)<br>
-            <button id="exstart">実験開始</button>
-            <button id="exans">答えを確認</button>
+            <button id="exstart">@Messages.get(Lang.forCode("en"),"expage.start")</button>
+            <button id="exans">@Messages.get(Lang.forCode("en"),"expage.ans")</button>
             <br>
             <div id="description"></div>
             <div id="editorMain" style="height: 500px"></div>
@@ -65,22 +65,30 @@
     <script src="@routes.Assets.versioned("javascripts/visualizer.js")" type="text/javascript"></script>
     <script>
 
-            var exText = "[実験開始]ボタンを押すとプログラムソースコードと問題が表示されます。<br>";
-            exText += "問題の答えがわかったら[答えを確認]ボタンを押してください。<br>";
-            exText += "それぞれのボタンは一度だけしか押せません。(押さないでください)<br>";
-            exText += "それぞれのボタンは押すと時刻が表示されます。<br>";
-            exText += "回答後は2つの時刻と正解したかどうかメモをして次の問題に進んでください。<br>";
-            exText += "用紙の余白や裏面は変数のメモ書きなど自由時使ってください。<br>";
-            exText += "(この開始前説明文は全ての問題ページで共通です。)<br>";
+            var exText = "@Messages.get(Lang.forCode("en"),"ex.text1")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text2")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text3")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text4")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text5")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text6")"+"<br>";
+            exText += "@Messages.get(Lang.forCode("en"),"ex.text7")"+"<br>";
 
-            var ex1Text  = "ポインタ渡し関数の問題です<br>以下のプログラムを実行したとき<br>最終的なa,b,c,d,eの値は？(回答例:a=1,b=2,c=3,d=4,e=5)<br>";
+            var ex1Text  = "@Messages.get(Lang.forCode("en"),"ex1.text1")"+"<br>";
+            ex1Text += "@Messages.get(Lang.forCode("en"),"ex1.text2")"+"<br>";
 
-            var ex2Text  = "階乗を計算する関数の問題です。<br>以下のプログラムを実行したとき、<br>3回目に呼ばれた関数fがreturnする時点で<br>変数n,r,(*pn)の表す値は？(回答例:n=1,r=2,(*pn)=3,)";
+            var ex2Text  = "@Messages.get(Lang.forCode("en"),"ex2.text1")"+"<br>";
+            ex2Text += "@Messages.get(Lang.forCode("en"),"ex2.text2")"+"<br>";
+            ex2Text += "@Messages.get(Lang.forCode("en"),"ex2.text3")"+"<br>";
 
-            var ex3Text  = "メモリの動的確保の問題です<br>以下のプログラムを実行したときmain関数がreturnする時点で<br>ヒープ領域に未開放のメモリ領域があれば<br>そのメモリを参照する変数とそれらのメモリ上の値は何か？(回答例:ps[0]={1,2,3},ps[3]={0,3,2})";
+            var ex3Text  = "@Messages.get(Lang.forCode("en"),"ex3.text1")"+"<br>";
+            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text2")"+"<br>";
+            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text3")"+"<br>";
+            ex3Text += "@Messages.get(Lang.forCode("en"),"ex3.text4")"+"<br>";
 
-            var ex4Text  = "再帰関数の問題です<br>以下のプログラムを実行したとき<br>n=1, a='B', b='A', c='C'<br>になるのは関数Hが何回呼ばれたときか？(回答例:10回目)";
-
+            var ex4Text  = "@Messages.get(Lang.forCode("en"),"ex4.text1")"+"<br>";
+            ex4Text += "@Messages.get(Lang.forCode("en"),"ex4.text2")"+"<br>";
+            ex4Text += "@Messages.get(Lang.forCode("en"),"ex4.text3")"+"<br>";
+            
             if("@debugState" == "")
             {
                 localStorage.currentex = "";
@@ -156,7 +164,7 @@ int main(){
             }
             else if("@debugState" == "ex1" || "@debugState" == "ex2" || "@debugState" == "ex3" || "@debugState" == "ex4") {
                 localStorage.currentex = "@debugState";
-                localStorage.startTime = "実験開始";
+                localStorage.startTime = "@Messages.get(Lang.forCode("en"),"expage.start")";
                 localStorage.sourcefile = "";
                 localStorage.debug="false";
             }
@@ -164,11 +172,11 @@ int main(){
             if(localStorage.currentex == ""){
                 document.getElementById("exstart").style.display = "none";
                 document.getElementById("exans").style.display = "none";
-                document.getElementById("description").innerHTML = "下のエディタにプログラムを書き、上のボタンを押すことで可視化実行ができます。<br>(マウスカーソルを重ねるとで各ボタンの説明が表示されます。)<br>実験前にデフォルトで表示されているプログラムをステップ実行して、<br>どう可視化されるか確認してみてください。<br>十分に確認できたらページ下部のボタンでトップページに戻れます。実験を開始してください<br>もしExecution exceptionと書いてある真っ赤な画面になったらごめんなさい。<br>ツールのバグです。ブラウザの戻るボタンを押してください。";
+                document.getElementById("description").innerHTML = "@Messages.get(Lang.forCode("en"),"demmopage.toolexplain")";
                 localStorage.startTime = "";
             }
             else  if(localStorage.currentex == "ex1" || localStorage.currentex == "ex2" || localStorage.currentex == "ex3" || localStorage.currentex == "ex4") {
-                if(localStorage.startTime == "実験開始" ) {
+                if(localStorage.startTime == "@Messages.get(Lang.forCode("en"),"expage.start")" ) {
                     document.getElementById("description").innerHTML = exText;
                 }
                 else {
@@ -194,7 +202,9 @@ int main(){
                 var hour = jikan.getHours();
                 var minute = jikan.getMinutes();
                 var second = jikan.getSeconds();
-                localStorage.startTime = hour+"時"+minute+"分"+second+"秒";
+                localStorage.startTime = hour+"@Messages.get(Lang.forCode("en"),"time.h")"
+                        +minute+"@Messages.get(Lang.forCode("en"),"time.m")"
+                        +second+"@Messages.get(Lang.forCode("en"),"time.s")";
                 document.getElementById("exstart").innerHTML = localStorage.startTime;
                 document.getElementById("exstart").disabled = "true";
                 var text = "";
@@ -315,25 +325,27 @@ int main()
                 var hour = jikan.getHours();
                 var minute = jikan.getMinutes();
                 var second = jikan.getSeconds();
-                var time = hour+"時"+minute+"分"+second+"秒";
+                var time = hour+"@Messages.get(Lang.forCode("en"),"time.h")"
+                        +minute+"@Messages.get(Lang.forCode("en"),"time.m")"
+                        +second+"@Messages.get(Lang.forCode("en"),"time.s")";
 
                 if(localStorage.currentex == "ex1"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>答え a=3,b=2,c=1,d=4,e=6<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex1.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex2"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>答え n=2,r=2,(*pn)=0<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex2.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex3"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>答え ps[1]={1,2,5}<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex3.ans")"+"<br>";
                 }
                 else if(localStorage.currentex == "ex4"){
                     document.getElementById("exans").innerHTML = time;
-                    document.getElementById("description").innerHTML += "<br><br>答え 5回目<br>";
+                    document.getElementById("description").innerHTML += "<br><br>"+"@Messages.get(Lang.forCode("en"),"ex4.ans")"+"<br>";
                 }
-                document.getElementById("description").innerHTML += "開始・終了時間と正解・不正解を用紙にメモし、<br>次の問題(ページ下部の戻るボタンより)に進んでください。";
+                document.getElementById("description").innerHTML += "@Messages.get(Lang.forCode("en"),"ex.anstext")";
             });
 
             document.getElementById("exstart").innerHTML = localStorage.startTime;//開始時刻更新

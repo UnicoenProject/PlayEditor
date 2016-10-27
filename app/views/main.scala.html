@@ -5,7 +5,7 @@
  * object to insert into the body of the page.
  *@
 @(title: String)(content: Html)
-
+@import play.i18n._
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,7 +33,7 @@
             </div>
             <br>
             <form action="/" method="GET">
-                <input type="submit" value="トップページ戻る"/>
+                <input type="submit" value="@Messages.get(Lang.forCode("en"),"toppage.toTopPage")"/>
             </form>
 @*            <form action="/" method="GET">
                 <input type="submit" value="Topページ"/>
