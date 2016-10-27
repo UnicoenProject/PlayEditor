@@ -2,7 +2,10 @@
 * This template takes a single argument, a String containing a
 * message to display.
 *@
+
+
 @(message: String)
+@import play.i18n._
 
 @*
 * Call the `main` template with two arguments. The first
@@ -20,30 +23,28 @@
 
     <br>
     <form action="/visualizer" method="GET">
-        <input type="submit" value="visualizerデモページへ"/>
+        <input type="submit" value = "@Messages.get(Lang.forCode("en"),"toppage.toDemoPage")"/>
     </form>
     <br>
 
-    初めにデモページで本ツールの基本的な機能について理解し、<br>
-    その後、以下の実験用ページ1,2,3,4で問題を解いてください。<br>
 
-    「回答にかかった時間」「正解・不正解」が調査対象です。<br>
-    用紙にメモして報告してください。<br>
+    @Messages.get(Lang.forCode("en"),"toppage.experimenttext")
+
     <hr>
     <form action="/experiment1" method="GET">
-        <input type="submit" value="experiment1へ"/>
+        <input type="submit" value="experiment1"/>
     </form>
     <br>
     <form action="/experiment2" method="GET">
-        <input type="submit" value="experiment2へ"/>
+        <input type="submit" value="experiment2"/>
     </form>
     <br>
     <form action="/experiment3" method="GET">
-        <input type="submit" value="experiment3へ"/>
+        <input type="submit" value="experiment3"/>
     </form>
     <br>
     <form action="/experiment4" method="GET">
-        <input type="submit" value="experiment4へ"/>
+        <input type="submit" value="experiment4"/>
     </form>
     <br>
 @*    <form action="/visualizer" method="GET">
