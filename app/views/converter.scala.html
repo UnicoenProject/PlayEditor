@@ -15,8 +15,6 @@
 
     </script>
 
-    <script src="@routes.Assets.versioned("javascripts/stopWatch.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.versioned("javascripts/textbook.js")" type="text/javascript"></script>
 
 
     <style>
@@ -37,8 +35,8 @@
         <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
     </p>
     <p>
-        <button id="prev" class="btn btn-default"> <a href="#" class="button" onClick="stopwatch.restart();">Restart</a>前の問題 </button>
-        <button id="next" class="btn btn-default"> <a href="#" class="button" onClick="stopwatch.restart();">Restart</a>次の問題 </button>
+        <button id="prev" class="btn btn-default"> Prev </button>
+        <button id="next" class="btn btn-default"> Next </button>
         @*<button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>*@
     </p>
     @*<div id="editorAnswer" style="height: 400px; width: 500px; float: left; padding-right: 250px;padding-bottom:50px">
@@ -95,13 +93,15 @@
     @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
     @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
     @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
+    <script src="@routes.Assets.versioned("javascripts/stopWatch.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/textbook.js")" type="text/javascript"></script>
+
     <script>
             $(function() {
                 if(window.CONTROLE_GROUP) {
                     $('#tool, #tool_margin').hide();
-                    $('#ansImg').hide();
-                    setQuizAnswersWithoutTranslation(localStorage.currentTask);
                 }
+                stopwatch.start();
             })
 
 
@@ -128,92 +128,78 @@
                     "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
 
 
-
-
-
             showCurrentText('T0');
-            function showCurrentText(textNum, updateHash){
-                localStorage.currentText = textNum;
-                if(updateHash){
-
-                }
-                var index = parseInt(textNum.substring(1));
-                var element = allText[index];
-                document.getElementById('title').innerHTML = element[0];
-                document.getElementById('similarity').innerHTML = element[1];
-                document.getElementById('textString').innerHTML = element[2];
-                document.getElementById('swiftCode').innerHTML = element[3];
-                document.getElementById('javaCode').innerHTML = element[4];
-            }
-
 
             $('#next').on('click', function () {
-//                var code = nextCode(localStorage.currentCode);
-//                showCurrentTask(code, true);
+                var textNum = nextText(localStorage.currentText);
+                showCurrentText(textNum, true);
+                stopwatch.restart();
             });
             $('#prev').on('click', function () {
-//                var code = prevCode(localStorage.currentCode);
-//                showCurrentTask(code, true);
+                var textNum = prevText(localStorage.currentText);
+                showCurrentText(textNum, true);
+                stopwatch.restart();
 
             })
             $(function() {
                 var hash = location.hash;
                 if (hash) {
-//                    var code = hash.substring(1);
-//                    showCurrentTask(code);
+                    var textNum = hash.substring(1);
+                    showCurrentText(textNum);
                 }
             });
-
-//            function showCurrentTask(code, updateHash) {
-//                localStorage.currentCode = code;
-//                if (updateHash) {
-//                    location.hash = code;
-//                }
-//                var type = code[0];
-//                var index = parseInt(code.substring(1));
-//
-//                if (type == 'S') {
-//                    document.getElementById('textbook').innerHTML = startEnd;
-//                    localStorage.currentTask = startEnd;
-//                } else if (type == 'E') {
-//                    document.getElementById('textbook').innerHTML = endEnd;
-//                    localStorage.currentTask = endEnd;
-//
-//                } else if (type == 'T') {
-//                    var element = allText[index];
-//
-//
-////                    localStorage.currentTask = questions[index];
-//
-//                }
-//            }
-            function nextCode(code) {
-//              var type = code[0];
-//              var index = parseInt(code.substring(1)) | 0;
-//
-//              if (type == 'S') {
-//                return 'T0';
-//              }
-//              if (type == 'T' && index == allText.length - 1) {
-//                return 'E';
-//              }
-//              return type + (index + 1);
-
+            function nextText(textNum){
+                var type = textNum[0];
+                var index = parseInt(textNum.substring(1)) | 0;
+                if(index==allText.length-1){
+                    return "E";
+                }
+                return type+(index+1);
+            }
+            function prevText(textNum){
+                var type = textNum[0];
+                var index = parseInt(textNum.substring(1)) | 0;
+                if(index==0){
+                    return 'T0';
+                }
+                if(type=='E'){
+                    return 'T'+(allText.length-1);
+                }
+                return type+(index-1);
             }
 
-            function prevCode(code) {
-//                var type = code[0];
-//                var index = parseInt(code.substring(1)) | 0;
-//
-//                if (type == 'Q' && index == 0) {
-//                    return 'Q0';
-//                }
-//                if (type == 'E') {
-//                    return 'T' + (allText.length - 1);
-//                }
-//                return type + (index - 1);
-            }
 
+            function showCurrentText(textNum, updateHash){
+                localStorage.currentText = textNum;
+                if(updateHash){
+                    location.hash = textNum;
+                }
+                var type = textNum[0];
+                var index = parseInt(textNum.substring(1));
+                if (type == 'S') {
+                    document.getElementById('title').innerHTML = startEnd;
+                    document.getElementById('similarity').innerHTML = '';
+                    document.getElementById('textString').innerHTML = '';
+                    document.getElementById('swiftCode').innerHTML = '';
+                    document.getElementById('javaCode').innerHTML = '';
+                    localStorage.currentText = 'S';
+                } else if (type == 'E') {
+                    document.getElementById('title').innerHTML = endEnd;
+                    document.getElementById('similarity').innerHTML = '';
+                    document.getElementById('textString').innerHTML = '';
+                    document.getElementById('swiftCode').innerHTML = '';
+                    document.getElementById('javaCode').innerHTML = '';
+                    localStorage.currentText = 'E';
+
+                } else if (type == 'T') {
+                    var element = allText[index];
+                    document.getElementById('title').innerHTML = element[0];
+                    document.getElementById('similarity').innerHTML = element[1];
+                    document.getElementById('textString').innerHTML = element[2];
+                    document.getElementById('swiftCode').innerHTML = element[3];
+                    document.getElementById('javaCode').innerHTML = element[4];
+                }
+            }
 
             function createEditor(idName, canWrite, initText, mode, AnsEditor) {
                 var editor = ace.edit(idName);
