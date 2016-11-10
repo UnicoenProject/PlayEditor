@@ -12,10 +12,7 @@
 
     <script>
         window.CONTROLE_GROUP = false;
-
     </script>
-
-
 
     <style>
     .level2 {
@@ -43,14 +40,11 @@
     </div>*@
 
     <div id="textbook">
-        <div id="title"></div>
-        <div id="similarity"></div>
+        <h2><div id="title"></div></h2>
+        <h4><div id="similarity"></div></h4>
+        <hr>
         <div id="textString"></div>
-        <div id="swiftCode"></div>
-        <div id="javaCode"></div>
     </div>
-
-
 
     <div class="stopwatch"></div>
 
@@ -120,7 +114,6 @@
                 }
             });
 
-            var startEnd = "<h2>サンプルテスト<h2>";
             var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
             var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
                     "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
@@ -159,12 +152,13 @@
             function prevText(textNum){
                 var type = textNum[0];
                 var index = parseInt(textNum.substring(1)) | 0;
-                if(index==0){
-                    return 'T0';
-                }
                 if(type=='E'){
                     return 'T'+(allText.length-1);
                 }
+                if(index==0){
+                    return 'T0';
+                }
+
                 return type+(index-1);
             }
 
@@ -176,19 +170,10 @@
                 }
                 var type = textNum[0];
                 var index = parseInt(textNum.substring(1));
-                if (type == 'S') {
-                    document.getElementById('title').innerHTML = startEnd;
-                    document.getElementById('similarity').innerHTML = '';
-                    document.getElementById('textString').innerHTML = '';
-                    document.getElementById('swiftCode').innerHTML = '';
-                    document.getElementById('javaCode').innerHTML = '';
-                    localStorage.currentText = 'S';
-                } else if (type == 'E') {
+                if (type == 'E') {
                     document.getElementById('title').innerHTML = endEnd;
                     document.getElementById('similarity').innerHTML = '';
                     document.getElementById('textString').innerHTML = '';
-                    document.getElementById('swiftCode').innerHTML = '';
-                    document.getElementById('javaCode').innerHTML = '';
                     localStorage.currentText = 'E';
 
                 } else if (type == 'T') {
@@ -196,8 +181,6 @@
                     document.getElementById('title').innerHTML = element[0];
                     document.getElementById('similarity').innerHTML = element[1];
                     document.getElementById('textString').innerHTML = element[2];
-                    document.getElementById('swiftCode').innerHTML = element[3];
-                    document.getElementById('javaCode').innerHTML = element[4];
                 }
             }
 
