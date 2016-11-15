@@ -245,7 +245,7 @@ element = [title, similarity, text]
 allText.push(element);
 
 title = "型キャスト"
-similarity = "この部分はSwift特有な部分です。"
+similarity = "not yet decided"
 text = "Swiftはタイプセーフな言語です。" +
     "if you want to convert one value to another, you need to be specific. "
 element = [title, similarity, text]
@@ -534,11 +534,209 @@ text="There are two types of range operator, closed range operator and half open
 element=[title, similarity, text]
 allText.push(element)
 
-title = "制御フロー　- for-in"
+title="if文"
+similarity = "same as java, just no parentheses"
+text="Control flow in Swift will allow you do if, else if and else blocks of course. So the difference is you don't need " +
+    "parentheses around your condition." +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            a
+            <span class="token operator">=</span>
+            <span class="token number">1</span>
+            <br>
+            <span class="token keyword">if</span>
+            a
+            <span class="token operator">%</span>
+            <span class="token number">2</span>
+            <span class="token operator">==</span>
+            <span class="token number">0</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Even number"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else if</span>
+            a
+            <span class="token operator">%</span>
+            <span class="token number">3</span>
+            <span class="token operator">==</span>
+            <span class="token number">0</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Divisable by three"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Odd number, not divisible by three"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+    +"So no parentheses, but the basic structure is similar to java, no specials."
+element=[title, similarity, text]
+allText.push(element)
+
+title="if with optional binding"
+similarity="Only swift has it"
+text="What if let you do? if let you do what called optional binding." +
+    "So again, you are working with these optional values. So toBeOrNotToBe is an optional string." +
+    "and in this case, I put a value in it. so I am trying to unwrap optional value to non optional value by using if let." +
+    "if it succeeds, enter to if branch, if it doesn't succeeds, I enter to else branch." +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            toBeOrNotToBe
+            <span class="token operator">:</span>
+            String?
+            <span class="token operator">=</span>
+            <span class="token string">"That is the question"</span>
+            <br>
+            <span class="token keyword">if</span>
+            <span class="token keyword">let</span>
+            toBe
+            <span class="token operator">=</span>
+            toBeOrNotToBe {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            toBe
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"I am not, therefore I don't think?"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `+
+    "If I change the value to nil, or basically I don't put anything to it, now it prints out" +
+    "I am not, therefore I don't think?"+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            toBeOrNotToBe
+            <span class="token operator">:</span>
+            String?
+            <span class="token operator">=</span>
+            <span class="token symbol">nil</span>
+            <br>
+            <span class="token keyword">if</span>
+            <span class="token keyword">let</span>
+            toBe
+            <span class="token operator">=</span>
+            toBeOrNotToBe {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            toBe
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"I am not, therefore I don't think?"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="Unwrap with !"
+similarity="Only Swift has it"
+text="There are many different ways of unwrapping, for example, you can just do unwrap with a ! . " +
+    "We call it Bang, because it's a dangerous operation. When that fails, basically your program crushes."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            toBeOrNotToBe
+            <span class="token operator">:</span>
+            String?
+            <span class="token operator">=</span>
+            <span class="token symbol">nil</span>
+            <br>
+            <span class="token keyword">let</span>
+            toBe
+            <span class="token operator">=</span>
+            toBeOrNotToBe!
+            <span class="token comment">//error: Execution was interrupted</span>
+        </code>
+    </pre>
+    `+
+    "if the optional value is nil, you will see there is an error. Execution was interrupted. So basically this is a crush." +
+    "So the bang operator, only use it when you know for sure that your optional can be unwrapped."
+element=[title, similarity, text]
+allText.push(element)
+
+title = "for-in loop"
 similarity = "for-inループはJavaのenhanced for loopに似ています。"
-text = "数値の範囲や、配列内の値、文字列内の文字のようなシーケンスを繰り返し処理するために、for–in ループを使用します。"
-    + "次の例は、5 の段の初めのいくつかを出力しています。"
-    + `
+text = "数値の範囲や、配列内の値、文字列内の文字のようなシーケンスを繰り返し処理するために、for–in ループを使用します。"+
+    "次の例は、5 の段の初めのいくつかを出力しています。" +
+    "Basically, for-in loop can take any sequence. So a range is a sequence, so I can loop through 1 to 10." +
+    "first of all, i is a constant, i is let. you can also iterate over a string, that's a sequence too."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">for</span>
+            i
+            <span class="token keyword">in</span>
+            <span class="token number">1</span>
+            <span class="token operator">...</span>
+            <span class="token number">10</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            \\(i)
+            <span class="token string">one thousand"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">for</span>
+            character
+            <span class="token keyword">in</span>
+            <span class="token string">"The Swift Brown Fox"</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            character
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `+
+    `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">for</span>
@@ -568,3 +766,522 @@ text = "数値の範囲や、配列内の値、文字列内の文字のような
 
 element = [title, similarity, text]
 allText.push(element);
+
+title="while loop"
+similarity="same as in Java, just don't need semi colons"
+text=""+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">var</span>
+            i
+            <span class="token operator">=</span>
+            <span class="token number">10</span>
+            <br>
+            <span class="token keyword">while</span>
+            i
+            <span class="token operator">></span>
+            <span class="token number">0</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            \\(i)
+            <span class="token string">one thousand"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            i
+            <span class="token operator">=</span>
+            i
+            <span class="token operator"> - </span>
+            <span class="token number">1</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="repeat-while"
+similarity="same as in Java, no semi colons, different keyword. you only need to put the semi colons when you want put multiple statement in one line."
+text=""+`
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">var</span>
+            i
+            <span class="token operator">=</span>
+            <span class="token number">10</span>
+            <br>
+            <span class="token keyword">repeat</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            \\(i)
+            <span class="token string">one thousand"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            i
+            <span class="token operator">=</span>
+            i
+            <span class="token operator"> - </span>
+            <span class="token number">1</span>
+            <br>
+            }
+            <span class="token keyword">while</span>
+            i
+            <span class="token operator">></span>
+            <span class="token number">0</span>
+        </code>
+    </pre>
+            
+`
+element=[title, similarity, text]
+allText.push(element)
+
+title=""
+similarity=""
+text="Let's look at something very powerful in Swift.that's the switch statement.First example, I ahve a lightBylb" +
+    "and I put it to on, and basically I want to check the state of that lightbulb in my switch statement. So the first expression says" +
+    "case on, so basically I can match a string. So, when it's on, I can println it's on,  when it's off" +
+    "Well, it's dark in here, and if it's something else, it's not my light bulb."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            lightBulb
+            <span class="token operator">=</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The lights are on!"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"It's dark in here!"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">default:</span>
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We're in the twilight zone"</span>
+            <span class="token function">)</span>
+            }
+            <span class="token comment">//print out "The lights are on!"</span>
+        </code>
+    </pre>
+    `
+
+element=[title, similarity, text]
+allText.push(element)
+
+title="switch statement-Needs to be exhaustive"
+similarity="totally different"
+text="The first thing, is see? I don't have any breaks anywhere. But it still doesn't fallthrough like in Java. " +
+    "if you wanna fall through, you have to opted in.And I like it, because in Java, you always have to put break. " +
+    "So inside the case statement, you automatically fall through. Another thing is it needs to be exhaustie." +
+    "you may get a compiler error in the code below basically says it's not exhaustive." +
+    "So it says, you didn't cover all your basis. So you need that default statement."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            lightBulb
+            <span class="token operator">=</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The lights are on!"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"It's dark in here!"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `+
+    "So you have to add a default to avoid the error."
+
+element=[title, similarity, text]
+allText.push(element)
+
+title="switch statement- no implicit fall through"
+similarity="totally different"
+text= "Another thing is, here I wanna fall through, that dosn't work."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            lightBulb
+            <span class="token operator">=</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"That's a well behaving light"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">default:</span>
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We're in the twilight zone"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token comment">//compile error</span>
+        </code>
+    </pre>
+    `+
+    "So if you wanna fall through, you need to specify fallthrough , so this is the keyword specific for swift." +
+    "Now the error goes away and prints out That's a well behaving light"+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            lightBulb
+            <span class="token operator">=</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Oh my eyes!"</span>
+            <span class="token function">)</span>
+            <span class="token keyword">fallthrough</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"That's a well behaving light"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">default:</span>
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We're in the twilight zone"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token comment">//compile error</span>
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="switch statement-range matching"
+similarity="totally different"
+text="Now, if I wanna do something in that on condition, now the powerful thing is you can do the range matching." +
+    "So I have integers attendeesAtDevoxx which is around 3500, and I check in my switch statement, what that number is," +
+    "and if it's between a value, you can use a range matching. So in this case, I check if it's between 0 to 10, 10 to 99 and so on." +
+    "So I print out Devoxx has thousands of attendees."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            attendeesAtDevoxx
+            <span class="token operator">=</span>
+            <span class="token number">3500</span>
+            <br>
+            <span class="language-swift">var</span>
+            candinality
+            <span class="token operator">:</span>
+            <span class="token string">String</span>
+            <br>
+            <span class="token keyword">switch</span>
+            attendeesAtDevoxx {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token number">0</span>
+            ...
+            <span class="token number">10</span>
+            :
+            <br>
+            &emsp;&emsp;
+            candinality
+            <span class="token operator">=</span>
+            <span class="token string">"a few"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token number">10</span>
+            ...
+            <span class="token number">99</span>
+            :
+            <br>
+            &emsp;&emsp;
+            candinality
+            <span class="token operator">=</span>
+            <span class="token string">"tens of"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token number">100</span>
+            ...
+            <span class="token number">999</span>
+            :
+            <br>
+            &emsp;&emsp;
+            candinality
+            <span class="token operator">=</span>
+            <span class="token string">"hundreds of"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token number">1000</span>
+            ...
+            <span class="token number">999999</span>
+            :
+            <br>
+            &emsp;&emsp;
+            cardinality
+            <span class="token operator">=</span>
+            <span class="token string">"thousands of"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">default</span>
+            :
+            <br>
+            &emsp;&emsp;
+            cardinality
+            <span class="token operator">=</span>
+            <span class="token string">"xmillions of"</span>
+            <br>
+            }
+            <br>
+            <span class="token function">print(</span>
+            <span class="token string">"Devoxx has</span>
+            \\(cardinality)
+            <span class="token string">attendees!"</span>
+            <span class="token function">)</span>
+        </code>
+    </pre>
+    `+
+    "If the attendeesAtDevoxx is set as 10, it only prints out a few. The first case already succeeds, " +
+    "so it doesn't go to the second case."+
+    "POP UP QUESTION: what if I add the fallthrough in the first case statement"
+element=[title, similarity, text]
+allText.push(element)
+
+title="switch statement-tuple matching"
+similarity="totally different"
+text="Another powerful thing is you can do the tuple matching. " +
+    "So let's assume I have a variable somethere which returns the httpStatus tuple. " +
+    "So I can have a status and the message that comes with that status inside the tuple. " +
+    "So in this case, 402 means the payment required. So the httpStatus I can switch as well." +
+    "So as you can see, I can do a lot of matching there. So the first case is, it it's 200 and" +
+    "the message says OK, then I will just print out Everything is just fine then this switch statement is over." +
+    "if it's still 200, but it's not ok, then I still can check for 200 then say, everything is fine" +
+    "then give the message. Then I need to bind whatever the second value in my tuple is to that message." +
+    "then I can do some range matching as well. on the first value in my tuple so if it's between " +
+    "500 and 600 exclusive, then it will print out the server made a mistake. And if it's none of the above," +
+    "I am not interested in the status code anymore, so I can put that in the underscore, then I show the message."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            httpStatus
+            <span class="token operator">=</span>
+            (
+            <span class="token number">402</span>
+            ,
+            <span class="token string">"Payment required"</span>
+            )
+            <br>
+            <span class="token keyword">switch</span>
+            httpStatus {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            (
+            <span class="token number">200</span>
+            ,
+            <span class="token string">"OK"</span>
+            ):
+            <br>
+            &emsp;&emsp;
+            <span class="function">print(</span>
+            <span class="token string">"Everything is just fine!"</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            (
+            <span class="token number">200</span>
+            ,
+            <span class="token keyword">let</span>
+            message ):
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Everything is fine:</span>
+            \\(message)
+            <span class="token string">"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token number">500</span>
+            ..<
+            <span class="token number">600</span>
+            ,
+            <span class="token keyword">_</span>
+            ):
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The server made a mistake"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            (
+            <span class="token keyword">_</span>
+            ,
+            <span class="token keyword">let</span>
+            message ):
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            message
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `+
+    "So in this case, it's 402, So I get the payment required."
+element=[title, similarity, text]
+allText.push(element)
+
+title="switch statement-guard with<code>where</code>"
+similarity="totally different, only in Swift"
+text="The lightBulbAndSwitch basically are on and on, off and off, on and off, off and on." +
+    "So at first, I wannt do the case matching. So I can say let bulb and button be avaliable in this case statement" +
+    "and what I can do is, I can guard it with where, say wherever bulb and button are equal to each other." +
+    "So if the bulb and button are both on or both off, then everything seems fine." +
+    "And now we know, otherwise, if the light bulb if off, then the switch must on because it's not equal anymore." +
+    "or another value by the way. But then the bulb is either broken or, and in all other cases will print" +
+    "The bulb is not controlled by the switch. And in this case, I set the lightBulbAndSwitch as on and off, " +
+    "So it's gonna print the bulb is not controlled by the switch."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            lightBulbAndSwitch
+            <span class="token operator">=</span>
+            (
+            <span class="token string">"on"</span>
+            ,
+            <span class="token string">"off"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulbAndSwitch {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token keyword">let</span>
+            (bulb, button)
+            <span class="token keyword">where</span>
+            bulb
+            <span class="token operator">==</span>
+            button:
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Everything seems fine!"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            (
+            <span class="token string">"off"</span>
+            ,
+            <span class="token keyword">_</span>
+            ):
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The bulb is either broken, or"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;&emsp;
+            <span class="token keyword">fallthrough</span>
+            <br>
+            &emsp;
+            <span class="token keyword">default</span>
+            :
+            <br>
+            <span class="token function">print(</span>
+            <span class="token string">"The bulb is not controlled by the switch"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
