@@ -1285,3 +1285,510 @@ text="The lightBulbAndSwitch basically are on and on, off and off, on and off, o
     `
 element=[title, similarity, text]
 allText.push(element)
+
+title="array"
+similarity=""
+text="Swift have two basic collection types: the array and the dictionary. " +
+    "If I have to compare with Java, I will stick to the array list in Java more or less. And Dictionary with the map. " +
+    "As you can see, there is a short syntax to define arrays. So now I get the array of strings." +
+    "To define that, I can just use the square brackets and every elements with the comma. " +
+    "So it's comma seperator for list of vaules. No surprises there. " +
+    "As you can see, I can have both mutable and immutable variables. And what that means is" +
+    "now my mutableMovies I can change. I can also reassign the mutableMovies to some other array, " +
+    "but I can manipulate the contents of array as well. While with the let, " +
+    "neither of those options are avaliable. So the both the value itself is immutable, " +
+    "you cannot reassign, but you can not contents of that array either." +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            movies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Pulp Fiction"</span>
+            ,
+            <span class="token string">"Reservoir Dogs"</span>
+            ]
+            <br>
+            <span class="token keyword">var</span>
+            mutableMovies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Pulp Fiction"</span>
+            ,
+            <span class="token string">"Reservoir Dogs"</span>
+            ]
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="array-create empty collections"
+similarity=""
+text="if you can't give value or elements right away, you can do it like this." +
+    "So you put the square brackets and the string and empty parenthesis. So that's the" +
+    "short version of defining an empty array."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            movies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">String</span>
+            ]()
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+
+title="array-access items of an array"
+similarity="Not yet decided"
+text="If I want to reach items, I can do subscripting like I do here. but that's not the safe operation." +
+    "it doesn't return optional. So basically if I have an empty array, then you get the error and it stop." +
+    "so basically it is the array out of bounds in Java. So that's not the safe operatrion." +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            movies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Pulp Fiction"</span>
+            ,
+            <span class="token string">"Jackie Brown"</span>
+            ,
+            <span class="token string">Reservoir Dogs"</span>
+            ]
+            <br>
+            <span class="token keyword">let</span>
+            pulpFiction
+            <span class="token operator">=</span>
+            movies[<span class="token number">0</span>]
+        </code>
+    </pre>
+    `+
+    "Safe operations are first and last. So calling .first and .last in your array, " +
+    "they return optional values. So that means that you have to unwrap that if you wnat to use that." +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            first
+            <span class="token operator">=</span>
+            movies<span class="token property">.first</span>
+            <br>
+            <span class="token keyword">let</span>
+            last
+            <span class="token operator">=</span>
+            movies<span class="token property">.last</span>
+        </code>
+    </pre>
+    `+
+    "Then you can check if it's empty or not. you can also count elements on it. "+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">if</span>
+            movies<span class="token property">.isEmpty</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We have no movies at all"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We have</span>
+            \\(movies<span class="token property">.count</span>)
+            <span class="token string">movies"</span>
+            <span class="token function">)</span>
+            <br>
+            <span class="token keyword">let</span>
+            second
+            <span class="token operator">=</span>
+            movies[<span class="token number">1</span>]
+            <br>
+            }
+        </code>
+    </pre>
+    `
+
+element=[title, similarity, text]
+allText.push(element)
+
+
+title="array-change items in an array"
+similarity="not yet decided"
+text="Some power stuff there. First is subscripting. you can change the first element to Jakie brown"+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">var</span>
+            movies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Pulp Fiction"</span>
+            ,
+            <span class="token string">"Reservoir Dogs"</span>
+            ]
+            <br>
+            movies[<span class="token number">0</span>]
+            <span class="token operator">=</span>
+            <span class="token string">"Jackie Brown"</span>
+        </code>
+    </pre>
+    `+
+    "also, you can change the entire range. I can replace the entire range 0 to 1 with your name. " +
+    "So basically movies becomes your name. So you can replace a range to another array." +
+    "The right side needs to be an array if you wanna do this. so whatever you assign it needs to be an array with the same type"+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            movies[<span class="token number">0</span>...<span class="token number">1</span>]
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Inglorious Bastards"</span>
+            ]
+        </code>
+    </pre>
+    `+
+    "Now, if you wanna append a single element, the append operation."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            movies<span class="token property">.append</span>(
+            <span class="token string">"Django Unchained"</span>
+            )
+        </code>
+    </pre>
+    `+
+    "And you can also append an entire array."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            movies
+            <span class="token operator">+=</span>
+            [
+            <span class="token string">"Kill Bill"</span>,
+            <span class="token string">"Kill Bill 2"</span>
+            ]
+        </code>
+    </pre>
+    `+
+    "And I can insert on any index using insert operation. "+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            movies<span class="token property">.insert</span>(
+            <span class="token string">"Jackie Brown"</span>,
+            atIndex:
+            <span class="token number">1</span>)
+        </code>
+    </pre>
+    `+
+    "And I can also do something like remove last which will return the value that got removed from the array."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            removedItem
+            <span class="token operator">=</span>
+            movies<span class="token property">.removeLast</span>()
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="array-iterating over an array"
+similarity="not yet decided"
+text="Array is a sequence as well in Swift. So you can just iterate with for-in loop." +
+    "The nice thing in swift is, you also has this nice thing called enumerate. this is a function returns the tuple." +
+    "Inside that tuple, you can get the elements for each iteration as the second element. And the first element" +
+    "is the index in that iteration." +
+    "So instead of like in Java, you first put a variable i in front of your for loop and then put in " +
+    "for-in loop or you woul have to stick with for-int version while in Swift you don't need to." +
+    "You can just use enumerate. So that's a nice feature"+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            movies
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Pulp Fiction"</span>,
+            <span class="token string">"Jackie Brown"</span>,
+            <span class="token string">"Reservoir Dogs"</span>
+            ]
+            <br>
+            <span class="token keyword">for</span>
+            movie
+            <span class="token keyword">in</span>
+            movies {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            movie
+            <span class="token function">)</span>
+            <br>
+            }
+            <br>
+            <span class="token keyword">for</span>
+            (index, movie)
+            <span class="token keyword">in</span>
+            <span class="token function">enumerate(</span>
+            movies
+            <span class="token function">)</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            \\(index)
+            <span class="token string">:</span>
+            \\(movie)
+            <span class="token string">"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+
+title="dictionary"
+similarity=""
+text="So then dictionary, samething let or var. And here is the complicated dictionary where you can see" +
+    "the key is the ranges of iPhones and the values are tuples. And the key is limited(I will explain later)" +
+    "and the value, you can put anything in here. And in this case, it's a tuple and basically is the resolution of each iPhone."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            resolutions
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"iPhone 3/3GS"</span>
+            : (
+            <span class="token number">320</span>
+            ,
+            <span class="token number">480</span>
+            ),
+            <span class="token string">"iPhone 4/4S"</span>
+            : (
+            <span class="token number">640</span>
+            ,
+            <span class="token number">960</span>
+            )]
+            <br>
+            <span class="token keyword">var</span>
+            mutableResolutions
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"iPhone 3/3GS"</span>
+            : (
+            <span class="token number">320</span>
+            ,
+            <span class="token number">480</span>
+            ),
+            <span class="token string">"iPhone 4/4S"</span>
+            : (
+            <span class="token number">640</span>
+            ,
+            <span class="token number">960</span>
+            )]
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="dictionary-create empty collection"
+similarity=""
+text="The same goes for dictionary. And here I created the same types as I did before. " +
+    "but this time, the empty versions. "+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            resolutions
+            <span class="token operator">=</span>
+            [
+            <span class="token string">String</span>
+            : (
+            <span class="token number">Int</span>
+            ,
+            <span class="token number">Int</span>
+            )]()
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="dictionary-accessing items in a dictionary"
+similarity="not yet decided"
+text="Let's make a dictionary called opposites here. If I want to access items in that dictionary, I can just refer to these items by key. " +
+    "obviously, just like in java with get method. The only difference is, since that in java can return null, and in swift, it returns optional." +
+    "So you get the optional value back. As you can see here, I am looking for high which is not in my list of keys," +
+    "so nil is returned."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            opposites
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Fire"</span>:<span class="token string">"Ice"</span>,
+            <span class="token string">"Hot"</span>:<span class="token string">"Cold"</span>,
+            ]
+            <br>
+            <span class="token keyword">let</span>
+            maybeIce
+            <span class="token operator">=</span>
+            opposites[<span class="token string">"Fire"</span>]
+        </code>
+    </pre>
+    `+
+    "You can just check for empty dictionaries and do a count of all the elements. In this case, 2. "+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">if</span>
+            (opposites<span class="token property">.isEmpty</span>) {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"We have no opposites at all"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class="token keyword">else</span>
+            {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">We have</span>
+            \\(opposites<span class="token property">.count</span>)
+            <span class="token string">resolutions"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+title="dictionary-changing items in a dictionary"
+similarity="not yet decided"
+text="Now let's look at changing items in a dictionary. Again, I have to put var to dictionary if I wanna do that." +
+    "And I can assign by using just subscripting again. So this is basically added it. So in case, I added high in my dictionary. " +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">var</span>
+            opposites
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Fire"</span>:<span class="token string">"Ice"</span>,
+            <span class="token string">"Hot"</span>:<span class="token string">"Cold"</span>,
+            ]
+            <br>
+            opposites[<span class="token string">"High"</span>]
+            <span class="token operator">=</span>
+            <span class="token string">"Low"</span>
+            <br>
+        </code>
+    </pre>
+    `+
+    "So if you want to remove item, you can just assign to nil."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            opposites[<span class="token string">"High"</span>]
+            <span class="token operator">=</span>
+            <span class="token keyword">nil</span>
+            <br>
+            opposites<span class="token property">.count</span>
+        </code>
+    </pre>
+    `+
+    "So basically, I added an element then I removed one, so we get the count of 2."
+
+element=[title, similarity, text]
+allText.push(element)
+
+title="dictionary-iterating over a dictionary"
+similarity="not yet decided"
+text="If you iterate the whole dictionary, you get the tuple back with key and value in it. So that's the first version." +
+    "you can also iterate over the keys, you can also iterate over the values. " +
+    "So again, tuples being used in here."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            opposites
+            <span class="token operator">=</span>
+            [
+            <span class="token string">"Fire"</span>:<span class="token string">"Ice"</span>,
+            <span class="token string">"Hot"</span>:<span class="token string">"Cold"</span>,
+            ]
+            <br>
+            <span class="token keyword">for</span>
+            (key, value)
+            <span class="token keyword">in</span>
+            opposites {
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The opposite of</span>
+            \\(key)
+            <span class="token string">is</span>
+            \\(value)
+            <span class="token string">"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <br>
+            <span class="token keyword">for</span>
+            key
+            <span class="token keyword">in</span>
+            opposites<span class="token property">.keys</span>{
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            key
+            <span class="token function">)</span>
+            <br>
+            }
+            <br>
+            <span class="token keyword">for</span>
+            value
+            <span class="token keyword">in</span>
+            opposites<span class="token property">.values</span>{
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            value
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    `
+element=[title, similarity, text]
+allText.push(element)
+
+
