@@ -36,7 +36,7 @@ class ConverterController @Inject() extends Controller {
   }
 
   def exIndex = Action {
-    Ok(views.html.converterIndex("This is Visualizer Page."))
+    Ok(views.html.converterIndex(""))
   }
 
 
