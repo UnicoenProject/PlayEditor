@@ -3,272 +3,254 @@
 * message to display.
 *@
 @(message: String)
-@*
-* Call the `main` template with two arguments. The first
-* argument is a `String` with the title of the page, the second
-* argument is an `Html` object containing the body of the page.
-*@
-@main("Jasminを使ってSwiftを学ぼう") {
-
-    <script>
-        window.CONTROLE_GROUP = false;
-    </script>
-
-    <style>
-    .level2 {
-        visibility: hidden;
-        padding-left: 20px
-    }
-
-    </style>
     @*
-    * Get an `Html` object by calling the built-in Play welcome
-    * template and passing a `String` message.
+    * Call the `main` template with two arguments. The first
+    * argument is a `String` with the title of the page, the second
+    * argument is an `Html` object containing the body of the page.
     *@
-    @*
-    @play20.welcome(message, style = "Scala")
-    *@
-    <p id = "logo">
-        <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
-    </p>
-    <p>
-        <button id="prev" class="btn btn-default"> Prev </button>
-        <button id="next" class="btn btn-default"> Next </button>
-        @*<button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>*@
-    </p>
-    @*<div id="editorAnswer" style="height: 400px; width: 500px; float: left; padding-right: 250px;padding-bottom:50px">
-    </div>*@
+    @main("Jasminを使ってSwiftを学ぼう") {
+        <script>
+                window.CONTROLE_GROUP = false;
+        </script>
 
-    <div id="textbook">
-        <h2><div id="title"></div></h2>
-        <h4><div id="similarity"></div></h4>
-        <hr>
-        <div id="textString"></div>
-    </div>
+        <style>
+        .level2 {
+            visibility: hidden;
+            padding-left: 20px
+        }
+        </style>
+        @*
+        * Get an `Html` object by calling the built-in Play welcome
+        * template and passing a `String` message.
+        *@
+        @*
+        @play20.welcome(message, style = "Scala")
+        *@
+        <p id = "logo">
+            <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
+        </p>
+        <p>
+            <button id="prev" class="btn btn-default"> Prev </button>
+            <button id="next" class="btn btn-default"> Next </button>
+            @*<button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>*@
+        </p>
+        @*<div id="editorAnswer" style="height: 400px; width: 500px; float: left; padding-right: 250px;padding-bottom:50px">
+        </div>*@
 
-    <div class="stopwatch"></div>
+        <div id="textbook">
+            <h2><div id="title"></div></h2>
+            <h4><div id="similarity"></div></h4>
+            <hr>
+            <div id="textString"></div>
+            <div id="source"></div>
+        </div>
+
+        <div class="stopwatch"></div>
 
 
-    @* Converter in the bottom *@
-    <div id="tool_margin" style="height: 250px; clear: both;"></div>
-    <div id="tool" style="background-color: white;
-        position: fixed;
-        bottom: 0;
-        border: solid;
-        height: 250px;
-        width: 90%;
-        z-index: 10;
-        float: left">
+        @* Converter in the bottom *@
+        <div id="tool_margin" style="height: 250px; clear: both;"></div>
+        <div id="tool" style="background-color: white;
+            position: fixed;
+            bottom: 0;
+            border: solid;
+            height: 250px;
+            width: 90%;
+            z-index: 10;
+            float: left">
 
-        <div clsee="row">
-            @*CodeArea(ACE)*@
-            <div class="btn-group" style="background-color: whitesmoke;
-                margin-top: 20px;
-                margin-left: 15px;
-                width: 975px">
-                <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
-                <button id="close" class="btn btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
+            <div clsee="row">
+                @*CodeArea(ACE)*@
+                <div class="btn-group" style="background-color: whitesmoke;
+                    margin-top: 20px;
+                    margin-left: 15px;
+                    width: 975px">
+                    <button id="exec" class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button>
+                    <button id="close" class="btn btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
+                </div>
+            </div>
+            <div id="converter" style="height: 180px;
+                overflow: auto">
+                <div class="col-lg-6 col-md-6">
+                    Java
+                    <div id="editorMain" style="height: 600px;"></div>
+
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    Swift
+                    <div id="editorResult" style="height: 600px"></div>
+                </div>
             </div>
         </div>
-        <div id="converter" style="height: 180px;
-            overflow: auto">
-            <div class="col-lg-6 col-md-6">
-                Java
-                <div id="editorMain" style="height: 600px;"></div>
+        @*処理の流れ<br>*@
+        @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
+        @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
+        @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
+        <script src="@routes.Assets.versioned("javascripts/stopWatch.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/textbook.js")" type="text/javascript"></script>
 
-            </div>
-            <div class="col-lg-6 col-md-6">
-                Swift
-                <div id="editorResult" style="height: 600px"></div>
-            </div>
-        </div>
-    </div>
-    @*処理の流れ<br>*@
-    @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
-    @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
-    @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
-    <script src="@routes.Assets.versioned("javascripts/stopWatch.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.versioned("javascripts/textbook.js")" type="text/javascript"></script>
-
-    <script>
-            $(function() {
-                if(window.CONTROLE_GROUP) {
-                    $('#tool, #tool_margin').hide();
+        <script>
+                $(function() {
+                    if(window.CONTROLE_GROUP) {
+                        $('#tool, #tool_margin').hide();
+                    }
+                    stopwatch.start();
+                })
+                $('#close').on('click', function () {
+                    var curHeight = $('#tool').height();
+                    if (curHeight > 200) {//appeared
+                        $('#tool').animate({
+                            height: 70
+                        }, "normal");
+                        $('#converter').fadeOut();
+                    } else {
+                        $('#tool').animate({
+                            height: 250
+                        }, "normal");
+                        $('#converter').fadeIn();
+                    }
+                });
+                var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
+                var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
+                        "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
+                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
+                        "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
+                showCurrentText('T0');
+                $('#next').on('click', function () {
+                    var textNum = nextText(localStorage.currentText);
+                    showCurrentText(textNum, true);
+                    stopwatch.restart();
+                });
+                $('#prev').on('click', function () {
+                    var textNum = prevText(localStorage.currentText);
+                    showCurrentText(textNum, true);
+                    stopwatch.restart();
+                })
+                $(function() {
+                    var hash = location.hash;
+                    if (hash) {
+                        var textNum = hash.substring(1);
+                        showCurrentText(textNum);
+                    }
+                });
+                function nextText(textNum){
+                    var type = textNum[0];
+                    var index = parseInt(textNum.substring(1)) | 0;
+                    if(index==allText.length-1){
+                        return "E";
+                    }
+                    return type+(index+1);
                 }
-                stopwatch.start();
-            })
-
-
-            $('#close').on('click', function () {
-                var curHeight = $('#tool').height();
-                if (curHeight > 200) {//appeared
-                    $('#tool').animate({
-                        height: 70
-                    }, "normal");
-                    $('#converter').fadeOut();
-                } else {
-                    $('#tool').animate({
-                        height: 250
-                    }, "normal");
-                    $('#converter').fadeIn();
+                function prevText(textNum){
+                    var type = textNum[0];
+                    var index = parseInt(textNum.substring(1)) | 0;
+                    if(type=='E'){
+                        return 'T'+(allText.length-1);
+                    }
+                    if(index==0){
+                        return 'T0';
+                    }
+                    return type+(index-1);
                 }
-            });
-
-            var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
-            var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
-                    "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
-                    "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
-                    "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
-
-
-            showCurrentText('T0');
-
-            $('#next').on('click', function () {
-                var textNum = nextText(localStorage.currentText);
-                showCurrentText(textNum, true);
-                stopwatch.restart();
-            });
-            $('#prev').on('click', function () {
-                var textNum = prevText(localStorage.currentText);
-                showCurrentText(textNum, true);
-                stopwatch.restart();
-
-            })
-            $(function() {
-                var hash = location.hash;
-                if (hash) {
-                    var textNum = hash.substring(1);
-                    showCurrentText(textNum);
+                function showCurrentText(textNum, updateHash){
+                    localStorage.currentText = textNum;
+                    if(updateHash){
+                        location.hash = textNum;
+                    }
+                    var type = textNum[0];
+                    var index = parseInt(textNum.substring(1));
+                    if (type == 'E') {
+                        document.getElementById('title').innerHTML = endEnd;
+                        document.getElementById('similarity').innerHTML = '';
+                        document.getElementById('textString').innerHTML = '';
+                        document.getElementById('source').innerHTML='';
+                        localStorage.currentText = 'E';
+                    } else if (type == 'T') {
+                        var element = allText[index];
+                        document.getElementById('title').innerHTML = element[0];
+                        document.getElementById('similarity').innerHTML = element[1];
+                        document.getElementById('textString').innerHTML = element[2];
+                        document.getElementById('source').innerHTML = element[3];
+                    }
                 }
-            });
-            function nextText(textNum){
-                var type = textNum[0];
-                var index = parseInt(textNum.substring(1)) | 0;
-                if(index==allText.length-1){
-                    return "E";
-                }
-                return type+(index+1);
-            }
-            function prevText(textNum){
-                var type = textNum[0];
-                var index = parseInt(textNum.substring(1)) | 0;
-                if(type=='E'){
-                    return 'T'+(allText.length-1);
-                }
-                if(index==0){
-                    return 'T0';
-                }
-
-                return type+(index-1);
-            }
-
-
-            function showCurrentText(textNum, updateHash){
-                localStorage.currentText = textNum;
-                if(updateHash){
-                    location.hash = textNum;
-                }
-                var type = textNum[0];
-                var index = parseInt(textNum.substring(1));
-                if (type == 'E') {
-                    document.getElementById('title').innerHTML = endEnd;
-                    document.getElementById('similarity').innerHTML = '';
-                    document.getElementById('textString').innerHTML = '';
-                    localStorage.currentText = 'E';
-
-                } else if (type == 'T') {
-                    var element = allText[index];
-                    document.getElementById('title').innerHTML = element[0];
-                    document.getElementById('similarity').innerHTML = element[1];
-                    document.getElementById('textString').innerHTML = element[2];
-                }
-            }
-
-            function createEditor(idName, canWrite, initText, mode, AnsEditor) {
-                var editor = ace.edit(idName);
-                if (canWrite) {
-                    editor.$blockScrolling = Infinity;
-                    editor.setOptions({
-                        enableBasicAutocompletion: true,//基本的な自動補完
-                        enableSnippets: true,//スニペット
-                        enableLiveAutocompletion: true//ライブ補完
-                    });
-                }
-                editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
-                //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
-                //2の場合編集不可能オプションをtrueにしたい。ｌ
+                function createEditor(idName, canWrite, initText, mode, AnsEditor) {
+                    var editor = ace.edit(idName);
+                    if (canWrite) {
+                        editor.$blockScrolling = Infinity;
+                        editor.setOptions({
+                            enableBasicAutocompletion: true,//基本的な自動補完
+                            enableSnippets: true,//スニペット
+                            enableLiveAutocompletion: true//ライブ補完
+                        });
+                    }
+                    editor.setTheme("ace/theme/monokai");
+                    editor.getSession().setMode("ace/mode/" + mode);//シンタックスハイライトと自動補完
+                    //editor.getSession().setUseWrapMode(true);//true:折り返し、false:横スクロールバー
+                    //2の場合編集不可能オプションをtrueにしたい。ｌ
 //                $('#font-size').click(function (e) {
 //                    editor.setFontSize($(e.target).data('size'));
 //                });
-                editor.setReadOnly(!canWrite);
-                if (canWrite) {
-                    $('#exec').click(function (e) {
-                        var form = document.createElement('form');
-                        document.body.appendChild(form);
-                        var input = document.createElement('input');
-                        input.setAttribute('type', 'hidden');
-                        input.setAttribute('name', 'name');
-                        var text = editor.getValue();
+                    editor.setReadOnly(!canWrite);
+                    if (canWrite) {
+                        $('#exec').click(function (e) {
+                            var form = document.createElement('form');
+                            document.body.appendChild(form);
+                            var input = document.createElement('input');
+                            input.setAttribute('type', 'hidden');
+                            input.setAttribute('name', 'name');
+                            var text = editor.getValue();
 //                    text = text.split(`"`).join(`"`);
-
-                        if (idName == 'editorMain') {
-                            if (AnsEditor != null) {
-                                localStorage.textSwiftAns = AnsEditor.getValue();
+                            if (idName == 'editorMain') {
+                                if (AnsEditor != null) {
+                                    localStorage.textSwiftAns = AnsEditor.getValue();
+                                }
+                                localStorage.textJavaMain = text;
+                                input.setAttribute('value', text);
+                                form.appendChild(input);
+                                form.setAttribute('action', '/converter' + location.hash);
+                                form.setAttribute('method', 'POST');
+                                form.submit();
                             }
-                            localStorage.textJavaMain = text;
-                            input.setAttribute('value', text);
-                            form.appendChild(input);
-                            form.setAttribute('action', '/converter' + location.hash);
-                            form.setAttribute('method', 'POST');
-                            form.submit();
-
-                        }
-                    });
+                        });
+                    }
+                    if (initText != null && initText != '')
+                        editor.setValue(initText, -1);
+                    return editor;
                 }
-
-                if (initText != null && initText != '')
-                    editor.setValue(initText, -1);
-                return editor;
-            }
-            var mes = `@Html(message)`;
-            var mes1 = mes.replace(/<br>/g, `
+                var mes = `@Html(message)`;
+                var mes1 = mes.replace(/<br>/g, `
 `) ;
-            var mes2 = mes.replace(/<br>/g, `
+                var mes2 = mes.replace(/<br>/g, `
 //`) ;
-            if (mes2 == "NULL_POINTER") {
-                alert("Error in the Java Program");
-                mes2 = "";
-            }
+                if (mes2 == "NULL_POINTER") {
+                    alert("Error in the Java Program");
+                    mes2 = "";
+                }
+                var defaultJavaCode =
+                        'public class Main {\n' +
+                        '    public static void main(String[] args) {\n' +
+                        '        System.out.println("Hello, world");\n' +
+                        '    }\n' +
+                        '}\n';
+                //            var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
+                //            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
+                var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", null);
+                var editorResult = createEditor('editorResult', false, mes2, "swift", null);
+        </script>
+        <script>
+                function pad0(value, count) {
+                    var result = value.toString();
+                    for (; result.length < count; --count)
+                        result = '0' + result;
+                    return result;
+                }
+                function clearChildren(node) {
+                    while (node.lastChild)
+                        node.removeChild(node.lastChild);
+                }
+                let stopwatch = new Stopwatch(
+                        document.querySelector('.stopwatch'),
+                        document.querySelector('.results'));
+        </script>
 
-            var defaultJavaCode =
-                    'public class Main {\n' +
-                    '    public static void main(String[] args) {\n' +
-                    '        System.out.println("Hello, world");\n' +
-                    '    }\n' +
-                    '}\n';
-
-//            var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
-//            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
-            var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", null);
-            var editorResult = createEditor('editorResult', false, mes2, "swift", null);
-    </script>
-    <script>
-            function pad0(value, count) {
-                var result = value.toString();
-                for (; result.length < count; --count)
-                    result = '0' + result;
-                return result;
-            }
-
-            function clearChildren(node) {
-                while (node.lastChild)
-                    node.removeChild(node.lastChild);
-            }
-
-            let stopwatch = new Stopwatch(
-                    document.querySelector('.stopwatch'),
-                    document.querySelector('.results'));
-    </script>
-
-}
+    }

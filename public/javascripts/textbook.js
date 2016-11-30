@@ -1,4 +1,7 @@
 /**
+ * Created by khlee on 11/17/16.
+ */
+/**
  * Created by khlee on 10/18/16.
  */
 
@@ -6,15 +9,23 @@
 var title;
 var text;
 var similarity;
+var source="This is source";
 var element;
 var allText = [];
+
+function addText() {
+    element=[title, similarity, text, source]
+    allText.push(element)
+}
 
 
 title = "Hello World"
 similarity=`<p class="similar">ほぼ同じ</p>`+
-    "<code>print</code>関数(Swift) = <code>System.out.println</code>関数(Java)"
+    "Swift: <code>print</code>関数 = Java: <code>System.out.println</code>関数"
 text = "伝統的に、新しい言語で書く最初のプログラムは、「Hello, world!」です。Swift では 1 行で記述できます。<br>"
-    + "Javaでコードを書いたことがあれば、このシンタックスには馴染みがあるでしょう。Swift では、この 1 行が完全なプログラムです。<br>"
+    + "Javaでコードを書いたことがあれば、このシンタックスには馴染みがあるでしょう。Swift では、この 1 行が完全なプログラムです。<br>" +
+    "グローバルスコープで記述されたコードはプログラムのエントリーポイントとなり、クラス定義やmain() 関数は必要ありません。<br>" +
+    "各ステートメントの末尾にセミコロンを置く必要もありません。<br><br>"
     + "print関数に文字列のパラメータを入れることで出力ができます。"
     + `
     <pre class="language-swift">
@@ -25,35 +36,16 @@ text = "伝統的に、新しい言語で書く最初のプログラムは、「
         </code>
     </pre>
     `
+source="Source: http://www.studiogalago.com/the-swift-programming-language/welcome-to-swift/a-swift-tour/a-swift-tour/"
+addText()
 
-element=[title, similarity, text]
-allText.push(element)
 
 title="文字列の埋め込み"
 similarity=`<p class="diff">全然違う</p>`+
-    "文字列の中にvariableを埋め込む(Swift) VS 文字列の追加(Java)"
-text="Javaやほかのプログラミング言語では<code>＋</code>オペレーターで文字列とほかのデータタイプとの操作を行います。<br>"
-    + "整数を文字列の後ろに追加するなどの時は、整数を文字列に変換する必要があります。ですが、Swiftでは、その時変換操作は必要ありません。<br>"
-    + "変数などを <code>\\( )</code> オペレーターでラッピングする方法で、様々なデータタイプの変数を文字列の中に入れられます。<br>"
-    + `
-    <pre class="language-swift">
-        <code class="language-swift">
-            <span class="token keyword">let</span>
-            hello
-            <span class="token operator">=</span>
-            <span class="token string">"Hello"</span>
-            <br>
-            <span class="token function">print(</span>
-            <span class="token string">"</span>
-            \\( hello )
-            <span class="token string">World!"</span>
-            <span class="token function">)</span>
-            <span class="token comment">//Hello World!を出力</span>
-        </code>
-    </pre>
+    "Swift: 文字列の中にvariableを埋め込む<br>Java: 文字列として追加"
+text="Javaやほかのプログラミング言語では<code>＋</code>オペレーターで文字列とほかのデータタイプとの操作を行います。<br>" +
+    "整数を文字列の後ろに追加するなどの時は、整数を文字列に変換する必要があります。" +
     `
-    + "このコードをJavaで実現すると："
-    + `
     <pre class="language-java">
         <code class="language-java">
             <span class="token keyword">final</span>
@@ -70,7 +62,29 @@ text="Javaやほかのプログラミング言語では<code>＋</code>オペレ
             ;
         </code>
     </pre>
-    `+
+    ` +
+    "ですが、Swiftでは、その時変換操作は必要ありません。<br>" +
+    "<b>文字列補間 (string interpolation)</b> は、文字列リテラル内に値を含め、定数や変数、リテラル、式を組み合わせて新しい String 値を構築する手段です。<br>" +
+    "文字列リテラルに挿入する各項目を丸括弧で囲み、バックスラッシュを前に置きます。変数などを <code>\\( )</code> オペレーターでラッピングする方法で、様々なデータタイプの変数を文字列の中に入れられます。<br>"
+    + `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            hello
+            <span class="token operator">=</span>
+            <span class="token string">"Hello"</span>
+            <br>
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            \\( hello )
+            <span class="token string">World!"</span>
+            <span class="token function">)</span>
+            <span class="token comment">//Hello World!を出力</span>
+        </code>
+    </pre>
+    ` +
+    "この例では、hello の値が \(\"Hello\") として文字列リテラルに挿入されています。<br>" +
+    "文字列補間が評価される時に、プレースホルダは helloの実際の値で置き換えられます。<br><br>" +
     "<hr>もう一つの例を見てみましょう。"
     + `
     <pre class="language-swift">
@@ -89,7 +103,7 @@ text="Javaやほかのプログラミング言語では<code>＋</code>オペレ
         </code>
     </pre>
     `
-    + "このプログラムは年齢の定数を定義し、文字列に変換して出力します。同じプログラムをJavaで書いてみると："
+    + "このプログラムは年齢の定数を定義し、文字列と置き換えられて出力します。同じプログラムをJavaで書いてみると："
     + `
     <pre class="language-java">
         <code class="language-java">
@@ -112,10 +126,11 @@ text="Javaやほかのプログラミング言語では<code>＋</code>オペレ
         </code>
     </pre>
     `
-    + "Javaで変換と追加が多い場合、コードが長くなり、読みづらくなります。それに比べて、明らかにSwiftの操作方法がもっと簡単だと言えるでしょう。"
+    + "Javaで文字列への変換と追加が多い場合、コードが長くなり、読みづらくなります。それに比べて、明らかにSwiftの操作方法がもっと簡単だと言えるでしょう。"
 
-element = [title, similarity, text]
-allText.push(element);
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/strings-and-characters/string-interpolation/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
 title="基本的なデータ型"
 similarity=`<p class="similar">ほぼ同じ</p>`
@@ -181,9 +196,53 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
         </code>
     </pre>
     
+    `+
+    "<h3>整数</h3>" +
+    "Swift には整数型 Int があり、プラットフォームのワードサイズと同じサイズとなります。<br>" +
     `
-element=[title, similarity, text]
-allText.push(element)
+    <ul>
+        <li>32 ビットプラットフォームでは、Int は Int32 と同じサイズになります。</li>
+        <li>64 ビットプラットフォームでは、Int は Int64 と同じサイズになります。</li>
+    </ul>
+    ` +
+    "整数に特定のサイズを指定する必要が無い場合、コードの整数値には常に Int を使います。これにより、コードに一貫性と互換性をもたらします。<br>" +
+    "32 ビットプラットフォームでも、Int は -2,147,483,648 から 2,147,483,647 までの値を保存することができ、整数を利用する多くのケースにおいて十分な大きさです。" +
+    "<h3>浮動小数点数</h3>" +
+    "浮動小数点数 Floating-point numbers は、3.14159 や 0.1、-273.15 のような、小数部を持つ数です。<br>" +
+    "浮動小数点型は、整数の型よりも幅広い範囲の値を表現し、Int に保存できるよりも大きい、または小さい値を保存できます。<br>" +
+    "Swift には、2 種類の符号付き浮動小数点数型があります。<br>" +
+    `
+    <ul>
+        <li>Double は、64 ビット浮動小数点数になります。</li>
+        <li>Float は、32 ビット浮動小数点数になります。</li>
+    </ul>
+    ` +
+    "<b>NOTE:</b> Double は、少なくとも 15 桁の精度を持ち、Float は 6 桁の精度になります。<br>" +
+    "適切な浮動小数点型は、コードで扱う必要がある値の範囲によります。どちらの型も適している状況では、Double を利用するようにします。" +
+    "<h3>ブール</h3>" +
+    "Swift は、Bool と呼ばれる、基本的なブール型を持っています。ブール値は論理値とも言われますが、真または偽のいずれかになるためです。<br>" +
+    "Swift には、2 つのブール定数値 <code>true</code> と <code>false</code> があります。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            orangesAreOrange:Bool
+            <span class="token operator">=</span>
+            <span class="token boolean">true</span>
+            <br>
+            <span class="token keyword">let</span>
+            turnipsAreDelicious:Bool
+            <span class="token operator">=</span>
+            <span class="token boolean">false</span>
+        </code>
+    </pre>
+    `
+
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/integers/<br>" +
+    "http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/floating-point-numbers/<br>" +
+    "http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/booleans/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
 title = "定数と変数の宣言"
 similarity=`<p class="littlediff">少し違う</p>`+
@@ -197,9 +256,11 @@ similarity=`<p class="littlediff">少し違う</p>`+
         <span class="token operator">  </span> <span class="token keyword">final</span>　型　定数名＝式(Java)
         <span class="token operator">=></span>　<span class="token keyword">let</span>　定数名：型＝式(Swift)
     </pre>`
-text = "定数と変数は、使用する前に宣言しておく必要があります。定数は、値を設定した後に変更することはできません。変数は、値をいつでも変更できます。<br>"
-    + "<code>let</code> キーワードで定数を宣言し、<code>var</code> キーワードで変数を宣言します。" +
-    + `
+text = "定数と変数は、数値 10 や文字列 Hello のような特定の型の値を、number や message のような名前に結び付けます。<br>" +
+    "定数と変数は、使用する前に宣言しておく必要があります。<br>" +
+    "定数は、値を設定した後に変更することはできません。変数は、値をいつでも変更できます。<br>" +
+    "<code>let</code> キーワードで定数を宣言し、<code>var</code> キーワードで変数を宣言します。<br>" +
+    `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">let</span>
@@ -210,7 +271,7 @@ text = "定数と変数は、使用する前に宣言しておく必要があり
             immutable
             <span class="token operator">=</span>
             <span class="token string">"I can not be changed!"</span>
-            <span class="token comment">//compile error</span>
+            <span class="token comment">//コンパイルエラー</span>
         </code>
     </pre>
     `+
@@ -229,11 +290,13 @@ text = "定数と変数は、使用する前に宣言しておく必要があり
             <span class="token operator">=</span>
             <span class="token string">"I can not be changed!"</span>
             ;
-            <span class="token comment">//compile error</span>
+            <span class="token comment">//コンパイルエラー</span>
         </code>
     </pre>
+    <hr>
+    ` +
+    "変数は値をいつでも変更できます。"+
     `
-    + `<hr>
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">var</span>
@@ -266,48 +329,77 @@ text = "定数と変数は、使用する前に宣言しておく必要があり
     </pre>
     `
 
-
-element = [title, similarity, text]
-allText.push(element);
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/constants-and-variables/" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
 title = "型推論"
-similarity = `<p class="diff">全然違う（Swift特有）</p>`
-text = "初期値が指定されており、そのデータ型が明らかであれば型を明記する必要はありません。" +
-    "プログラムの記述から適切なデータがたを判断したり、値と手続きや演算子の組み合わせに矛盾がないかチェックしたりする機能を" +
-    "型推論（type inference)と呼びます。Swiftは強力な型推論の仕組みを備えており、型の不一致を細かく指摘する反面、使われる型が明らかな部分は記述をかなり省略できます。" +
-    "変数の宣言では、型名を明記せずに、積極的に初期値を設定するプログラミングスタイルが推奨されています。" +
-    "Swift は、型安全（タイプセーフ）な言語です。タイプセーフな言語は、コードが扱う値の型が明らかで、String を期待するコード部分に誤って Int を渡すようなことができません。"
-    + "Swift はタイプセーフであるため、コードをコンパイルする時に型をチェックし、適合しない型にエラーとして印を付けます。"
-    + "これにより、開発の早い段階でエラーを発見し、修正できるようになります。"
-    + "以下のコードを見ると、型は全部宣言してありません。<br>"
-    + `
+similarity = `<p class="diff">Swift特有</p>`
+text = "Swift は、型安全（タイプセーフ）な言語です。<br>" +
+    "タイプセーフな言語は、コードが扱う値の型が明らかで、String を期待するコード部分に誤って Int を渡すようなことができません。<br>" +
+    "Swift はタイプセーフであるため、コードをコンパイルする時に型をチェックし、適合しない型にエラーとして印を付けます。<br>" +
+    "これにより、開発の早い段階でエラーを発見し、修正できるようになります。<br>" +
+    "プログラムの記述から適切なデータがたを判断したり、値と手続きや演算子の組み合わせに矛盾がないかチェックしたりする機能を<b>型推論（type inference)</b>と呼びます。<br>" +
+    "Swiftは強力な型推論の仕組みを備えており、型の不一致を細かく指摘する反面、使われる型が明らかな部分は記述をかなり省略できます。<br>" +
+    "変数の宣言では、型名を明記せずに、積極的に初期値を設定するプログラミングスタイルが推奨されています。<br><br>" +
+    "型推論によって、Javaと比較して、Swift では型宣言が必要となる場面が少なくなります。<br>" +
+    "型推論は、初期値とともに定数または変数を宣言する場合に特に役立ちます。定数または変数の宣言時にリテラル値を代入する場合のことです。<br>" +
+    "（リテラル値とは、下の例にある 42 や 3.14159 のように、ソースコードに直接現れる値のことです。）<br>" +
+    "例えば、型を指定せずに新しい定数にリテラル値 42 を代入する場合、Swift はこの定数が Int であると推論します。なぜなら、整数のように見える数値で初期化しているためです。<br>" +
+    `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">let</span>
-            anInt
+            meaningOfLife
             <span class="token operator">=</span>
-            <span class="token number">1337</span>
-            <br>
-            <span class="token keyword">let</span>
-            aDouble
-            <span class="token operator">=</span>
-            <span class="token double">3.14</span>
-            <br>
-            <span class="token keyword">let</span>
-            aString
-            <span class="token operator">=</span>
-            <span class="token string">"Hello, everyone!"</span>
+            <span class="token number">42</span>
+            <span class="token comment">// meaningOfLife は、Int 型と推論されます</span>
         </code>
     </pre>
+    ` +
+    "同様に、浮動小数点リテラルの型を指定しない場合、Swift は Double と推論します。" +
     `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            pi
+            <span class="token operator">=</span>
+            <span class="token number">3.14159</span>
+            <span class="token comment">// pi は Double 型と推論されます</span>
+        </code>
+    </pre>
+    ` +
+    "Swift は、浮動小数点数の型を推論するとき、常に（Float でなく）Double を選択します。<br><br>" +
+    "次の例を見てみましょう。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            orangesAreOrange
+            <span class="token operator">=</span>
+            <span class="token boolean">true</span>
+            <br>
+            <span class="token keyword">let</span>
+            turnipsAreDelicious
+            <span class="token operator">=</span>
+            <span class="token boolean">false</span>
+        </code>
+    </pre>
+    ` +
+    "<span class='token variable-text'>orangesAreOrange</span>と<span class='token variable-text'>turnipsAreDelicious</span>の型は" +
+    "ブールのリテラル値で初期化されているため、Boolと推論されます。<br>" +
+    "IntやDoubleも同様、定数や変数の宣言時に<code>true</code>や<code>false</code>を与える場合には、Boolとして型を宣言する必要はありません。<br>" +
+    "定数値や変数値が明らかな場合には、型推論によってSwiftのコードは簡潔で読みやすくなります。"
 
-element = [title, similarity, text]
-allText.push(element);
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/type-safety-and-type-inference/"
+addText()
 
 title = "型キャスト"
-similarity = `<p class="diff">全然違う（Javaにもキャストはあるが、その原理が違う）</p>`
-text = "Swiftはタイプセーフな言語です。基本的には、変数や定数には定義した以外の型の値を代入できません。IntとDoubleで、次のように" +
-    "定数と変数を設定してみると、エラーメッセージが表示されます。"+
+similarity = `<p class="diff">全然違う</p>` +
+    "Swift: 暗黙な型変換はしないため、キャストはいつも明示的<br>" +
+    "Java: 暗黙な型変換があるため、キャストは必要な時だけ宣言"
+text = "Swiftはタイプセーフな言語です。基本的には、変数や定数には定義した以外の型の値を代入できません。<br>" +
+    "IntとDoubleで、次のように定数と変数を設定してみると、エラーメッセージが表示されます。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -324,10 +416,10 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
         </code>
     </pre>
     ` +
-    "コンパイラが表示するメッセジーは：Int型はDouble型に変換できない、という内容です。" +
-    "整数と実数の間だけではなく、IntとUnit型（符号なし整数）、Float型とDouble型など、Java言語なら何の問題もナイト思われる型同士の間でも" +
-    "同様なメッセジーが出ます。" +
-    "代入だけではなく、単純な計算でも型が一致していないとエラーになります。Javaであれば混合演算で自動的に型変換が行われるところです。" +
+    "コンパイラが表示するメッセジーは：Int型はDouble型に変換できない、という内容です。<br>" +
+    "整数と実数の間だけではなく、IntとUnit型（符号なし整数）、Float型とDouble型など、Java言語なら何の問題もないと思われる型同士の間でも同様なメッセジーが出ます。<br>" +
+    "代入だけではなく、単純な計算でも型が一致していないとエラーになります。<br>" +
+    "Javaであれば混合演算で自動的に型変換が行われるところです。<br>" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -349,7 +441,7 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
         </code>
     </pre>
     `+
-    "<b>つまり、SwiftはJava言語のような「暗黙な型変換」は行わないのです。</b>"+
+    "<b>つまり、SwiftはJava言語のような「暗黙な型変換」は行わないのです。</b><br>"+
     "Swiftではこういった場合、プログラマが明示的に型変換をしなければなりません。例えば次のようにします。" +
     `
     <pre class="language-swift">
@@ -371,30 +463,33 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
             <span class="token function">Int(</span>
             a<span class="token operator">*</span><span class="token number">1.25</span>
             <span class="token function">)</span>
-            <span class="token comment">//問題なし。jの値は１２</span>
+            <span class="token comment">//問題なし。jの値は12</span>
         </code>
     </pre>
     `+
     "ここで指定している<code>Double()</code>や<code>Int()</code>は型変換の関数ではなく、Double型やInt型のインスタンスを新しく作るためんイニシャライザです。"
-element = [title, similarity, text]
-allText.push(element)
+source="https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s<br>" +
+    "「詳解Swift改訂版」ー荻原剛志"
+addText()
 
 
 title="オプショナル型"
-similarity=`<p class="diff">全然違う（Swift特有のデータ型）</p>`
-text="Swiftでは、扱うべき値が存在しないことを表すため、<code>nil</code>という特別な値を用意しています。" +
-    "変数や定数、関数の返り値、式の評価結果が、通帳の値だけではなく、未設定やエラーなどの状態を表すことがある場合、その値を<code>nil</code>で表現するのです。" +
-    "<code>nil</code>はJavaの<code>null</code>と同じく、オブジェクトが存在しないことを意味します。" +
-    "Javaでは、オブジェクトが通常値と<code>null</code>を両方持つことができますが、Swiftでは<code>nil</code>を持てる型と持てない型に分けました。" +
-    "例えば整数の場合、変数や式の型はInt型です。通常はInt型の値を持ち、特殊な場合に<code>nil</code>を値として持つことがある変数や式は" +
-    "Int型ではなく、Int?という型で扱います。これをオプショナル(optional) Int型と呼びます" +
+similarity=`<p class="diff">Swift特有のデータ型</p>`
+text="Swiftでは、扱うべき値が存在しないことを表すため、<code>nil</code>という特別な値を用意しています。<br>" +
+    "変数や定数、関数の返り値、式の評価結果が、通常の値だけではなく、未設定やエラーなどの状態を表すことがある場合、その値を<code>nil</code>で表現するのです。<br>" +
+    "<code>nil</code>はJavaの<code>null</code>と同じく、オブジェクトが存在しないことを意味します。<br>" +
+    "Javaでは、オブジェクトが通常値と<code>null</code>を両方持つことができますが、Swiftでは<code>nil</code>を持てる型と持てない型に分けています。<br>" +
+    "例えば整数の場合、変数や式の型はInt型です。<br>" +
+    "通常はInt型の値を持ち、特殊な場合に<code>nil</code>を値として持つことがある変数や式はInt型ではなく、Int?という型で扱います。" +
+    "<b>これをオプショナル(optional) Int型と呼びます</b>" +
+    "オプショナルの概念は、Javaにはありません。" +
     `
-    <table style="width:50%">
+    <table>
         <tr>
             <th>データ型</th>
-            <th>Swift</th>
+            <th>Swift（代入できる値）</th>
             <th>データ型</th>
-            <th>Java</th>
+            <th>Java（代入できる値）</th>
         </tr>
         <tr>
             <td>Int</td>
@@ -410,7 +505,8 @@ text="Swiftでは、扱うべき値が存在しないことを表すため、<co
         </tr>
     </table>
     `+
-    "以下の例を見てみましょう。"+
+    "以下の例を見てみましょう。" +
+    "この例では、値が存在しないことに対処するために、オプショナルがどのように使われるかを示す例です。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -434,17 +530,42 @@ text="Swiftでは、扱うべき値が存在しないことを表すため、<co
         </code>
     </pre>
     `+
-    "変数aはInt型ですので、整数以外の値を保持することはできません。一方、変数bはオプショナルInt型という型を持つ変数です。Int型の値のほか、" +
-    "nilを値とすることができます。ここでは例としてInt型について説明していますが、他の型についても全く同様にオプショナル型を利用できます。"+
-    "<code>nil</code>はオプショナル型以外の型には代入できません。" +
-    "オプショナル型の変数または定数を、初期値を設定しないて宣言した場合、初期値の既定値は<code>nil</code>になります。"+
+    "もう一つの例を見てみましょう。<br>" +
+    "Swift の Int 型には、String 値を Int 値に変換するイニシャライザがあります。" +
+    "しかし、あらゆる文字列が整数に変換できるわけではありません。文字列 123 は、数値 123 に変換できますが、文字列 \"hello\"は数値に変換できません。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            possibleNumber
+            <span class="token string">\"123\"</span>
+            <br>
+            <span class="token keyword">let</span>
+            convertedNumber
+            <span class="token operator">=</span>
+            <span class="token function">Int(</span>possibleNumber<span class="token function">)</span>
+            <span class="token comment">// convertedNumber は Int? 型、あるいは optional Int と推論される</span>
+            <br><br>
+            <span class="token keyword">let</span>
+            aString
+            <span class="token operator">=</span>
+            <span class="token string">"hello"</span>
+            <br>
+            <span class="token keyword">let</span>
+            convertedNumber2
+            <span class="token operator">=</span>
+            <span class="token function">Int(</span>aString<span class="token function">)</span>
+            <span class="token comment">// 文字列は数字に変換できないため、値はnilとなる</span>
+        </code>
+    </pre>
+    ` +
+    "イニシャライザが失敗する場合があるため、Int ではなく、オプショナル Int を返します。" +
+    "オプショナル型の変数または定数を、初期値を設定しないて宣言した場合、初期値の既定値は<code>nil</code>になります。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">var</span>
-            optionalVar
-            <span class="token operator">:</span>
-            String?
+            optionalVar:String?
             <span class="token comment">//nil</span>
             <br>
             <span class="token function">print(</span>
@@ -453,24 +574,13 @@ text="Swiftでは、扱うべき値が存在しないことを表すため、<co
             <span class="token comment">//"nil"</span>
         </code>
     </pre>
-    `+
-    "変数に<code>nil</code>以外の値を代入すると：" +
     `
-    <pre class="language-swift">
-        <code class="language-swift">
-            optionalVar
-            <span class="token operator">=</span>
-            <span class="token string">"This is an optional value"</span>
-            <br>
-            <span class="token function">print(</span>
-            optionalVar
-            <span class="token function">)</span>
-            <span class="token comment">//"Optional(This is an optional value)"</span>
-        </code>
-    </pre>
-    `
-element=[title, similarity, text]
-allText.push(element)
+// "var serverResponseCode: Int? = 404// serverResponseCode は Int 値 404<br>serverResponseCode = nil// serverResponseCode には値が存在しない"
+// "element=[title, similarity, text]<br>allText.push(element)" +
+// "nil をオプショナルでない定数や変数に使うことはできません。定数または変数が、ある条件において値が存在しない状態を扱う必要がある場合は、" +
+// "適切な型のオプショナル値として宣言してください。"
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/optionals/"
+addText()
 
 // title="Comments"
 // similarity = "SAME AS JAVA"
@@ -480,7 +590,61 @@ allText.push(element)
 
 title="基本演算子"
 similarity=`<p class="similar">Javaの算数演算子と全く同じ</p>`
-text="Swiftは、全ての数値型に対してスタンダードな４つの演算子をサポートし、この演算子はJavaと全く同じ動きをします。" +
+text=
+    `
+    <table>
+        <tr>
+            <th></th>
+            <th>Swift</th>
+            <th>Java</th>
+        </tr>
+        <tr>
+            <td>算数演算子</td>
+            <td>
+                <ul>
+                    <li>+</li>
+                    <li>-</li>
+                    <li>*</li>
+                    <li>/</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li>+</li>
+                    <li>-</li>
+                    <li>*</li>
+                    <li>/</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>複合代入演算子</td>
+            <td>
+                <ul>
+                    <li>+=</li>
+                    <li>-=</li>
+                    <li>*=</li>
+                    <li>/=</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li>+=</li>
+                    <li>-=</li>
+                    <li>*=</li>
+                    <li>/=</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>マイナス演算子</td>
+            <td><ul><li>-</li></ul></td>
+            <td><ul><li>-</li></ul></td>
+        </tr>
+    </table>
+    <br>
+    ` +
+    "Swiftは、全ての数値型に対してスタンダードな４つの演算子をサポートし、この演算子はJavaと全く同じ動きをします。" +
     `
     <ul>
         <li>加算（+）</li>
@@ -489,6 +653,31 @@ text="Swiftは、全ての数値型に対してスタンダードな４つの演
         <li>除算（/）</li>
     </ul>
     ` +
+    "<h3>剰余演算子</h3>" +
+    "剰余演算子 (a % b) は、a に収まる b の倍数を算出し、余り（剰余）の値を返します。剰余演算子がどのように動作するかを見ていきます。" +
+    "9 % 4 を計算するために、まず 9 に収まる 4 の個数を算出します。9 には 2 つの 4 を収めることができ、残りは1 です。<br>" +
+    "Swift では、次のように記述します。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token number">9</span>
+            <span class="token operator">%</span>
+            <span class="token number">4</span>
+            <span class="token comment">// 1</span>
+        </code>
+    </pre>
+    ` +
+    "a % b の答えを求めるために、% 演算子は次の等式を算出し、出力として remainder を返します。 <br>" +
+    `
+    <span class="token variable-text">a</span>
+    =(<span class="token variable-text">b</span>
+    x
+    <span class="token variable-text">some multiplier</span>
+    )+
+    <span class="token variable-text">remainder</span>
+    ` +
+    "some multiplier は、a に収まる b の最大数になります。この等式に 9 と 4 を挿入してみます。<br>" +
+    "9 = (4 x 2) + 1 剰余を算出する " +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -577,12 +766,48 @@ text="Swiftは、全ての数値型に対してスタンダードな４つの演
     `+
     "単項マイナス演算子（-）は、スペースを空けず、値の先頭に直接置きます。"
 
-element=[title, similarity, text]
-allText.push(element);
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/basic-operators/arithmetic-operators/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
-    title="比較演算子"
-    similarity=`<p class="similar">Javaの比較演算子と全く同じ</p>`
-    text ="Swiftは、標準的なJavaの比較演算子を全てサポートしています。" +
+
+title="比較演算子"
+similarity=`<p class="similar">Javaの比較演算子と全く同じ</p>`
+text =
+    `
+    <table>
+        <tr>
+            <th></th>
+            <th>Swift</th>
+            <th>Java</th>
+        </tr>
+        <tr>
+            <td>比較演算子</td>
+            <td>
+                <ul>
+                    <li>==</li>
+                    <li>!=</li>
+                    <li> ></li>
+                    <li> <</li>
+                    <li>>=</li>
+                    <li><=</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li>==</li>
+                    <li>!=</li>
+                    <li> ></li>
+                    <li> <</li>
+                    <li>>=</li>
+                    <li><=</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <br>
+    ` +
+    "Swiftは、標準的なJavaの比較演算子を全てサポートしています。" +
     `
     <ul>
         <li>等しい（a == b）</li>
@@ -632,10 +857,10 @@ allText.push(element);
     </pre>
     `
 
-element=[title, similarity, text]
-allText.push(element)
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/basic-operators/comparison-operators/"
+addText()
 
-title="比較演算子ータプルの比較"
+/*title="比較演算子ータプルの比較"
 similarity=`<p class="diff">全然違う（Swift特有のもの）</p>`
 text="タプルは、等しくない値が見つかるまで、左から右に向かって一つずつ比較されます。" +
     "すべての要素が等しい場合に、タプル自体が等しいこととなります。"+
@@ -659,14 +884,103 @@ text="タプルは、等しくない値が見つかるまで、左から右に�
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
+source="https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
+*/
 
 title="三項条件演算子"
-similarity=`<p class="similar">Javaと全く同じ</p>`
-text="三項条件演算子は、3 つのパートで構成される特殊な演算子で、question ? answer1 : answer2 という形式を取ります。" +
-    "question が true か false かによって、2 つの式のうちの 1 つを評価する簡単な方法です。" +
-    "question が true の場合は answer1 を評価して値を返し、false の場合は answer2 を評価して値を返します。"+
+similarity=`<p class="similar">Javaと全く同じ</p>` +
+    "Swift: question ? answer1: answer2<br>" +
+    "Java: question ? answer1: answer2"
+text="三項条件演算子は、3 つのパートで構成される特殊な演算子で、<code>question ? answer1 : answer2</code> という形式を取ります。<br>" +
+    "question が true か false かによって、2 つの式のうちの 1 つを評価する簡単な方法です。<br>" +
+    "question が true の場合は answer1 を評価して値を返し、false の場合は answer2 を評価して値を返します。<br>" +
+    "三項条件演算子は、以下のコードの簡略表現です。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class='token keyword'>if</span>question {
+            <br>&emsp;
+            answer1<br>
+            }<span class='token keyword'>else</span>{
+            <br>&emsp;
+            answer2<br>
+            }
+        </code>
+    </pre>
+    <br>
+    ` +
+    "次は、テーブル行の高さを計算する例です。<br>" +
+    "行にヘッダがある場合は行の高さが内容よりも 50 ポイント高く、ヘッダが無い場合は 20 ポイント高くなります。<br>" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class='token keyword'>let</span>
+            contentHeight
+            <span class='token operator'>=</span>
+            <span class='token number'>40</span>
+            <br>
+            <span class='token keyword'>let</span>
+            hasHeader
+            <span class='token operator'>=</span>
+            <span class='token boolean'>true</span>
+            <br>
+            <span class='token keyword'>let</span>
+            rowHeight
+            <span class='token operator'>=</span>
+            contentHeight
+            <span class='token operator'>+</span>
+            (hasHeader
+            <span class='token operator'>?</span>
+            <span class='token number'>50</span>
+            <span class='token operator'>:</span>
+            <span class='token number'>20</span>
+            <span class='token comment'>// rowHeight は 90</span>
+        </code>
+    </pre>
+    ` +
+    "前の例は、以下のコードの簡略表現です。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class='token keyword'>let</span>
+            contentHeight
+            <span class='token operator'>=</span>
+            <span class='token number'>40</span>
+            <br>
+            <span class='token keyword'>let</span>
+            hasHeader
+            <span class='token operator'>=</span>
+            <span class='token boolean'>true</span>
+            <br>
+            <span class='token keyword'>var</span>
+            rowHeight
+            <span class='token operator'>=</span>
+            contentHeight
+            <br>
+            <span class='token keyword'>if</span>
+            hasHeader {
+            <br>&emsp;
+            rowHeight
+            <span class='token operator'>=</span>
+            rowHeight
+            <span class='token operator'>+</span>
+            <span class='token number'>50</span>
+            <br>
+            } <span class='token keyword'>else</span>{
+            <br>&emsp;
+            rowHeight
+            <span class='token operator'>=</span>
+            rowHeight
+            <span class='token operator'>+</span>
+            <span class='token number'>20</span>
+            <span class='token comment'>// rowHeight は 90</span>
+        </code>
+    </pre>
+    ` +
+    "初めの例での三項条件演算子の使用例は、1 行のコードで rowHeight に正しい値を設定することができます。<br>" +
+    "if 文内で値が変更されることが無いため、rowHeight が変数である必要がなく、2 つ目の例よりも簡潔です。" +
+    "もう一つの例を見てみましょう。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -684,8 +998,10 @@ text="三項条件演算子は、3 つのパートで構成される特殊な演
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
+
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/basic-operators/ternary-conditional-operator/"
+addText()
+
 
 title="論理演算子"
 similarity=`<p class="similar">Javaの論理演算子と全く同じ</p>`
@@ -697,20 +1013,23 @@ text="論理演算子は、ブール論理値の true と false を変更また�
         <li>論理 OR（a || b）</li>
     </ul>
     `+
-    "論理 NOT 演算子 (!a) は、ブール値を反転、つまり true を false にし、false を true にします。"+
-    "論理 NOT 演算子は前置演算子で、空白を空けず、作用する値の直前に置きます。"+
+    "<h3>論理 NOT 演算子</h3>" +
+    "論理 NOT 演算子 (!a) は、ブール値を反転、つまり true を false にし、false を true にします。<br>"+
+    "論理 NOT 演算子は前置演算子で、空白を空けず、作用する値の直前に置きます。<br>" +
+    "次の例でも見られるように、”not a“（a でない）と読むことができます。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
-            <span class="token keyword">let</span>
+            <span class='token keyword'>let</span>
             not
-            <span class="token operator">=</span>
-            !equals
+            <span class='token operator'>=</span>
+            <span class='token operator'>!</span>a
         </code>
     </pre>`+
+    "<h3>論理 AND 演算子</h3>" +
     "論理 AND 演算子 (a && b) は、両方の値が true の場合のみ、式全体が true となる論理式です。"+
-    "どちらかの値が false の場合、式全体も false となります。実際、初めの値が false の場合、2 つ目の値は評価さえされず、" +
-    "式全体が true になることはありません。これは短絡評価として知られています。"+
+    "どちらかの値が false の場合、式全体も false となります。" +
+    "実際、初めの値が false の場合、2 つ目の値は評価さえされず、式全体が true になることはありません。これは短絡評価として知られています。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -723,6 +1042,7 @@ text="論理演算子は、ブール論理値の true と false を変更また�
         </code>
     </pre>
     `+
+    "<h3>論理 OR 演算子</h3>" +
     "論理 OR 演算子 (a || b) は、パイプ文字を 2 文字続ける中置演算子です。2 つの値のうちいずれか 1 つでも true の場合、" +
     "式全体が true となる論理式です。"+
     "論理 AND 演算子と同様に、論理 OR 演算子でも短絡評価となります。論理 OR 演算子の左側が true であれば、" +
@@ -738,14 +1058,59 @@ text="論理演算子は、ブール論理値の true と false を変更また�
             equals
         </code>
     </pre>
+    ` +
+    "<h3>論理演算子の結合</h3>" +
+    "複数の論理演算子を結合することができます。" +
     `
-element=[title, similarity, text]
-allText.push(element)
+    <pre class='language-swift'>
+        <code class='language-swift'>
+            <span class='token keyword'>let</span>
+            isCorrectPerson
+            <span class='token operator'>=</span>
+            enteredDoorCode
+            <span class='token operator'>&&</span>
+            passedRetinaScan
+            <span class='token operator'>||</span>
+            hasDoorKey
+            <span class='token operator'>||</span>
+            knowsOverridePassword
+        </code>
+    </pre>
+    ` +
+    "この例は、&& と || の演算子を複数使用した長い複合式になっています。<br>" +
+    "しかし、&& および || の演算子は 2 つの値にのみ作用するので、実際には 3 つの小さな式が連結されているということになります。<br><br>" +
+    "この例は、「正しいドアコードを入力して網膜スキャンをパスした場合、またはドアキーを持っている場合、または緊急優先パスワードを知っている場合、" +
+    "trueになる」と読むことができます。" +
+    "<h3>明示的な括弧</h3>" +
+    "厳密には必要ありませんが、複雑な式を読みやすくする目的で、括弧を含めることが効果的な場合があります。<br>" +
+    "上で見たドアアクセスの例では、意図を明確にするために複合式の初めの部分を丸括弧で囲むと効果的です。" +
+    `
+    <pre class='language-swift'>
+        <code class='language-swift'>
+            <span class='token keyword'>let</span>
+            isCorrectPerson
+            <span class='token operator'>=</span>
+            (enteredDoorCode
+            <span class='token operator'>&&</span>
+            passedRetinaScan)
+            <span class='token operator'>||</span>
+            hasDoorKey
+            <span class='token operator'>||</span>
+            knowsOverridePassword
+        </code>
+    </pre>
+    ` +
+    "この括弧により、初めの 2 つの値を全体のロジックと分けて考えられるようになります。<br>" +
+    "複合式の結果は変化しませんが、意図が読み手にわかりやすくなります。簡潔さより読みやすさを優先し、意図を明確にするために括弧を使用してください。"
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/basic-operators/logical-operators/" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
 title="nil合体演算子：<code>??</code>"
 similarity = `<p class="diff">Swift独自の演算子</p>`
-text="オプショナル型変数がnilでなければ変数を開示してその値を使うが、nilだった場合には別に指定しておいた値Sを使う、という処理を行うことがあります。" +
-    "Swiftでは、これを簡単に記述するための<b>nil合体演算子??</b>を用意しています。" +
+text="オプショナル型の値を使って計算などをするためには、オプショナル型の変数や定数を開示（unwrap）する必要があります。これから開示する方法の一つを教えます。<br><br>" +
+    "オプショナル型変数がnilでなければ変数を開示してその値を使うが、nilだった場合には別に指定しておいた値Sを使う、という処理を行うことがあります。<br>" +
+    "Swiftでは、これを簡単に記述するための<b>nil合体演算子??</b>を用意しています。<br>" +
     "この例ではoptional変数の値をnilにしたため、別に指定したdefault文字列を出力します。" +
     `
     <pre class="language-swift">
@@ -763,11 +1128,43 @@ text="オプショナル型変数がnilでなければ変数を開示してそ�
             optional
             <span class="token operator">??</span>
             <span class="token string">"default"</span>
-            <span class="token comment">//"default"</span>
+            <span class="token comment">//"default"を出力</span>
         </code>
     </pre>
     `+
-    "optional変数をnilではない値に変更した後は、Non defaultを出力します。" +
+    "上のコードをもっと理解しやすくするために、その流れをJavaのコードで書いたのが下です。" +
+    `
+    <pre class="language-java">
+        <code class="language-java">
+            String optional
+            <span class="token operator">=</span>
+            <span class="token symbol">null</span>;
+            <br>
+            String valueOrDefault;
+            <br>
+            <span class="token keyword">if</span>(
+            optional
+            <span class="token operator">==</span>
+            <span class="token symbol">null</span>){
+            <br>
+            &emsp;
+            valueOrDefault
+            <span class="token operator">=</span>
+            <span class="token string">"default"</span>;
+            <br>
+            }<span class="token keyword">else</span>{
+            <br>
+            &emsp;
+            valueOrDefault
+            <span class="token operator">=</span>
+            optional;
+            <br>
+            }
+            <span class='token comment'>// "default"を出力</span>
+        </code>
+    </pre>
+    ` +
+    "optional変数を通常値に変更した後は、\"Non default\"を出力します。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -787,42 +1184,104 @@ text="オプショナル型変数がnilでなければ変数を開示してそ�
         </code>
     </pre>
     `+
-    "オプショナル変数optionalは開示されて、valueOrDefaultに代入されます。ここで代入されたのは、オプショナル型ではなく、開示された後の文字列です。" +
-    "なので、valueOrDefaultを直接使って代入、計算や他の操作をすることができます。" +
-    "オプショナル型を使うためにはオプショナル型の変数や定数を開示（unwrap）する必要があります。これから開示するいくつかの方法を教えます。"
-element=[title, similarity, text]
-allText.push(element)
+    "オプショナル変数optionalは開示されて、valueOrDefaultに代入されます。ここで代入されたのは、オプショナル型ではなく、開示された後の文字列です。<br>" +
+    "なので、valueOrDefaultを直接使って代入、計算や他の操作をすることができます。"
+
+source="詳解Swift改訂版」ー荻原剛志<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
+
 
 title="範囲演算子"
-similarity="Only in Swift"
-text="There are two types of range operator, closed range operator and half open operator" +
-    "So the first version is 1 and 5 inclusive, so you get 1,2,3 and 4, 5. The half open operator access to 1,2,3 and 4." +
+similarity=`<p class="diff">Swift独自の演算子</p>`
+text="Swift には、値の範囲を表現する簡単な方法として、2 つの範囲演算子があります。<br>"+
+    "<h3>閉 (closed) 範囲演算子</h3>" +
+    "閉範囲演算子 (a...b) は、a から b までの範囲を定義し、値 a と b を含みます。a の値を b より大きくすることはできません。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">var</span>
             closedRange
             <span class="token operator">=</span>
-            <span class="token number">1</span>
-            <span class="token operator">...</span>
-            <span class="token number">5</span>
-            <br>
+            <span class="token number">1</span><span class="token operator">...</span><span class="token number">5</span>
+        </code>
+    </pre>
+    `+
+    "範囲演算子の定義は実は配列の定義と同じです。上のコードをJavaで解釈すると：" +
+    `
+    <pre class="language-java">
+        <code class="language-java">
+            int[] cloasedRange
+             <span class="token operator">=</span>
+             {<span class="token number">1</span>,
+             <span class="token number">2</span>,
+             <span class="token number">3</span>,
+             <span class="token number">4</span>,
+             <span class="token number">5</span>};
+        </code>
+    </pre>
+    ` +
+    "<h3>半開 (half-open) 範囲演算子</h3>" +
+    "半開範囲演算子 (a..< b) は、a から b までの範囲を定義しますが、b を含みません。<br>" +
+    "半開 (half-open) と表現されるのは、前の値を含むのに対し、後の値を含まないためです。<br>" +
+    "閉範囲演算子と同様に、a の値を b より大きくすることはできません。a と b の値が同じ場合には、結果の範囲は空になります。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
             <span class="token keyword">var</span>
             halfOpen
             <span class="token operator">=</span>
-            <span class="token number">1</span>
-            <span class="token operator">..<</span>
-            <span class="token number">5</span>
+            <span class="token number">1</span><span class="token operator">..<</span><span class="token number">5</span>
+        </code>
+    </pre>
+    ` +
+    `
+    <pre class="language-java">
+        <code class="language-java">
+            int[] halfOpen
+            <span class="token operator">=</span>
+            {<span class="token number">1</span>,
+            <span class="token number">2</span>,
+            <span class="token number">3</span>,
+            <span class="token number">4</span>};
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
+source="「詳解Swift改訂版」ー荻原剛志"
+addText()
 
 title="if文"
-similarity = "same as java, just no parentheses"
-text="Control flow in Swift will allow you do if, else if and else blocks of course. So the difference is you don't need " +
-    "parentheses around your condition." +
+similarity = `<p class="similar">全く同じ</p>ただSwiftでは条件分に括弧が必要なし`
+text="条件によって異なるコードを実行すると効果的な場合があります。<br>" +
+    "エラーが発生したときに追加でコードを実行したい場合や、値が大きく、または小さくなりすぎたときにメッセージを表示したい場合のことです。<br>" +
+    "これを実現するには、コードの一部を条件文にします。<br>" +
+    "Swift には、コードに条件分岐を追加する手段が、if 文と switch 文の 2 通りあります。一般的に、シンプルな条件には if 文を用います。<br>" +
+    "switch 文は、組み合わせが多岐にわたる複雑な条件に適していて、パターンマッチによって適切なコード分岐を選択しやすくなるような状況で役に立ちます。<br><br>" +
+    "シンプルな形式で、if 文は if 条件を 1 つ持ちます。条件が true の場合にのみ、コードブロックを実行します。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            a
+            <span class="token operator">=</span>
+            <span class="token number">1</span>
+            <br>
+            <span class="token keyword">if</span>
+            a
+            <span class="token operator">%</span>
+            <span class="token number">2</span>{
+            <br>
+            &emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"Even number"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+        </code>
+    </pre>
+    ` +
+    "この例では、数字が偶数かどうかをチェックしています。" +
+    "もしそうであれば、メッセージが出力されます。そうでなければ、メッセージは出力されず、if 文の閉じ括弧の後に続くコードが実行されます。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -871,6 +1330,10 @@ text="Control flow in Swift will allow you do if, else if and else blocks of cou
         </code>
     </pre>
     `+
+    "この例では、数字が偶数であれば、\"Even number\"というメッセージが出力されます。<br>" +
+    "そうであれば、３の倍数かどうか判断し、そうであれば\"Divisable by three\"が出力されます。<br>" +
+    "そうでなければ、「奇数だが、３の倍数ではない」というメッセージが出力されます。<br>" +
+    "参考として、同じ内容のJavaコードを一緒に載せます。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -919,17 +1382,36 @@ text="Control flow in Swift will allow you do if, else if and else blocks of cou
             }
         </code>
     </pre>
-    `+
-    "So no parentheses, but the basic structure is similar to java, no specials."
-element=[title, similarity, text]
-allText.push(element)
+    `
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/conditional-statements/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
-title="if with optional binding"
-similarity="Only swift has it"
-text="What if let you do? if let you do what called optional binding." +
-    "So again, you are working with these optional values. So toBeOrNotToBe is an optional string." +
-    "and in this case, I put a value in it. so I am trying to unwrap optional value to non optional value by using if let." +
-    "if it succeeds, enter to if branch, if it doesn't succeeds, I enter to else branch." +
+
+title="if文とオプショナルバインディング"
+similarity=`<p class="diff">Swift独自の文法</p>`
+text="オプショナル型の変数を開示する方法として、if文とオプショナルバインディングがあります。<br>" +
+    "オプショナルが値を保持しているかを確認するために、オプショナルバインディングを使用し、その値を一時的な定数として利用できるようにします。<br>" +
+    "オプショナルバインディングは、オプショナルが値を保持していることを確認するために、if文で使用することができます。と同時に、そこで抽出した値を定数に代入します。<br><br>" +
+    "以下のように、if 文にオプショナルバインディングを記述します。" +
+    `
+    <pre class='language-swift'>
+        <code class='language-swift'>
+            <span class='token keyword'>if</span>
+            <span class='token keyword'>let</span>
+            <span class='token variable-text'>constantName</span>
+            <span class='token operator'>=</span>
+            <span class='token variable-text'>someOptional</span> {
+            <br>&emsp;
+            statements
+            <br>
+            }
+        </code>
+    </pre>
+    ` +
+    "toBeOrNotToBe はオプショナル型の変数です。この例ではnilではなく、通常の文字列を値として持っています。<br>" +
+    "<code>if let</code>はオプショナル変数を開示し、その値を使えるようにします。<br>" +
+    "開示に成功すれば（オプショナル変数は　nil　ではない）、if ブロックに入ります。そうでなければ、else ブロックに入ります。<br><br>" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -957,15 +1439,47 @@ text="What if let you do? if let you do what called optional binding." +
             <br>
             &emsp;
             <span class="token function">print(</span>
-            <span class="token string">"I am not, therefore I don't think?"</span>
+            <span class="token string">"There's nothing"</span>
             <span class="token function">)</span>
             <br>
             }
         </code>
     </pre>
     `+
-    "If I change the value to nil, or basically I don't put anything to it, now it prints out" +
-    "I am not, therefore I don't think?"+
+    "上のコードを理解しやすくするために、Javaで解釈してみると：" +
+    `
+    <pre class='language-java'>
+        <code class='language-java'>
+            <span class='token keyword'>final</span>
+            String toBeOrNotToBe
+            <span class='token operator'>=</span>
+            <span class='token string'>"That is the question"</span>;
+            <br>
+            <span class='token keyword'>if</span>(
+            toBeOrNotToBe
+            <span class='token operator'>!=</span>
+            <span class='token symbol'>null</span>{
+            <br>&emsp;
+            <span class='token keyword'>final</span>
+            String toBe
+            <span class='token operator'>=</span>
+            toBeOrNotToBe;
+            <br>
+            <span class="token function">System.out.println(</span>
+            toBe
+            <span class="token function">)</span>;
+            <br>
+            }<span class='token keyword'>else</span>{
+            <br>&emsp;
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"There's nothing"</span>
+            <span class='token function'>)</span>;
+            <br>
+            }
+        </code>
+    </pre>
+    ` +
+    "もしtoBeOrNotToBeの値を nil に変更すると、\"There's nothing\"が出力されます。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -993,20 +1507,32 @@ text="What if let you do? if let you do what called optional binding." +
             <br>
             &emsp;
             <span class="token function">print(</span>
-            <span class="token string">"I am not, therefore I don't think?"</span>
+            <span class="token string">"There's nothing"</span>
             <span class="token function">)</span>
             <br>
             }
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
 
-title="Unwrap with !"
-similarity="Only Swift has it"
-text="There are many different ways of unwrapping, for example, you can just do unwrap with a ! . " +
-    "We call it Bang, because it's a dangerous operation. When that fails, basically your program crushes."+
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/optionals/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
+
+
+title="<code>!</code>で強制アンラップ"
+similarity=`<p class="diff">Swift独自の演算子</p>`
+text="オプショナルの名前の末尾にエクスクラメーションマークを付加して値にアクセスできます。<br>" +
+    "このエクスクラメーションマークは、「このオプショナルが間違いなく値を保持していることがわかっているので、そのまま値を使用する」ということを意味します。<br>" +
+    "これを<b>オプショナル値の強制アンラップ</b>と呼びます。<br><br>" +
+    "前で述べているように、オプショナルは、定数や変数に値が存在しない場合があることを示しています。<br>" +
+    "オプショナルは、値が存在するかを if 文でチェックすることができ、値が存在する場合はオプショナルバインディングでオプショナル値にアクセスして条件付きでアンラップすることができます。<br>" +
+    "値が設定された後など、オプショナルが常に値が持っていることが、プログラムの構成から明らかな場合もあります。<br>" +
+    "こういったケースでは、常に値があることを前提にして、アクセスのたびにオプショナル値をチェックしてアンラップする処理を削除するほうが効果的です。<br>" +
+    "こういったオプショナルは、無条件にアンラップされるオプショナルとして定義されます。<br><br>" +
+    "無条件にアンラップされるオプショナルは、通常のオプショナルですが、アクセスのたびにオプショナル値をアンラップすることなく、オプショナルでない値のように使うことができます。<br><br>" +
+    "次の例は、ラップされた String の値にアクセスするとき、オプショナル文字列と、無条件にアンラップされるオプショナル文字列との間での動作の違いを示しています。<br>" +
+    "無条件にアンラップされるオプショナルを、使用時に自動的にアンラップされることが許可されているオプショナルとして考えることができます。<br>" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -1025,17 +1551,98 @@ text="There are many different ways of unwrapping, for example, you can just do 
         </code>
     </pre>
     `+
-    "if the optional value is nil, you will see there is an error. Execution was interrupted. So basically this is a crush." +
-    "So the bang operator, only use it when you know for sure that your optional can be unwrapped."
-element=[title, similarity, text]
-allText.push(element)
+    "値が存在しないオプショナル値を<code>!</code>でアクセスしようとすると、実行じエラーになります。"
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/optionals/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
+
 
 title = "for-in loop"
-similarity = "for-inループはJavaのenhanced for loopに似ています。"
-text = "数値の範囲や、配列内の値、文字列内の文字のようなシーケンスを繰り返し処理するために、for–in ループを使用します。"+
+similarity = `<p class="littlediff">少し違う</p>` +
+    `Swift: <code>for</code> index <code>in</code> <span class="token variable-text">any_Sequence</span>{ ... }<br><br>` +
+    ` Java: <code>for</code> (<code>dataType</code> index : <span class="token variable-text">any_Sequence</span> { ... }`
+text = "数値の範囲や、配列内の値、文字列内の文字のようなシーケンスを繰り返し処理するために、for–in ループを使用します。<br>" +
     "次の例は、5 の段の初めのいくつかを出力しています。" +
-    "Basically, for-in loop can take any sequence. So a range is a sequence, so I can loop through 1 to 10." +
-    "first of all, i is a constant, i is let. you can also iterate over a string, that's a sequence too."+
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">for</span>
+            index
+            <span class="token keyword">in</span>
+            <span class="token number">1</span><span class="token operator">...</span><span class="token number">5</span>{
+            <br>
+            <span class="token function">print(</span>
+            <span class="token string">"</span>
+            <span class="token punctuation">\\(</span>
+            index
+            <span class="token punctuation">)</span>
+            <span class="token string">times 5 is </span>
+            \\(index
+            <span class="token operator">*</span>
+            <span class="token number">5</span>
+            )
+            <span class="token string">"</span>
+            <span class="token function">)</span>
+            <br>
+            <span class="token comment">// 1 times 5 is 5</span><br>
+            <span class="token comment">// 2 times 5 is 10</span><br>
+            <span class="token comment">// 3 times 5 is 15</span><br>
+            <span class="token comment">// 4 times 5 is 20</span><br>
+            <span class="token comment">// 5 times 5 is 25</span><br>
+        </code>
+    </pre>
+    ` +
+    "このシーケンスは、閉範囲演算子 (...) を利用し、1 から 5 を含む範囲の数値を繰り返しています。<br>" +
+    "index の値は、範囲の最初の数値 (1) に設定され、ループ内のコードが実行されています。<br>" +
+    "このケースでは、ループ内のコードは 1 行で、index の現在値に対応する 5 の段の値を出力しています。コード実行後、index の値は範囲の次の値 (2) に更新され、" +
+    "再び print 関数が呼び出されます。<br>" +
+    "この処理は、範囲の最後に達するまで継続します。<br><br>" +
+    "上の例では、index は定数の値で、ループの各繰り返しの初期処理で自動的に設定されます。<br>" +
+    "そのため、使用する前に宣言する必要はありません。let キーワードによる宣言の必要は無く、ループ宣言に含まれる形で暗に宣言されています。<br>" +
+    "シーケンスの各値が必要無い場合、変数名の代わりにアンダースコア (_) を使って値を無視することができます。<br>" +
+    `
+    <pre class='language-swift'>
+        <code class='language-swift'>
+            <span class='token keyword'>let</span>
+            base
+            <span class='token operator'>=</span>
+            <span class='token number'>3</span>
+            <br>
+            <span class='token keyword'>let</span>
+            power
+            <span class='token operator'>=</span>
+            <span class='token number'>3</span>
+            <br>
+            <span class='token keyword'>for</span>
+            _
+            <span class='token keyword'>in</span>
+            <span class='token number'>1</span>...power {
+            <br>&emsp;
+            answer
+            <span class='token operator'>*=</span>
+            base
+            <br>
+            }
+            <br>
+            <span class='token function'>print(</span>
+            <span class='token string'>"</span>
+            \\(base)
+            <span class='token string'>to the power of</span>
+            \\(power)
+            <span class='token string'>is</span>
+            \\(answer)
+            <span class='token string'>"</span>
+            <span class='token function'>)</span>
+            <span class='token function'>)</span>
+            <span class='token comment'>// 3 to the power of 10 is 59049　と出力
+        </code>
+    </pre>
+    ` +
+    "この例は、ある数値を別の数値でべき乗した値（このケースでは 3 の 10 乗）を算出しています。<br>" +
+    "最初の値 1（3 の 0 乗）の 3 による乗算を、1 から 10 までの閉範囲を利用して 10 回繰り返しています。<br>" +
+    "この計算は、ループ時のカウンター値を必要とせず、単に正しい回数分ループを実行するだけです。<br>" +
+    "ループ変数の代わりにアンダースコア記号 (_) を使用することで、個々の値が無視され、ループ時の現在値にアクセスできなくなります。<br>" +
+    "基本的に、for-in ループは範囲だけでなく、文字列を繰り返すこともできます。<br>" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -1069,97 +1676,101 @@ text = "数値の範囲や、配列内の値、文字列内の文字のような
         </code>
     </pre>
     `+
-    `
-    <pre class="language-swift">
-        <code class="language-swift">
-            ArrayList<span><Integer></span> range = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
-            <br>
-            for(Integer i : range){
-            <br>&emsp;
-            System.out.println(i);
-            <br>
-            }
-            <br>
-            String aString = "The Swift Brown Fox";
-            <br>
-            for(int i=0; i<<span>aString.length</span>(); i++){
-            <br>&emsp;
-            System.out.println(aString.charAt(i));
-            <br>
-            }
-        </code>
-    </pre>
-    `+
-    `
-    <pre class="language-swift">
-        <code class="language-swift">
-            <span class="token keyword">for</span>
-            index
-            <span class="token keyword">in</span>
-            <span class="token number">1</span><span class="token operator">...</span><span class="token number">5</span>
-            <span class="token punctuation">{</span>
-            <br>
-            <span class="token function">print(</span>
-            <span class="token string">"</span>
-            <span class="token punctuation">\\(</span>
-            index
-            <span class="token punctuation">)</span>
-            <span class="token string">times 5 is </span>
-            <span class="token punctuation">\\(</span>
-            index
-            <span class="token operator">*</span>
-            <span class="token number">5</span>
-            <span class="token punctuation">)</span>
-            <span class="token string">"</span>
-            <span class="token function">)</span>
-        </code>
-    </pre>
-    `+
+    "上の例を理解しやすく、Javaで書くといかになります。" +
     `
     <pre class="language-java">
         <code class="language-java">
-            ArrayList<span><Integer></span> range = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5));
+            ArrayList<span class='token string'><</span>Integer<span class='token string'>></span>
+            range
+            <span class='token operator'>=</span>
+            <span class='token keyword'>new</span>
+            ArrayList<span class='token string'><</span>Integer<span class='token string'>></span>(
+            Arrays<span class='token property'>.asList</span>(
+            <span class='token number'>1</span>,
+            <span class='token number'>2</span>,
+            <span class='token number'>3</span>,
+            <span class='token number'>4</span>,
+            <span class='token number'>5</span>,
+            <span class='token number'>6</span>,
+            <span class='token number'>7</span>,
+            <span class='token number'>8</span>,
+            <span class='token number'>9</span>,
+            <span class='token number'>10</span>));
             <br>
-            for(Integer i : range){
+            <span class='token keyword'>for</span>(
+            Integer i
+            <span class='token operator'>:</span>
+            range){
             <br>&emsp;
-            System.out.println(i*5);
+            <span class='token function'>System.out.println(</span>i<span class='token function'>)</span>;
+            <br>
+            }
+            <br>
+            String aString
+            <span class='token operator'>=</span>
+            <span class='token string'>"The Swift Brown Fox"</span>;
+            <br>
+            <span class='token keyword'>for</span>(
+            int i<span class='token operator'>=</span><span class='token number'>0</span>;
+            i<span class='token operator'><</span>aString<span class='token property'>.length</span>();
+            i<span class='token operator'>++</span>){
+            <br>&emsp;
+            <span class='token function'>System.out.println(</span>
+            aString<span class='token property'>.charAt</span>(i)
+            <span class='token function'>)</span>;
             <br>
             }
         </code>
     </pre>
     `
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/for-in-loops/"
+addText()
 
-element = [title, similarity, text]
-allText.push(element);
 
 title="while loop"
-similarity="same as in Java, just don't need semi colons"
-text=""+
+similarity=`<p class="similar">全く同じ</p>` +
+    "ただSwiftでは条件分に括弧が必要なし"
+text="while ループは条件が false になるまでループブロックを実行します。この種のループは事前に繰り返し処理すべき回数がわからない場合に適しています。<br>" +
+    "Swift には、while ループが 2 種類あります。<br>" +
+    `
+    <ul>
+        <li>while は、繰り返し処理のたびに、最初に条件を評価します。</li>
+        <li>repeat–while は、繰り返し処理のたびに、最後に条件を評価します。</li>
+    </ul>
+    ` +
+    "while ループは、条件の評価から開始します。条件が true の場合、条件が false になるまでループブロックを繰り返します。<br>"+
+    "while ループの一般的な形式は、次のようになります。<br><br>" +
+    `
+    <span class='token keyword'>while</span>
+    <span class='token variable-text'>condition</span> {<br>
+    &emsp;<span class='token variable-text'>statements</span><br>
+    }<br><br>
+    ` +
     `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">var</span>
-            i
+            count
             <span class="token operator">=</span>
             <span class="token number">10</span>
             <br>
             <span class="token keyword">while</span>
-            i
+            count
             <span class="token operator">></span>
             <span class="token number">0</span>
             {
             <br>
             &emsp;
             <span class="token function">print(</span>
+            <span class="token string">"The current count is</span>
+            \\(count)
             <span class="token string">"</span>
-            \\(i)
-            <span class="token string">one thousand"</span>
             <span class="token function">)</span>
             <br>
             &emsp;
-            i
+            count
             <span class="token operator">=</span>
-            i
+            count
             <span class="token operator"> - </span>
             <span class="token number">1</span>
             <br>
@@ -1167,31 +1778,64 @@ text=""+
         </code>
     </pre>
     `+
+    "上の例をJavaで書き換えると以下になります。" +
     `
     <pre class="language-java">
         <code class="language-java">
-            Integer i = new Integer(10);
+            Integer count
+            <span class="token operator">=</span>
+            <span class="token keyword">new</span>
+            <span class='token function'>Integer(
+            10
+            <span class='token function'>)</span>;
             <br>
-            while( i>10 ){
+            <span class='token keyword'>while</span>(
+            count
+            <span class='token operator'>></span>
+            <span class='token number'>10</span>
+            ){
             <br>&emsp;
-            System.out.println(i+"one thousand");
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"The current count is"</span>
+            <span class='token operator'>+</span>
+            <span class='token function'>String.valueOf(</span>
+            count
+            <span class='token function'>) )</span>;
             <br>&emsp;
-            i=i-1;
+            i
+            <span class='token operator'>=</span>
+            i<span class='token operator'>-</span><span class='token number'>1</span>;
             <br>
             }
         </code>
     </pre>
-    `
-element=[title, similarity, text]
-allText.push(element)
+    ` +
+    "現在の while ループの終了時に、ループを再実行すべきかの条件がチェックされます。<br>" +
+    "countが０になった場合、ループの条件は false と評価され、ループが止まります。"
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/while-loops/"
+addText()
+
+
 
 title="repeat-while"
-similarity="same as in Java, no semi colons, different keyword. you only need to put the semi colons when you want put multiple statement in one line."
-text=""+`
+similarity=`<p class="similar">ほぼ同じ</p>` +
+    "Swiftのrepeat-whileはJavaのdo-whileと同じ<br>" +
+    "ただ、キーワードがdoではなくrepeatで、条件文に括弧が必要なし"
+text="while ループのもう一方のバリエーションが repeat–while ループで、ループ条件の前にまず一度ループブロックを実行します。<br>" +
+    "そして、条件が false になるまでループを繰り返します。<br>" +
+    "repeat–while ループの一般的な形式は、次のようになります。<br><br>" +
+    `
+    <span class='token keyword'>repeat</span> {<br>
+    &emsp;<span class='token variable-text'>statements</span><br>
+    } <span class='token keyword'>while</span>
+    <span class='token variable-text'>condition</span><br><br>
+    ` +
+    "whileループでの例をrepeat-while文法で書き換えると以下のようになります。" +
+    `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">var</span>
-            i
+            count
             <span class="token operator">=</span>
             <span class="token number">10</span>
             <br>
@@ -1200,36 +1844,52 @@ text=""+`
             <br>
             &emsp;
             <span class="token function">print(</span>
+            <span class="token string">"The current count is</span>
+            \\(count)
             <span class="token string">"</span>
-            \\(i)
-            <span class="token string">one thousand"</span>
             <span class="token function">)</span>
             <br>
             &emsp;
-            i
+            count
             <span class="token operator">=</span>
-            i
+            count
             <span class="token operator"> - </span>
             <span class="token number">1</span>
             <br>
             }
             <span class="token keyword">while</span>
-            i
+            count
             <span class="token operator">></span>
             <span class="token number">0</span>
         </code>
     </pre>
-            
-`
-element=[title, similarity, text]
-allText.push(element)
+    ` +
+    "ループの条件 (while count > 0) は前と同じですが、今回は最初のループ実行が終了するまで評価されません。"
 
-title=""
-similarity=""
-text="Let's look at something very powerful in Swift.that's the switch statement.First example, I ahve a lightBylb" +
-    "and I put it to on, and basically I want to check the state of that lightbulb in my switch statement. So the first expression says" +
-    "case on, so basically I can match a string. So, when it's on, I can println it's on,  when it's off" +
-    "Well, it's dark in here, and if it's something else, it's not my light bulb."+
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/while-loops/"
+addText()
+
+
+title="Switch基本文法"
+similarity=`<p class="similar">ほぼ同じ</p>` +
+    "文字列や数字をマッチングして、違う動作をするのはJavaと同じ"
+text="次の例を見てみましょう。電球が一つあって、スイッチをオンにします。ここでは、Switch文で電球の状態を確認したいと思います。<br>" +
+    "なので、ケース分けを以下のようにします。" +
+    `
+    <ul>
+        <li>電気がつく場合、「電気がついてます。」を出力</li>
+        <li>もしオフであれば、「ここは暗いです。」が出力されます。</li>
+        <li>そうでもなければ、「これは私の電球ではありません。」を出力</li>
+    </ul>
+    ` +
+    "switch 文は、いくつかのパターンに対して、値が一致するか比較します。そして、一致する最初のパターンに基づく適切なコードブロックを実行します。<br>" +
+    "switch 文は、複数の状態に対応する if 文の代わりに使用できます。<br>" +
+    "switch 文は複数のケースで構成され、各ケースは case キーワードで始まります。<br>" +
+    "指定した値との比較に加え、Swift にはケースに対してより複雑なパターンを指定する方法がいくつかあります。これらの方法については、このセクションの後半で説明しています。<br>" +
+    "各 switch ケースの本体は、if 文の分岐と似たような、分岐された別々の実行コードです。<br>" +
+    "switch 文は、どの分岐を選択すべきかを特定します。すべての switch 文は、網羅的である必要があります。つまり、すべての値がswitch ケースの 1 つに一致している必要があります。<br>" +
+    "すべての値に対応する switch ケースを定義することが適切でない場合、あらゆる値をカバーしてすべてのケースに対応するデフォルトを定義することができます。<br>" +
+    "このケースを default キーワードで示し、最後に定義する必要があります。"+
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -1265,7 +1925,7 @@ text="Let's look at something very powerful in Swift.that's the switch statement
             <br>
             &emsp;&emsp;
             <span class="token function">print(</span>
-            <span class="token string">"We're in the twilight zone"</span>
+            <span class="token string">"It's not my light bulb"</span>
             <span class="token function">)</span>
             }
             <span class="token comment">//print out "The lights are on!"</span>
@@ -1273,99 +1933,58 @@ text="Let's look at something very powerful in Swift.that's the switch statement
     </pre>
     `
 
-element=[title, similarity, text]
-allText.push(element)
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/conditional-statements/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
-title="switch statement-Needs to be exhaustive"
-similarity="totally different"
-text="The first thing, is see? I don't have any breaks anywhere. But it still doesn't fallthrough like in Java. " +
-    "if you wanna fall through, you have to opted in.And I like it, because in Java, you always have to put break. " +
-    "So inside the case statement, you automatically fall through. Another thing is it needs to be exhaustie." +
-    "you may get a compiler error in the code below basically says it's not exhaustive." +
-    "So it says, you didn't cover all your basis. So you need that default statement."+
+title="switch基本文法-暗黙なフォールスルーしない"
+similarity=`<p class="littlediff">少し違う</p>` +
+    "Swiftでは暗黙なフォールスルーをしないので、ケースごとにbreakは必要なし。<br>" +
+    "Javaでは暗黙な各ケースの最後で次のケースにフォールスルーするので、breakは必ず必要"
+text="暗黙的にフォールスルーしない Java の switch 文とは対照的に、Swift の switch 文はデフォルトでは各ケースの最後で次のケースにフォールスルーしません。<br>" +
+    "そうならずに、はじめに一致した switch ケースを完了後すぐ、明示的な break 文を必要とせずに、switch 文全体の実行を終了します。<br>" +
+    "これにより、Java と比較して switch 文はより安全でわかりやすくなっていて、誤って複数の switch ケースを実行することを防ぐことができます。" +
+    "前のコードと同じ結果を出力する Java プログラムと比較してみましょう。" +
     `
-    <pre class="language-swift">
-        <code class="language-swift">
-            <span class="token keyword">let</span>
-            lightBulb
-            <span class="token operator">=</span>
-            <span class="token string">"n"</span>
+    <pre class="language-java">
+        <code class="language-java">
+        <span class='token keyword'>final</span>
+            String lightBulb
+            <span class='token operator'>=</span>
+            <span class='token string'>"on"</span>;
+            <span class='token keyword'>switch</span>(lightBulb){
+            <br>&emsp;
+            <span class='token keyword'>case</span>
+            <span class='token string'>"on"</span><span class='token operator'>:</span>
+            <br>&emsp;
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"The lights are on!"</span>
+            <span class='token function'>)</span>;
+            <br>&emsp;
+            <span class='token keyword'>break</span>;
             <br>
-            <span class="token keyword">switch</span>
-            lightBulb {
+            <span class='token keyword'>case</span>
+            <span class='token string'>"off"</span><span class="token operator">:</span>
+            <br>&emsp;
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"It's dark in here!"</span>
+            <span class='token function'>)</span>;
+            <br>&emsp;
+            <span class='token keyword'>break</span>;
             <br>
-            &emsp;
-            <span class="token keyword">case</span>
-            <span class="token string">"on"</span>
-            :
+            <span class="token keyword">default</span><span class="token operator">:</span>
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"It's not my light bulb"</span>
+            <span class='token function'>)</span>;
+            <br>&emsp;
+            <span class='token keyword'>break</span>;
             <br>
-            &emsp;&emsp;
-            <span class="token function">print(</span>
-            <span class="token string">"The lights are on!"</span>
-            <span class="token function">)</span>
-            <br>
-            &emsp;
-            <span class="token keyword">case</span>
-            <span class="token string">"off"</span>
-            :
-            <br>
-            &emsp;&emsp;
-            <span class="token function">print(</span>
-            <span class="token string">"It's dark in here!"</span>
-            <span class="token function">)</span>
-            <br>
-            }
         </code>
     </pre>
-    `+
-    "So you have to add a default to avoid the error."
-
-element=[title, similarity, text]
-allText.push(element)
-
-title="switch statement- no implicit fall through"
-similarity="totally different"
-text= "Another thing is, here I wanna fall through, that dosn't work."+
-    `
-    <pre class="language-swift">
-        <code class="language-swift">
-            <span class="token keyword">let</span>
-            lightBulb
-            <span class="token operator">=</span>
-            <span class="token string">"n"</span>
-            <br>
-            <span class="token keyword">switch</span>
-            lightBulb {
-            <br>
-            &emsp;
-            <span class="token keyword">case</span>
-            <span class="token string">"on"</span>
-            :
-            <br>
-            &emsp;
-            <span class="token keyword">case</span>
-            <span class="token string">"off"</span>
-            :
-            <br>
-            &emsp;&emsp;
-            <span class="token function">print(</span>
-            <span class="token string">"That's a well behaving light"</span>
-            <br>
-            &emsp;
-            <span class="token keyword">default:</span>
-            <br>
-            &emsp;&emsp;
-            <span class="token function">print(</span>
-            <span class="token string">"We're in the twilight zone"</span>
-            <span class="token function">)</span>
-            <br>
-            }
-            <span class="token comment">//compile error</span>
-        </code>
-    </pre>
-    `+
-    "So if you wanna fall through, you need to specify fallthrough , so this is the keyword specific for swift." +
-    "Now the error goes away and prints out That's a well behaving light"+
+    }
+    ` +
+    "ご覧の通り、Javaではケースごとにbreak文が必要です。<br>" +
+    "ですので、Javaスタイルのフォールスルーが必要な場合は、個別にfallthroughキーワードでこの動作にすることができます。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -1386,6 +2005,7 @@ text= "Another thing is, here I wanna fall through, that dosn't work."+
             <span class="token function">print(</span>
             <span class="token string">"Oh my eyes!"</span>
             <span class="token function">)</span>
+            <br>
             <span class="token keyword">fallthrough</span>
             <br>
             &emsp;
@@ -1396,6 +2016,7 @@ text= "Another thing is, here I wanna fall through, that dosn't work."+
             &emsp;&emsp;
             <span class="token function">print(</span>
             <span class="token string">"That's a well behaving light"</span>
+            <span class="token function">)</span>
             <br>
             &emsp;
             <span class="token keyword">default:</span>
@@ -1406,52 +2027,145 @@ text= "Another thing is, here I wanna fall through, that dosn't work."+
             <span class="token function">)</span>
             <br>
             }
-            <span class="token comment">//compile error</span>
+            <span class="token comment">// Oh my eyes! That's a well behaving light を出力</span>
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/conditional-statements/"
+addText()
 
-title="switch statement-range matching"
-similarity="totally different"
-text="Now, if I wanna do something in that on condition, now the powerful thing is you can do the range matching." +
-    "So I have integers attendeesAtDevoxx which is around 3500, and I check in my switch statement, what that number is," +
-    "and if it's between a value, you can use a range matching. So in this case, I check if it's between 0 to 10, 10 to 99 and so on." +
-    "So I print out Devoxx has thousands of attendees."+
+
+title="switch基本文法-徹底的"
+similarity=`<p class="littlediff">少し違う</p>` +
+    "Swift: 全ての可能性を網羅する必要があるので、defaultは必需<br>" +
+    " Java: 全ての可能性を網羅しなくても良いので、defaultはオプション"
+text="Swiftは安全な言語です。<br>" +
+    "Switch文でも、マッチングできずエラーやクラッシュなどを起こす可能性を避けるために、全ての可能性を余すところなく徹底的に羅列することが必要です。<br>" +
+    "ですが、文字列などの場合、全ての文字列をSwitchのケースでマッチングするのは不可能であるため、defaultで余った可能性をカバーする必要があります。<br><br>" +
+    "前のプログラムでdefaultケースブロックを消すと、コンパイルエラーが起こります。エラーの内容は全ての可能性を網羅してないため、defaultが必要ということです。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
             <span class="token keyword">let</span>
-            attendeesAtDevoxx
+            lightBulb
             <span class="token operator">=</span>
-            <span class="token number">3500</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The lights are on!"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"It's dark in here!"</span>
+            <span class="token function">)</span>
+            <br>
+            }
+            <span class='token comment'>// コンパイルエラー</span>
+        </code>
+    </pre>
+    `+
+    "このエラーを消すために、defaultを入れてみました。" +
+    `
+    <pre class='language-swift'>
+        <code class='language-swift'>
+            <span class="token keyword">let</span>
+            lightBulb
+            <span class="token operator">=</span>
+            <span class="token string">"n"</span>
+            <br>
+            <span class="token keyword">switch</span>
+            lightBulb {
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"on"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"The lights are on!"</span>
+            <span class="token function">)</span>
+            <br>
+            &emsp;
+            <span class="token keyword">case</span>
+            <span class="token string">"off"</span>
+            :
+            <br>
+            &emsp;&emsp;
+            <span class="token function">print(</span>
+            <span class="token string">"It's dark in here!"</span>
+            <span class="token function">)</span>
+            <br>&emsp;
+            <span class='token keyword'>default:</span>
+            <br>&emsp;&emsp;
+            <span class='token keyword'>break</span>
+            <br>
+            }
+        </code>
+    </pre>
+    ` +
+    "このSwitch文では文字列の比較によって、実行されるコードブロックが違います。<br>" +
+    "可能性がある全ての文字列を列挙することは現実的ではないため、一致しない全ての文字列を対象とするdefaultケースとしています。<br>" +
+    "このdefaultケースにはアクションを実行する必要がなく、本体としてbreak文が記述されています。<br>" +
+    "defaultケースに一致してすぐに、break文はSwitch文の実行を終了します。"
+
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/conditional-statements/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s<br>" +
+    "「詳解Swift改訂版」ー荻原剛志"
+addText()
+
+
+title="switch拡張文法-範囲一致"
+similarity=`<p class="diff">Swift独自の機能</p>`
+text="Swift文のもう一つ強いところは範囲一致（range matching）ができることです。<br>" +
+    "範囲一致 - switchケースの値が、ある範囲に含まれているかを確認することができます。次の例は、サイズを表現する自然言語に対応する数値範囲を使用しています。<br>" +
+    "イベントの参加人数attendeesがあり、その値は62です。<br>" +
+    "Switchで条件判断するとき、各ケースを数値の範囲と比較することができます。<br>" +
+    "この場合には、attendeesが12と100の間にあるため、naturalCountにはdozens ofが代入され、実行はswitch文の外に移ります。" +
+    `
+    <pre class="language-swift">
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            attendees
+            <span class="token operator">=</span>
+            <span class="token number">62</span>
             <br>
             <span class="language-swift">var</span>
-            candinality
+            naturalCount
             <span class="token operator">:</span>
             <span class="token string">String</span>
             <br>
             <span class="token keyword">switch</span>
-            attendeesAtDevoxx {
+            attendees {
             <br>
             &emsp;
             <span class="token keyword">case</span>
-            <span class="token number">0</span>
-            ...
-            <span class="token number">10</span>
+            <span class="token number">0</span>...<span class="token number">9</span>
             :
             <br>
             &emsp;&emsp;
-            candinality
+            naturalCount
             <span class="token operator">=</span>
             <span class="token string">"a few"</span>
             <br>
             &emsp;
             <span class="token keyword">case</span>
-            <span class="token number">10</span>
-            ...
-            <span class="token number">99</span>
+            <span class="token number">10</span>...<span class="token number">99</span>
             :
             <br>
             &emsp;&emsp;
@@ -1461,25 +2175,21 @@ text="Now, if I wanna do something in that on condition, now the powerful thing 
             <br>
             &emsp;
             <span class="token keyword">case</span>
-            <span class="token number">100</span>
-            ...
-            <span class="token number">999</span>
+            <span class="token number">100</span>...<span class="token number">999</span>
             :
             <br>
             &emsp;&emsp;
-            candinality
+            naturalCount
             <span class="token operator">=</span>
             <span class="token string">"hundreds of"</span>
             <br>
             &emsp;
             <span class="token keyword">case</span>
-            <span class="token number">1000</span>
-            ...
-            <span class="token number">999999</span>
+            <span class="token number">1000</span>...<span class="token number">999999</span>
             :
             <br>
             &emsp;&emsp;
-            cardinality
+            naturalCount
             <span class="token operator">=</span>
             <span class="token string">"thousands of"</span>
             <br>
@@ -1488,27 +2198,112 @@ text="Now, if I wanna do something in that on condition, now the powerful thing 
             :
             <br>
             &emsp;&emsp;
-            cardinality
+            naturalCount
             <span class="token operator">=</span>
             <span class="token string">"xmillions of"</span>
             <br>
             }
             <br>
             <span class="token function">print(</span>
-            <span class="token string">"Devoxx has</span>
-            \\(cardinality)
+            <span class="token string">"This event has</span>
+            \\(naturalCount)
             <span class="token string">attendees!"</span>
             <span class="token function">)</span>
         </code>
     </pre>
-    `+
-    "If the attendeesAtDevoxx is set as 10, it only prints out a few. The first case already succeeds, " +
-    "so it doesn't go to the second case."+
-    "POP UP QUESTION: what if I add the fallthrough in the first case statement"
-element=[title, similarity, text]
-allText.push(element)
+    ` +
+    "JavaのSwitch文ではこの機能はなく、範囲と比較したい場合には、if文を使うしかありません。" +
+    `
+    <pre class='language-java'>
+        <code class='language-java'>
+            <span class='token keyword'>final</span>
+            Integer attendees
+            <span class='token operator'>=</span>
+            <span class='token keyword'>new</span>
+            Integer(<span class='token number'>62</span>);
+            <br>
+            String naturalCount;
+            <br>
+            <span class='token keyword'>if</span>(
+            attendees
+            <span class='token operator'>>=</span>
+            <span class='token number'>0</span>
+            <span class='token operator'>&&</span>
+            attendees
+            <span class='token operator'><=</span>
+            <span class='token number'>9</span> ){
+            <br>&emsp;&emsp;
+            naturalCount
+            <span class='token operator'>=</span>
+            <span class='token string'>"a few"</span>;
+            <br>
+            }
+            <span class='token keyword'>else if</span>(
+            attendees
+            <span class='token operator'>>=</span>
+            <span class='token number'>10</span>
+            <span class='token operator'>&&</span>
+            attendees
+            <span class='token operator'><=</span>
+            <span class='token number'>99</span> ){
+            <br>&emsp;
+            naturalCount
+            <span class='token operator'>=</span>
+            <span class='token string'>"tens of"</span>;
+            <br>
+            }
+            <span class='token keyword'>else if</span>(
+            attendees
+            <span class='token operator'>>=</span>
+            <span class='token number'>100</span>
+            <span class='token operator'>&&</span>
+            attendees
+            <span class='token operator'><=</span>
+            <span class='token number'>999</span>){
+            <br>&emsp;
+            naturalCount
+            <span class='token operator'>=</span>
+            <span class='token string'>"hundreds of"</span>;
+            <br>
+            }
+            <span class='token keyword'>else if</span>(
+            attendees
+            <span class='token operator'>>=</span>
+            <span class='token number'>1000</span>
+            <span class='token operator'>&&</span>
+            attendees
+            <span class='token operator'><=</span>
+            <span class='token number'>9999</span>){
+            <br>&emsp;
+            naturalCount
+            <span class='token operator'>=</span>
+            <span class='token string'>"thousands of"</span>;
+            <br>
+            }
+            <span class='token keyword'>else</span>{
+            <br>&emsp;
+            naturalCount
+            <span class='token operator'>=</span>
+            <span class='token string'>"xmillions of"</span>;
+            <br>
+            }
+            <br>
+            <span class='token function'>System.out.println(</span>
+            <span class='token string'>"This event has"</span>
+            <span class='token operator'>+</span>
+            naturalCount
+            <span class='token operator'>+</span>
+            <span class='token string'>"attendees!"</span>
+            <span class='token function'>)</span>;
+        </code>
+    </pre>
+    `
+source="http://www.studiogalago.com/the-swift-programming-language/language-guide/control-flow/conditional-statements/<br>" +
+    "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
+addText()
 
-title="switch statement-tuple matching"
+
+/*title="switch statement-tuple matching"
 similarity="totally different"
 text="Another powerful thing is you can do the tuple matching. " +
     "So let's assume I have a variable somethere which returns the httpStatus tuple. " +
@@ -1594,9 +2389,9 @@ text="Another powerful thing is you can do the tuple matching. " +
     </pre>
     `+
     "So in this case, it's 402, So I get the payment required."
-element=[title, similarity, text]
-allText.push(element)
-
+addText()
+*/
+/*
 title="switch statement-guard with<code>where</code>"
 similarity="totally different, only in Swift"
 text="The lightBulbAndSwitch basically are on and on, off and off, on and off, off and on." +
@@ -1663,10 +2458,10 @@ text="The lightBulbAndSwitch basically are on and on, off and off, on and off, o
         </code>
     </pre>
     `
-element=[title, similarity, text]
-allText.push(element)
+addText()
+*/
 
-title="array"
+/*title="array"
 similarity=""
 text="Swift have two basic collection types: the array and the dictionary. " +
     "If I have to compare with Java, I will stick to the array list in Java more or less. And Dictionary with the map. " +
@@ -2169,4 +2964,4 @@ text="If you iterate the whole dictionary, you get the tuple back with key and v
     </pre>
     `
 element=[title, similarity, text]
-allText.push(element)
+allText.push(element)*/
