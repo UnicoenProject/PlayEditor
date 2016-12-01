@@ -11,14 +11,8 @@
     @main("Jasminを使ってSwiftを学ぼう") {
         <script>
                 window.CONTROLE_GROUP = false;
+                window.CONTROL_TUTORIAL_GROUP = false;//tutorial実験のためのグループ分け
         </script>
-
-        <style>
-        .level2 {
-            visibility: hidden;
-            padding-left: 20px
-        }
-        </style>
         @*
         * Get an `Html` object by calling the built-in Play welcome
         * template and passing a `String` message.
@@ -97,6 +91,11 @@
                         $('#tool, #tool_margin').hide();
                     }
                     stopwatch.start();
+                    if(window.CONTROL_TUTORIAL_GROUP == false){
+                        document.getElementById('similarity').style.visibility='hidden';
+                        document.getElementById('similarity').style.display='none';
+
+                    }
                 })
                 $('#close').on('click', function () {
                     var curHeight = $('#tool').height();
