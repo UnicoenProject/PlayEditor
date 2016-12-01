@@ -36,6 +36,8 @@
             <h4><div id="similarity"></div></h4>
             <hr>
             <div id="textString"></div>
+            <hr><hr>
+            Source:<br>
             <div id="source"></div>
         </div>
 
@@ -84,19 +86,26 @@
         @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
         <script src="@routes.Assets.versioned("javascripts/stopWatch.js")" type="text/javascript"></script>
         <script src="@routes.Assets.versioned("javascripts/textbook.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/textbook_noCmp.js")" type="text/javascript"></script>
 
         <script>
+                var textStrings;
                 $(function() {
                     if(window.CONTROLE_GROUP) {
                         $('#tool, #tool_margin').hide();
                     }
                     stopwatch.start();
+                })
+
+                function setText(){
                     if(window.CONTROL_TUTORIAL_GROUP == false){
                         document.getElementById('similarity').style.visibility='hidden';
                         document.getElementById('similarity').style.display='none';
-
+                        textStrings = allText_noCmp;
+                    }else{
+                        textStrings = allText;
                     }
-                })
+                }
                 $('#close').on('click', function () {
                     var curHeight = $('#tool').height();
                     if (curHeight > 200) {//appeared
@@ -137,7 +146,7 @@
                 function nextText(textNum){
                     var type = textNum[0];
                     var index = parseInt(textNum.substring(1)) | 0;
-                    if(index==allText.length-1){
+                    if(index==textStrings.length-1){
                         return "E";
                     }
                     return type+(index+1);
@@ -146,7 +155,7 @@
                     var type = textNum[0];
                     var index = parseInt(textNum.substring(1)) | 0;
                     if(type=='E'){
-                        return 'T'+(allText.length-1);
+                        return 'T'+(textStrings.length-1);
                     }
                     if(index==0){
                         return 'T0';
@@ -154,6 +163,9 @@
                     return type+(index-1);
                 }
                 function showCurrentText(textNum, updateHash){
+                    if(!textStrings){
+                        setText();
+                    }
                     localStorage.currentText = textNum;
                     if(updateHash){
                         location.hash = textNum;
@@ -167,7 +179,7 @@
                         document.getElementById('source').innerHTML='';
                         localStorage.currentText = 'E';
                     } else if (type == 'T') {
-                        var element = allText[index];
+                        var element = textStrings[index];
                         document.getElementById('title').innerHTML = element[0];
                         document.getElementById('similarity').innerHTML = element[1];
                         document.getElementById('textString').innerHTML = element[2];
