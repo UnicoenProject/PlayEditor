@@ -40,7 +40,7 @@ class ConverterController @Inject() extends Controller {
     Ok(views.html.converterIndex(""))
   }
 
-  def insertToDatabase(): Unit ={
+  /*def insertToDatabase(): Unit ={
     // connect to the database named "mysql" on the localhost
     val driver = "com.mysql.jdbc.Driver"
     val url = "jdbc:mysql://localhost/mysql"
@@ -69,7 +69,7 @@ class ConverterController @Inject() extends Controller {
     }
     connection.close()
 
-  }
+  }*/
 
   def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
