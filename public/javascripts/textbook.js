@@ -23,7 +23,7 @@ title = "Hello World"
 similarity=`<p class="similar">ほぼ同じ</p>`+
     "Swift: <code>print</code>関数 = Java: <code>System.out.println</code>関数"
 text = "伝統的に、新しい言語で書く最初のプログラムは、「Hello, world!」です。Swift では 1 行で記述できます。<br>"
-    + "Javaでコードを書いたことがあれば、このシンタックスには馴染みがあるでしょう。Swift では、この 1 行が完全なプログラムです。<br>" +
+    + "Javaでコードを書いたことがあれば、この文法には馴染みがあるでしょう。Swift では、この 1 行が完全なプログラムです。<br>" +
     "グローバルスコープで記述されたコードはプログラムのエントリーポイントとなり、クラス定義やmain() 関数は必要ありません。<br>" +
     "各ステートメントの末尾にセミコロンを置く必要もありません。<br><br>"
     + "print関数に文字列のパラメータを入れることで出力ができます。"
@@ -127,7 +127,7 @@ text="Javaやほかのプログラミング言語では<code>＋</code>オペレ
         </code>
     </pre>
     `
-    + "Javaで文字列への変換と追加が多い場合、コードが長くなり、読みづらくなります。それに比べて、明らかにSwiftの操作方法がもっと簡単だと言えるでしょう。"
+    + "Javaで文字列への変換と追加が多い場合、コードが長くなり、読みづらくなります。それに比べて、Swiftの操作方法がもっと簡単だと言えるでしょう。"
 
 source="http://www.studiogalago.com/the-swift-programming-language/language-guide/strings-and-characters/string-interpolation/<br>" +
     "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
@@ -250,17 +250,17 @@ similarity=`<p class="littlediff">少し違う</p>`+
     "機能は同じだが、定義のフォーマットが少し違う<br>" +
     "変数：Javaの変数名と型の位置を交換し、前に<code>var</code>キーワードを追加"+
     `<pre>
-        <span class="token operator">  </span>　<span class="token keyword">   </span>　型　変数名＝式(Java)　
-        <code>String str = "java"</code>
-        <span class="token operator">=></span>　<span class="token keyword">var</span>　変数名：型＝式(Swift)
-        <code>var str:String = "swift"</code>
+            型　変数名＝式(Java)　
+        <code>String  str  = "java"</code>
+        <span class="token operator">=></span>　<span class="token keyword">var</span>　変数名：型  ＝ 式(Swift)
+        <code>    var str:String = "swift"</code>
     </pre>`+
     "定数：Javaの変数名と型の位置を交換し、<code>final</code>キーワードを<code>let</code>に変更"+
     `<pre>
-        <span class="token operator">  </span> <span class="token keyword">final</span>　型　定数名＝式(Java)
-        <code>final String str = "java"</code>
-        <span class="token operator">=></span>　<span class="token keyword">let</span>　定数名：型＝式(Swift)
-        <code>let str:String = "swift"</code>
+        <span class="token operator">  </span> <span class="token keyword">final</span>　 型　定数名 ＝ 式(Java)
+        <code>   final String str = "java"</code>
+        <span class="token operator">=></span>　<span class="token keyword">let</span>　定数名：型 ＝ 式(Swift)
+        <code>   let str:String = "swift"</code>
     </pre>`
 text = "定数と変数は、数値 10 や文字列 Hello のような特定の型の値を、number や message のような名前に結び付けます。<br>" +
     "定数と変数は、使用する前に宣言しておく必要があります。<br>" +
@@ -351,7 +351,7 @@ text = "Swift は、型安全（タイプセーフ）な言語です。<br>" +
     "Swiftは強力な型推論の仕組みを備えており、型の不一致を細かく指摘する反面、使われる型が明らかな部分は記述をかなり省略できます。<br>" +
     "変数の宣言では、型名を明記せずに、積極的に初期値を設定するプログラミングスタイルが推奨されています。<br><br>" +
     "型推論によって、Javaと比較して、Swift では型宣言が必要となる場面が少なくなります。<br>" +
-    "型推論は、初期値とともに定数または変数を宣言する場合に特に役立ちます。定数または変数の宣言時にリテラル値を代入する場合のことです。<br>" +
+    "型推論は、初期値とともに定数または変数を宣言する場合に特に役立ちます。例えば、定数または変数の宣言時にリテラル値を代入する場合のことです。<br>" +
     "（リテラル値とは、下の例にある 42 や 3.14159 のように、ソースコードに直接現れる値のことです。）<br><br>" +
     "例えば、型を指定せずに新しい定数にリテラル値 42 を代入する場合、Swift はこの定数が Int であると推論します。なぜなら、整数のように見える数値で初期化しているためです。<br>" +
     `
@@ -424,7 +424,7 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
         </code>
     </pre>
     ` +
-    "コンパイラが表示するメッセジーは：Int型はDouble型に変換できない、という内容です。<br><br>" +
+    "コンパイラが表示するメッセージは：Int型はDouble型に変換できない、という内容です。<br><br>" +
     "整数と実数の間だけではなく、IntとUnit型（符号なし整数）、Float型とDouble型など、Java言語なら何の問題もないと思われる型同士の間でも同様なメッセジーが出ます。<br>" +
     "代入だけではなく、単純な計算でも型が一致していないとエラーになります。<br>" +
     "Javaであれば混合演算で自動的に型変換が行われるところです。<br>" +
@@ -475,7 +475,7 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
         </code>
     </pre>
     `+
-    "ここで指定している<code>Double()</code>や<code>Int()</code>は型変換の関数ではなく、Double型やInt型のインスタンスを新しく作るためんイニシャライザです。"
+    "ここで指定している<code>Double()</code>や<code>Int()</code>は型変換の関数ではなく、Double型やInt型のインスタンスを新しく作るためのイニシャライザです。"
 source="https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s<br>" +
     "「詳解Swift改訂版」ー荻原剛志"
 addText()
@@ -570,7 +570,7 @@ text="Swiftでは、扱うべき値が存在しないことを表すため、<co
     </pre>
     ` +
     "イニシャライザが失敗する場合があるため、Int ではなく、オプショナル Int を返します。<br>" +
-    "オプショナル型の変数または定数を、初期値を設定しないて宣言した場合、初期値の既定値は<code>nil</code>になります。" +
+    "オプショナル型の変数または定数を、初期値を設定しないで宣言した場合、初期値の既定値は<code>nil</code>になります。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -760,7 +760,7 @@ text=
         </code>
     </pre>
     `+
-    "<code>plus += 5</code> は <code>plus = plus + 2</code> の簡略表現です。加算と代入のタスクを同時に実行する演算子として組み合わされています。" +
+    "<code>plus += 5</code> は <code>plus = plus + 5</code> の簡略表現です。加算と代入のタスクを同時に実行する演算子として組み合わされています。" +
     "<hr>単項マイナス演算子" +
     "単項マイナス演算子の<code>-</code>を前置することで、数値の符号を切り替えて反転させることができます。" +
     `
@@ -1118,9 +1118,9 @@ addText()
 
 title="nil合体演算子：<code>??</code>"
 similarity = `<p class="diff">Swift独自の演算子</p>`
-text="オプショナル型の値を使って計算などをするためには、オプショナル型の変数や定数を<b>開示（unwrap）<b>する必要があります。これから開示する方法の一つを教えます。<br><br>" +
+text="オプショナル型の値を使って計算などをするためには、オプショナル型の変数や定数を<b>開示（unwrap）</b>する必要があります。これから開示する方法の一つを教えます。<br><br>" +
     "オプショナル型変数がnilでなければ変数を開示してその値を使うが、nilだった場合には別に指定しておいた値Sを使う、という処理を行うことがあります。<br>" +
-    "Swiftでは、これを簡単に記述するための<b>nil合体演算子<code>??</code></b>を用意しています。<br>" +
+    "Swiftでは、これを簡単に記述するための <b>nil合体演算子<code>??</code></b> を用意しています。<br>" +
     "この例ではoptional変数の値をnilにしたため、別に指定したデフォルト文字列を出力します。" +
     `
     <pre class="language-swift">
@@ -1268,7 +1268,7 @@ source="「詳解Swift改訂版」ー荻原剛志"
 addText()
 
 title="if文"
-similarity = `<p class="similar">全く同じ</p>ただSwiftでは条件分に括弧が必要なし`
+similarity = `<p class="similar">全く同じ</p>ただしSwiftでは条件分に括弧が必要なし`
 text="条件によって異なるコードを実行すると効果的な場合があります。<br>" +
     "エラーが発生したときに追加でコードを実行したい場合や、値が大きく、または小さくなりすぎたときにメッセージを表示したい場合のことです。<br>" +
     "これを実現するには、コードの一部を条件文にします。<br>" +
@@ -1569,7 +1569,7 @@ text="オプショナルの名前の末尾にエクスクラメーションマ�
         </code>
     </pre>
     `+
-    "値が存在しないオプショナル値を<code>!</code>でアクセスしようとすると、実行じエラーになります。"
+    "値が存在しないオプショナル値を<code>!</code>でアクセスしようとすると、実行時にエラーになります。"
 source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/optionals/<br>" +
     "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
 addText()
@@ -1580,7 +1580,7 @@ similarity = `<p class="littlediff">少し違う</p>` +
     `Swift: <code>for</code> index <code>in</code> <span class="token variable-text">any_Sequence</span>{ ... }<br><br>` +
     ` Java: <code>for</code> (<code>dataType</code> index : <span class="token variable-text">any_Sequence</span> { ... }`
 text = "数値の範囲や、配列内の値、文字列内の文字のようなシーケンスを繰り返し処理するために、for–in ループを使用します。<br>" +
-    "次の例は、5 の段の初めのいくつかを出力しています。" +
+    "次の例は、『九九の』5の段の初めのいくつかを出力しています。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -1694,7 +1694,7 @@ text = "数値の範囲や、配列内の値、文字列内の文字のような
         </code>
     </pre>
     `+
-    "上の例を理解しやすく、Javaで書くといかになります。" +
+    "上の例を理解しやすく、Javaで書くと以下のようになります。" +
     `
     <pre class="language-java">
         <code class="language-java">
@@ -1888,7 +1888,7 @@ source="http://www.studiogalago.com/the-swift-programming-language/language-guid
 addText()
 
 
-title="Switch基本文法"
+title="switch基本文法"
 similarity=`<p class="similar">ほぼ同じ</p>` +
     "文字列や数字をマッチングして、違う動作をするのはJavaと同じ"
 text="次の例を見てみましょう。電球が一つあって、スイッチをオンにします。ここでは、Switch文で電球の状態を確認したいと思います。<br>" +
@@ -2053,12 +2053,12 @@ source="http://www.studiogalago.com/the-swift-programming-language/language-guid
 addText()
 
 
-title="switch基本文法-徹底的"
+title="switch基本文法-defaultの必要性"
 similarity=`<p class="littlediff">少し違う</p>` +
     "Swift: 全ての可能性を網羅する必要があるので、defaultは必需<br>" +
     " Java: 全ての可能性を網羅しなくても良いので、defaultはオプション"
 text="Swiftは安全な言語です。<br>" +
-    "Switch文でも、マッチングできずエラーやクラッシュなどを起こす可能性を避けるために、全ての可能性を余すところなく徹底的に羅列することが必要です。<br>" +
+    "switch文でも、マッチングできずエラーやクラッシュなどを起こす可能性を避けるために、全ての可能性を余すところなく徹底的に羅列することが必要です。<br>" +
     "ですが、文字列などの場合、全ての文字列をSwitchのケースでマッチングするのは不可能であるため、defaultで余った可能性をカバーする必要があります。<br><br>" +
     "前のプログラムでdefaultケースブロックを消すと、コンパイルエラーが起こります。エラーの内容は全ての可能性を網羅してないため、defaultが必要ということです。" +
     `
@@ -2150,11 +2150,11 @@ addText()
 
 title="switch拡張文法-範囲一致"
 similarity=`<p class="diff">Swift独自の機能</p>`
-text="Swift文のもう一つ強いところは範囲一致（range matching）ができることです。<br>" +
+text="Swift文のもう一つの長所は<b>範囲一致（range matching）</b>ができることです。<br>" +
     "範囲一致 - switchケースの値が、ある範囲に含まれているかを確認することができます。次の例は、サイズを表現する自然言語に対応する数値範囲を使用しています。<br>" +
     "イベントの参加人数attendeesがあり、その値は62です。<br>" +
     "Switchで条件判断するとき、各ケースを数値の範囲と比較することができます。<br>" +
-    "この場合には、attendeesが12と100の間にあるため、naturalCountにはdozens ofが代入され、実行はswitch文の外に移ります。" +
+    "この場合には、attendeesが12と99の間にあるため、naturalCountにはdozens ofが代入され、実行はswitch文の外に移ります。" +
     `
     <pre class="language-swift">
         <code class="language-swift">
@@ -2187,9 +2187,9 @@ text="Swift文のもう一つ強いところは範囲一致（range matching）�
             :
             <br>
             &emsp;&emsp;
-            candinality
+            naturalCount
             <span class="token operator">=</span>
-            <span class="token string">"tens of"</span>
+            <span class="token string">"dozens of"</span>
             <br>
             &emsp;
             <span class="token keyword">case</span>
@@ -2267,7 +2267,7 @@ text="Swift文のもう一つ強いところは範囲一致（range matching）�
             <br>&emsp;
             naturalCount
             <span class='token operator'>=</span>
-            <span class='token string'>"tens of"</span>;
+            <span class='token string'>"dozens of"</span>;
             <br>
             }
             <span class='token keyword'>else if</span>(

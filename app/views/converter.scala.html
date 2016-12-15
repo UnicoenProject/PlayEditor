@@ -90,7 +90,10 @@
         <script src="@routes.Assets.versioned("javascripts/textbook_noCmp.js")" type="text/javascript"></script>
 
         <script>
-                var textStrings;
+                var textStrings;// tutorial text shown in the page
+                var exprId; // subject id
+                var exprData = new Object(); // experiment result formed by: [[id, textNum]: [time], [id, textNum2]: [time2]...]
+
                 $(function() {
                     if(window.CONTROLE_GROUP) {
                         $('#tool, #tool_margin').hide();
@@ -107,6 +110,14 @@
                         textStrings = allText;
                     }
                 }
+                //Get id from the url
+
+                function getExprId(){
+                    var query = window.location.search.substring(1);
+                    var vars = query.split("=");
+                    exprId = vars[1];
+                }
+
                 $('#close').on('click', function () {
                     var curHeight = $('#tool').height();
                     if (curHeight > 200) {//appeared
@@ -130,13 +141,17 @@
                 $('#next').on('click', function () {
                     var textNum = nextText(localStorage.currentText);
                     showCurrentText(textNum, true);
+                    var time = document.getElementsByClassName('stopwatch')[0].innerHTML;// get time from stopwatch div
+                    saveData(textNum, time);
                     stopwatch.restart();
                 });
                 $('#prev').on('click', function () {
                     var textNum = prevText(localStorage.currentText);
                     showCurrentText(textNum, true);
+                    saveData(textNum, time);
                     stopwatch.restart();
                 })
+
                 $(function() {
                     var hash = location.hash;
                     if (hash) {
@@ -150,6 +165,7 @@
                     if(index==textStrings.length-1){
                         return "E";
                     }
+
                     return type+(index+1);
                 }
                 function prevText(textNum){
@@ -186,6 +202,21 @@
                         document.getElementById('textString').innerHTML = element[2];
                         document.getElementById('source').innerHTML = element[3];
                     }
+                }
+                function saveData(textNum, time){
+                    // input to exprData
+                    // exprData: key-> textNum, value-> time
+                    // if value is not empty, get the time and add
+                    // else insert new data into exprData
+                    var key = textNum;
+                    for(var k in exprData) {
+                        if(k.equals(key)){
+                            alert(k);
+                        }
+                    }
+
+
+
                 }
                 function createEditor(idName, canWrite, initText, mode, AnsEditor) {
                     var editor = ace.edit(idName);

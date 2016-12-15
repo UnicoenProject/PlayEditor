@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.{FileNotFoundException, IOException}
+import java.sql.{Connection, DriverManager}
 import javax.inject._
 
 import play.api.data.Forms._
@@ -39,6 +40,36 @@ class ConverterController @Inject() extends Controller {
     Ok(views.html.converterIndex(""))
   }
 
+  def insertToDatabase(): Unit ={
+    // connect to the database named "mysql" on the localhost
+    val driver = "com.mysql.jdbc.Driver"
+    val url = "jdbc:mysql://localhost/mysql"
+    val username = "root"
+    val password = "db4editor"
+
+    // there's probably a better way to do this
+    var connection:Connection = null
+
+    try {
+      // make the connection
+      Class.forName(driver)
+      connection = DriverManager.getConnection(url, username, password)
+
+      // create the statement, and run the select query
+      val statement = connection.createStatement()
+      val resultSet = statement.executeQuery("SELECT id, task_num, time FROM user")
+      while ( resultSet.next() ) {
+        val id = resultSet.getString("id")
+        val task_num = resultSet.getString("task_num")
+        val time = resultSet.getString("time");
+        println("id"+id+", "+"task_num"+task_num+", "+"time"+time+"-----")
+      }
+    } catch {
+      case e => e.printStackTrace
+    }
+    connection.close()
+
+  }
 
   def replaceLn(string: String): String = try {
     val format = string.replaceAll("(\r\n|\r|\n)"," ");
