@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/playeditor -Dhttp.port=${PORT} -Ddb.default.driver=com.mysql.jdbc.Driver -Ddb.default.url=${DATABASE_URL} -Dplay.crypto.secret=${APPLICATION_SECRET}
+web: target/universal/stage/bin/playeditor -Dhttp.port=${PORT} -Dplay.crypto.secret=${APPLICATION_SECRET}
