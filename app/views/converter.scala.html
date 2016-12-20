@@ -38,7 +38,9 @@
             <div id="textString"></div>
             <hr><hr>
             Source:<br>
+            <button id="finish">Submit</button>
             <div id="source"></div>
+            alert(@message);
         </div>
 
         <div class="stopwatch"></div>
@@ -93,7 +95,7 @@
                 var textStrings;// tutorial text shown in the page
                 var exprId; // subject id
                 var exprData = new Object(); // experiment result formed by: [[id, textNum]: [time], [id, textNum2]: [time2]...]
-
+                var exprDataString = "";
                 $(function() {
                     if(window.CONTROLE_GROUP) {
                         $('#tool, #tool_margin').hide();
@@ -139,16 +141,17 @@
                         "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
                 showCurrentText('T0');
                 $('#next').on('click', function () {
+                    var time = document.getElementsByClassName('stopwatch')[0].innerHTML;// get time from stopwatch div
+                    saveData(localStorage.currentText, time);
                     var textNum = nextText(localStorage.currentText);
                     showCurrentText(textNum, true);
-                    var time = document.getElementsByClassName('stopwatch')[0].innerHTML;// get time from stopwatch div
-                    saveData(textNum, time);
                     stopwatch.restart();
                 });
                 $('#prev').on('click', function () {
+                    var time = document.getElementsByClassName('stopwatch')[0].innerHTML;// get time from stopwatch div
+                    saveData(localStorage.currentText, time);
                     var textNum = prevText(localStorage.currentText);
                     showCurrentText(textNum, true);
-                    saveData(textNum, time);
                     stopwatch.restart();
                 })
 
@@ -195,6 +198,9 @@
                         document.getElementById('textString').innerHTML = '';
                         document.getElementById('source').innerHTML='';
                         localStorage.currentText = 'E';
+                        makeExprDataString(exprData);
+                        alert(exprDataString);
+
                     } else if (type == 'T') {
                         var element = textStrings[index];
                         document.getElementById('title').innerHTML = element[0];
@@ -205,19 +211,44 @@
                 }
                 function saveData(textNum, time){
                     // input to exprData
-                    // exprData: key-> textNum, value-> time
-                    // if value is not empty, get the time and add
-                    // else insert new data into exprData
                     var key = textNum;
-                    for(var k in exprData) {
-                        if(k.equals(key)){
-                            alert(k);
-                        }
+                    var sec = calculateSec(time);
+                    if(exprData[key]!=null){
+                        var originSec = exprData[key];
+                        //add time
+                        var sec = sec + originSec;
                     }
-
-
-
+                    exprData[key] = sec;
                 }
+
+                function calculateSec(time){
+                    var timeArr = time.split(":");
+                    var min = parseInt(timeArr[0])
+                    var sec = parseInt(timeArr[1]);
+                    var result = min*60 + sec;
+                    return result;
+                }
+                function makeExprDataString(exprData){
+                    for(var key in exprData) {
+                        var value = exprData[key];
+                        eachElement = key+":"+value;
+                        exprDataString = exprDataString + eachElement +","
+//                        alert(key+", "+value);
+                    }
+                }
+                $('#finish').click(function(){
+                    var userInfo = exprId+"-"+exprDataString;
+                    var form = document.createElement('form');
+                    document.body.appendChild(form);
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'hidden');
+                    input.setAttribute('name', 'name');
+                    input.setAttribute('value', userInfo);
+                    form.appendChild(input);
+                    form.setAttribute('action', '/converter/end');
+                    form.setAttribute('method', 'POST');
+                    form.submit();
+                })
                 function createEditor(idName, canWrite, initText, mode, AnsEditor) {
                     var editor = ace.edit(idName);
                     if (canWrite) {
@@ -244,7 +275,6 @@
                             input.setAttribute('type', 'hidden');
                             input.setAttribute('name', 'name');
                             var text = editor.getValue();
-//                    text = text.split(`"`).join(`"`);
                             if (idName == 'editorMain') {
                                 if (AnsEditor != null) {
                                     localStorage.textSwiftAns = AnsEditor.getValue();

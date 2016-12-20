@@ -40,14 +40,18 @@ class ConverterController @Inject() extends Controller {
     Ok(views.html.converterIndex(""))
   }
 
-  def insertToDatabase(): Unit ={
-    // connect to the database named "mysql" on the localhost
+  def insertDBContent = Action { implicit request=>
+    var result = "successfully inputted"
+    //get data
+    val form = Form( "name" -> text )
+    val data = form.bindFromRequest.get
+
+    //make connection
     val driver = "com.mysql.jdbc.Driver"
-    val url = "jdbc:mysql://localhost/mysql"
+    val url = "jdbc:mysql://localhost/JASMIN"
     val username = "root"
     val password = "db4editor"
 
-    // there's probably a better way to do this
     var connection:Connection = null
 
     try {
@@ -55,19 +59,67 @@ class ConverterController @Inject() extends Controller {
       Class.forName(driver)
       connection = DriverManager.getConnection(url, username, password)
 
-      // create the statement, and run the select query
-      val statement = connection.createStatement()
-      val resultSet = statement.executeQuery("SELECT id, task_num, time FROM user")
-      while ( resultSet.next() ) {
-        val id = resultSet.getString("id")
-        val task_num = resultSet.getString("task_num")
-        val time = resultSet.getString("time");
-        println("id"+id+", "+"task_num"+task_num+", "+"time"+time+"-----")
+      //split data
+      val arr = data.split("-");
+      val exprId = arr(0);
+      val dataArr = arr(1).split(",");
+      var textNum = "-1";
+      var time = -1;
+      for (x <- dataArr) {
+        val element = x.split(":");
+        textNum = element(0);
+        time = element(1).toInt;
+
+        //insert to database
+        // create the statement, and run the select query
+        val query = "insert into ans_time values(\""+exprId+"\", \""+textNum+"\", "+time+");"
+        val statement = connection.prepareStatement(query);
+        if(statement.executeUpdate()<1){
+          result = "cannot put into database";
+        }
       }
-    } catch {
-      case e => e.printStackTrace
     }
+    catch {
+      case e: Exception => "connection error";
+    }
+
+     //close connection
     connection.close()
+
+    Ok(views.html.converter(result));
+  }
+
+
+  def insertToDatabase(): Unit ={
+
+//
+//    // connect to the database named "mysql" on the localhost
+//    val driver = "com.mysql.jdbc.Driver"
+//    val url = "jdbc:mysql://localhost/mysql"
+//    val username = "root"
+//    val password = "db4editor"
+//
+//    // there's probably a better way to do this
+//    var connection:Connection = null
+//
+//    try {
+//      // make the connection
+//      Class.forName(driver)
+//      connection = DriverManager.getConnection(url, username, password)
+//
+//      // create the statement, and run the select query
+//      val statement = connection.createStatement()
+//      val resultSet = statement.executeQuery("SELECT id, task_num, time FROM user")
+//      while ( resultSet.next() ) {
+//        val id = resultSet.getString("id")
+//        val task_num = resultSet.getString("task_num")
+//        val time = resultSet.getString("time");
+//        println("id"+id+", "+"task_num"+task_num+", "+"time"+time+"-----")
+//      }
+//    } catch {
+//      case e => e.printStackTrace
+//    }
+//    connection.close()
 
   }
 
@@ -82,6 +134,7 @@ class ConverterController @Inject() extends Controller {
     case e: Exception => "FAILED TO TRANSLATE"
 
   }
+
 
   def compile = Action { implicit request =>
     val form = Form( "name" -> text )

@@ -1914,7 +1914,7 @@ text="次の例を見てみましょう。電球が一つあって、スイッ�
             <span class="token keyword">let</span>
             lightBulb
             <span class="token operator">=</span>
-            <span class="token string">"n"</span>
+            <span class="token string">"on"</span>
             <br>
             <span class="token keyword">switch</span>
             lightBulb {
@@ -2009,7 +2009,7 @@ text="暗黙的にフォールスルーしない Java の switch 文とは対照
             <span class="token keyword">let</span>
             lightBulb
             <span class="token operator">=</span>
-            <span class="token string">"n"</span>
+            <span class="token string">"on"</span>
             <br>
             <span class="token keyword">switch</span>
             lightBulb {
@@ -2067,7 +2067,7 @@ text="Swiftは安全な言語です。<br>" +
             <span class="token keyword">let</span>
             lightBulb
             <span class="token operator">=</span>
-            <span class="token string">"n"</span>
+            <span class="token string">"on"</span>
             <br>
             <span class="token keyword">switch</span>
             lightBulb {
@@ -2104,7 +2104,7 @@ text="Swiftは安全な言語です。<br>" +
             <span class="token keyword">let</span>
             lightBulb
             <span class="token operator">=</span>
-            <span class="token string">"n"</span>
+            <span class="token string">"on"</span>
             <br>
             <span class="token keyword">switch</span>
             lightBulb {
