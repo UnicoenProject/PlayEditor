@@ -48,9 +48,12 @@ class ConverterController @Inject() extends Controller {
 
     //make connection
     val driver = "com.mysql.jdbc.Driver"
-    val url = "jdbc:mysql://localhost/JASMIN"
-    val username = "root"
-    val password = "db4editor"
+//    val url = "jdbc:mysql://localhost/JASMIN"
+    val url = "jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/heroku_8d35f6b50ee0971"
+//    val username = "root"
+    val username = "bffce0720ac376"
+//    val password = "db4editor"
+    val password = "71c8cdd8"
 
     var connection:Connection = null
 
