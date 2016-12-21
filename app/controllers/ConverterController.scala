@@ -41,7 +41,7 @@ class ConverterController @Inject() extends Controller {
   }
 
   def insertDBContent = Action { implicit request=>
-    var result = "successfully inputted"
+    var result = "finished"
     //get data
     val form = Form( "name" -> text )
     val data = form.bindFromRequest.get
