@@ -59,7 +59,6 @@
         <pre>
             <img id="ansImg" src="@routes.Assets.versioned("images/quiz1AnsBoth.png")" style="width:800px; height:100%">
         </pre>
-
     </div>
     <div>
         <pre id = "ansWord"></pre>
@@ -111,10 +110,7 @@
             </div>
         </div>
     </div>
-    @*処理の流れ<br>*@
-    @*実行ボタン：JavaScriptでイベント取得。エディタ上のテキストを取得。Fromの形でPOST(JavaScript)<br>*@
-    @*コントローラはポストされたデータを取得。アクション関数で文字列の処理など。(Scala,String)ビューにセット。<br>*@
-    @*ビュー：生文字を取得(改行文字に注意)。JavaScriptでコメント文字など操作してセット。<br>*@
+
     <script>
             $(function() {
                 if(window.CONTROLE_GROUP) {
