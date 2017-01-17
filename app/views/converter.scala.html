@@ -11,7 +11,7 @@
     @main("Jasminを使ってSwiftを学ぼう") {
         <script>
                 window.CONTROLE_GROUP = false;
-                window.CONTROL_TUTORIAL_GROUP =true;//tutorial実験のためのグループ分け
+                window.CONTROL_TUTORIAL_GROUP =true;//tutorial実験のためのグループ分け, true-> Javaあり
         </script>
         @*
         * Get an `Html` object by calling the built-in Play welcome
@@ -33,18 +33,20 @@
 
         <div id="textbook">
             <h2><div id="title"></div></h2>
+            <button id="finish" class="btn btn-default" style="visibility: hidden;display:none">Submit</button>
             <h4><div id="similarity"></div></h4>
             <hr>
             <div id="textString"></div>
             <hr><hr>
             Source:<br>
-            <button id="finish" class="btn btn-default" style="visibility: hidden;display:none">Submit</button>
+
             <div id="source"></div>
             @*alert(@message);*@
             <p id = "message">@message</p>
         </div>
 
         <div class="stopwatch" style = "visibility: hidden; display: none"></div>
+
 
 
         @* Converter in the bottom *@
@@ -94,7 +96,6 @@
 
         <script>
                 var textStrings;// tutorial text shown in the page
-                var exprId = ""; // subject id
                 var exprData = new Object(); // experiment result formed by: [[id, textNum]: [time], [id, textNum2]: [time2]...]
                 var exprDataString = "";
                 $(function() {
@@ -102,6 +103,7 @@
                         $('#tool, #tool_margin').hide();
                     }
                     stopwatch.start();
+
                 })
 
                 function setText(){
@@ -124,9 +126,6 @@
 
                     return text;
                 }
-                function getExprId(){
-                    exprId = makeId();
-                }
 
                 $('#close').on('click', function () {
                     var curHeight = $('#tool').height();
@@ -142,10 +141,9 @@
                         $('#converter').fadeIn();
                     }
                 });
-                var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
-                var endEnd = "<h2>学習お疲れ様でした！下のSubmitボタンを押して学習終了してください！</h2>続いて" +
-                        "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
-                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>"
+                var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/hzlPjwHBYFndYN3H2" : "https://goo.gl/forms/Qv8HCWbolZAMUyCE3";
+                var exprId = makeId();
+                var endEnd = "<h2>学習お疲れ様でした！下のSubmitボタンを押して学習終了してください！</h2>"
                 var result = document.getElementById('message').innerHTML;
                 if(result.length>0){
                     showCurrentText('E')
@@ -206,7 +204,10 @@
                     var index = parseInt(textNum.substring(1));
                     if (type == 'E') {
                         document.getElementById('title').innerHTML = endEnd;
-                        document.getElementById('similarity').innerHTML = '';
+                        document.getElementById('similarity').innerHTML = "続いて<u><b>新しいタブ</b></u>にテストとアンケートを開いてください。<br>" +
+                        "<a href='https://goo.gl/forms/ffZjJdtm92oPYG7v1'>学習効果の評価テスト</a>と" +
+                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>" +
+                        "\""+exprId+"\"" + "をIDとして、アンケートに記入してください。";
                         document.getElementById('textString').innerHTML = '';
                         document.getElementById('source').innerHTML='';
                         localStorage.currentText = 'E';
@@ -252,7 +253,7 @@
                     }
                 }
                 $('#finish').click(function(){
-                    getExprId();
+//                    alert(exprId);
                     var userInfo = exprId+"-"+exprDataString;
                     var form = document.createElement('form');
                     document.body.appendChild(form);
