@@ -143,7 +143,9 @@
                 });
                 var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/hzlPjwHBYFndYN3H2" : "https://goo.gl/forms/Qv8HCWbolZAMUyCE3";
                 var exprId = makeId();
-                var endEnd = "<h2>学習お疲れ様でした！下のSubmitボタンを押して学習終了してください！</h2>"
+                var endEnd = "<h2>学習お疲れ様でした！<br>" +
+                        "あなたのIDは" + "\""+exprId+"\"" + "です。紙などにメモしてください。<br>" +
+                        "下のSubmitボタンを押して学習終了してください！</h2>"
                 var result = document.getElementById('message').innerHTML;
                 if(result.length>0){
                     showCurrentText('E')
@@ -206,8 +208,7 @@
                         document.getElementById('title').innerHTML = endEnd;
                         document.getElementById('similarity').innerHTML = "続いて<u><b>新しいタブ</b></u>にテストとアンケートを開いてください。<br>" +
                         "<a href='https://goo.gl/forms/ffZjJdtm92oPYG7v1'>学習効果の評価テスト</a>と" +
-                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>" +
-                        "\""+exprId+"\"" + "をIDとして、アンケートに記入してください。";
+                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>"
                         document.getElementById('textString').innerHTML = '';
                         document.getElementById('source').innerHTML='';
                         localStorage.currentText = 'E';
