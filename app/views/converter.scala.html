@@ -33,12 +33,12 @@
 
         <div id="textbook">
             <h2><div id="title"></div></h2>
+            <button id="finish" class="btn btn-default" style="visibility: hidden;display:none">Submit</button>
             <h4><div id="similarity"></div></h4>
             <hr>
             <div id="textString"></div>
             <hr><hr>
             Source:<br>
-            <button id="finish" class="btn btn-default" style="visibility: hidden;display:none">Submit</button>
             <div id="source"></div>
             @*alert(@message);*@
             <p id = "message">@message</p>
@@ -94,7 +94,6 @@
 
         <script>
                 var textStrings;// tutorial text shown in the page
-                var exprId = ""; // subject id
                 var exprData = new Object(); // experiment result formed by: [[id, textNum]: [time], [id, textNum2]: [time2]...]
                 var exprDataString = "";
                 $(function() {
@@ -124,9 +123,6 @@
 
                     return text;
                 }
-                function getExprId(){
-                    exprId = makeId();
-                }
 
                 $('#close').on('click', function () {
                     var curHeight = $('#tool').height();
@@ -142,10 +138,11 @@
                         $('#converter').fadeIn();
                     }
                 });
-                var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
-                var endEnd = "<h2>学習お疲れ様でした！下のSubmitボタンを押して学習終了してください！</h2>続いて" +
-                        "<a href='https://goo.gl/forms/IXrjFarZkQEAAdMD3'>学習効果の評価テスト</a>と" +
-                        "<a href='" + url + "'>アンケート</a>にお答えください。<br>"
+                var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/hzlPjwHBYFndYN3H2" : "https://goo.gl/forms/Qv8HCWbolZAMUyCE3";
+                var exprId = makeId();
+                var endEnd = "<h2>学習お疲れ様でした！<br>" +
+                        "あなたのIDは" + "\""+exprId+"\"" + "です。紙などにメモしてください。<br>" +
+                        "下のSubmitボタンを押して学習終了してください！</h2>"
                 var result = document.getElementById('message').innerHTML;
                 if(result.length>0){
                     showCurrentText('E')
@@ -207,7 +204,10 @@
                     if (type == 'E') {
                         document.getElementById('title').innerHTML = endEnd;
                         document.getElementById('similarity').innerHTML = '';
-                        document.getElementById('textString').innerHTML = '';
+                        document.getElementById('textString').innerHTML = "続いて<u><b>新しいタブ</b></u>にテストとアンケートを開いてください。<br>" +
+                                "<a href='https://goo.gl/forms/ffZjJdtm92oPYG7v1'>学習効果の評価テスト</a>と" +
+                                "<a href='" + url + "'>アンケート</a>にお答えください。<br>" +
+                                "\""+exprId+"\"" + "をIDとして、アンケートに記入してください。";
                         document.getElementById('source').innerHTML='';
                         localStorage.currentText = 'E';
                         makeExprDataString(exprData);
@@ -252,7 +252,7 @@
                     }
                 }
                 $('#finish').click(function(){
-                    getExprId();
+//                    getExprId();
                     var userInfo = exprId+"-"+exprDataString;
                     var form = document.createElement('form');
                     document.body.appendChild(form);
