@@ -90,53 +90,7 @@ text="Javaやほかのプログラミング言語では<code>＋</code>オペレ
     </pre>
     ` +
     "この例では、hello の値が <code>\"Hello\"</code> として文字列リテラルに挿入されています。<br>" +
-    "文字列補間が評価される時に、プレースホルダは helloの実際の値で置き換えられます。<br><br>" +
-    "<hr>もう一つの例を見てみましょう。"
-    + `
-    <pre class="language-swift">
-        <p><u><b>Swift:</b></u></p>
-        <code class="language-swift">
-            <span class="token keyword">let</span>
-            age
-            <span class="token operator">=</span>
-            <span class="token number">18</span>
-            <br>
-            <span class="token function">print(</span>
-            <span class="token string">"I am </span>
-            \\( age )
-            <span class="token string">years old."</span>
-            <span class="token function">)</span>
-            <span class="token comment">//I am 18 years oldを出力"</span>
-        </code>
-    </pre>
-    ` +
-    "このプログラムは年齢の定数を定義し、文字列と置き換えられて出力します。<br>" +
-    "同じプログラムをJavaで書いてみると：" +
-    `
-    <pre class="language-java">
-        <p><u><b>Java:</b></u></p>
-        <code class="language-java">
-            <span class="token keyword">final</span>
-            int age
-            <span class="token operator">=</span>
-            <span class="token number">18</span>
-            ;
-            <br>
-            <span class="token function">System.out.println(</span>
-            <span class="token string">"I am "</span>
-            <span class="token operator">+</span>
-            <span class="token function">String.valueOf(</span>
-            age
-            <span class="token function">)</span>
-            <span class="token operator">+</span>
-            <span class="token string">"years old."</span>
-            <span class="token function">)</span>
-            <span class="token comment">//I am 18 years oldを出力"</span>
-        </code>
-    </pre>
-    `
-    + "Javaで文字列への変換と追加が多い場合、コードが長くなり、読みづらくなります。それに比べて、Swiftの操作方法がもっと簡単だと言えるでしょう。"
-
+    "文字列補間が評価される時に、プレースホルダは helloの実際の値で置き換えられます。<br><br>";
 source="http://www.studiogalago.com/the-swift-programming-language/language-guide/strings-and-characters/string-interpolation/<br>" +
     "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
 addText()
@@ -262,6 +216,7 @@ similarity=`<p class="littlediff">少し違う</p>`+
     `<pre>
             型　変数名＝式(Java)　
         <code>String  str  = "java"</code>
+        <br>
         <span class="token operator">=></span>　<span class="token keyword">var</span>　変数名：型  ＝ 式(Swift)
         <code>    var str:String = "swift"</code>
     </pre>`+
@@ -269,6 +224,7 @@ similarity=`<p class="littlediff">少し違う</p>`+
     `<pre>
         <span class="token operator">  </span> <span class="token keyword">final</span>　 型　定数名 ＝ 式(Java)
         <code>   final String str = "java"</code>
+        <br>
         <span class="token operator">=></span>　<span class="token keyword">let</span>　定数名：型 ＝ 式(Swift)
         <code>   let str:String = "swift"</code>
     </pre>`
@@ -520,14 +476,14 @@ text="Swiftでは、扱うべき値が存在しないことを表すため、<co
             <th>Java（代入できる値）</th>
         </tr>
         <tr>
-            <td>Int</td>
-            <td>1,2,3,...</td>
-            <td>Integer</td>
+            <td>String</td>
+            <td>a,b,c,...</td>
+            <td>String</td>
             <td>1,2,3,..., <code>null</code></td>
         </tr>
         <tr>
-            <td>Int?</td>
-            <td>1,2,3,..., <code>nil</code></td>
+            <td>String?</td>
+            <td>a,b,c,..., <code>nil</code></td>
             <td>-</td>
             <td>-</td>
         </tr>
