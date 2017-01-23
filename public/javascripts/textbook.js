@@ -394,7 +394,7 @@ text = "Swiftはタイプセーフな言語です。基本的には、変数や�
     </pre>
     ` +
     "コンパイラが表示するメッセージは：Int型はDouble型に変換できない、という内容です。<br><br>" +
-    "整数と実数の間だけではなく、IntとUnit型（符号なし整数）、Float型とDouble型など、Java言語なら何の問題もないと思われる型同士の間でも同様なメッセジーが出ます。<br>" +
+    "整数と実数の間だけではなく、IntとUnit型（符号なし整数）、Float型からDouble型など、Java言語なら何の問題もないと思われる型同士の間でも同様なメッセジーが出ます。<br>" +
     "代入だけではなく、単純な計算でも型が一致していないとエラーになります。<br>" +
     "Javaであれば混合演算で自動的に型変換が行われるところです。<br>" +
     `
@@ -1539,6 +1539,26 @@ text="オプショナルの定数・変数名の末尾にエクスクラメー�
             <span class="token operator">:</span>
             String?
             <span class="token operator">=</span>
+            <span class="token symbol">"That is the question"</span>
+            <br>
+            <span class="token keyword">let</span>
+            toBe
+            <span class="token operator">=</span>
+            toBeOrNotToBe!
+            <span class="token comment">//toBe は "That is the question"</span>
+        </code>
+    </pre>
+    ` +
+    "値が存在しないオプショナル値を<code>!</code>でアクセスしようとすると、実行時にエラーになります。" +
+    `
+    <pre class="language-swift">
+        <p><u><b>Swift:</b></u></p>
+        <code class="language-swift">
+            <span class="token keyword">let</span>
+            toBeOrNotToBe
+            <span class="token operator">:</span>
+            String?
+            <span class="token operator">=</span>
             <span class="token symbol">nil</span>
             <br>
             <span class="token keyword">let</span>
@@ -1549,8 +1569,7 @@ text="オプショナルの定数・変数名の末尾にエクスクラメー�
             <span class="token comment">//error: Execution was interrupted</span>
         </code>
     </pre>
-    ` +
-    "値が存在しないオプショナル値を<code>!</code>でアクセスしようとすると、実行時にエラーになります。"
+    `
 source="http://www.studiogalago.com/the-swift-programming-language/language-guide/the-basics/optionals/<br>" +
     "https://www.youtube.com/watch?v=dmXtWNmXgIA&t=6350s"
 addText()
@@ -1862,7 +1881,7 @@ text="while ループのもう一方のバリエーションが repeat–while �
         </code>
     </pre>
     ` +
-    "ループの条件 (while count > 0) は前と同じですが、今回は最初のループ実行が終了するまで評価されません。<br>" +
+    "ループの条件 (while count > 0) は前と同じですが、今回はループ実行が終了するまで評価されません。<br>" +
     "上のプログラムをJavaで書くと以下のようになります。"
     +
     `
