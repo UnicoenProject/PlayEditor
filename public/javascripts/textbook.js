@@ -123,7 +123,7 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
         <tr>
             <td>論理型</td>
             <td>Bool</td>
-            <td>Boolean</td>
+            <td>boolean</td>
         </tr>
         <tr>
             <td>文字</td>
