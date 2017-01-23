@@ -108,17 +108,17 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
         <tr>
             <td>整数型</td>
             <td>Int</td>
-            <td>Integer</td>
+            <td>int</td>
         </tr>
         <tr>
             <td>実数型</td>
             <td>Float</td>
-            <td>Float</td>
+            <td>float</td>
         </tr>
         <tr>
             <td>実数型</td>
             <td>Double</td>
-            <td>Double</td>
+            <td>double</td>
         </tr>
         <tr>
             <td>論理型</td>
@@ -128,7 +128,7 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
         <tr>
             <td>文字</td>
             <td>Character</td>
-            <td>Character</td>
+            <td>char</td>
         </tr>
         <tr>
             <td>文字列</td>
@@ -138,8 +138,6 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
     </table>
     <br>
     `+
-    "ここでは、イニシャライザを使ってDouble型やInt型のインスタンスを新しく作るので、" +
-    "Javaのデータ型の基本形(double, intなど）ではなく、そのラップクラス(Double, Integerなど）に相当します。"+
     `
     <pre class="language-swift">
         <p><u><b>Swift:</b></u></p>
@@ -148,7 +146,6 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
             t:Double
             <span class="token operator">=</span>
             <span class="token number">8</span>
-            <span class="token comment">//実数のインスタンスが作られて代入される</span>
             <br>
             <span class="token keyword">let</span>
             s
@@ -156,7 +153,6 @@ text="以下はSwiftとJavaの基本的なデータ型を比較した図です�
             t
             <span class="token operator">*</span>
             <span class="token number">10</span>
-            <span class="token comment">//実数の変数tと演算をする実数インスタンスが作られる</span>
         </code>
     </pre>
     
@@ -1688,12 +1684,7 @@ text = "数値の範囲や、配列内の値、文字列内の文字のような
     <pre class="language-java">
         <p><u><b>Java:</b></u></p>
         <code class="language-java">
-            ArrayList<span class='token string'><</span>Integer<span class='token string'>></span>
-            range
-            <span class='token operator'>=</span>
-            <span class='token keyword'>new</span>
-            ArrayList<span class='token string'><</span>Integer<span class='token string'>></span>(
-            Arrays<span class='token property'>.asList</span>(
+            int[] range = {
             <span class='token number'>1</span>,
             <span class='token number'>2</span>,
             <span class='token number'>3</span>,
@@ -1703,10 +1694,10 @@ text = "数値の範囲や、配列内の値、文字列内の文字のような
             <span class='token number'>7</span>,
             <span class='token number'>8</span>,
             <span class='token number'>9</span>,
-            <span class='token number'>10</span>));
+            <span class='token number'>10</span>}
             <br>
             <span class='token keyword'>for</span>(
-            Integer i
+            int i
             <span class='token operator'>:</span>
             range){
             <br>&emsp;
@@ -1986,7 +1977,7 @@ title="switch基本文法-暗黙なフォールスルーしない"
 similarity=`<p class="littlediff">少し違う</p>` +
     "Swiftでは暗黙なフォールスルーをしないので、ケースごとにbreakは必要なし。<br>" +
     "Javaでは暗黙なフォールスルーをするので、各ケースの最後でbreakは必ず必要になる"
-text="暗黙的にフォールスルーする Java の switch 文とは対照的に、Java の switch 文はデフォルトでは各ケースの最後で次のケースにフォールスルーしません。<br>" +
+text="暗黙的にフォールスルーする Java の switch 文とは対照的に、Swift の switch 文はデフォルトでは各ケースの最後で次のケースにフォールスルーしません。<br>" +
     "はじめに一致した switch ケースを完了後すぐ、明示的な break 文を必要とせずに、switch 文全体の実行を終了します。<br>" +
     "これにより、Java と比較して switch 文はより安全でわかりやすくなっていて、誤って複数の switch ケースを実行することを防ぐことができます。" +
     "前のコードと同じ結果を出力する Java プログラムと比較してみましょう。" +
