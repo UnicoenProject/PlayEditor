@@ -1792,12 +1792,9 @@ text="while ループは条件が false になるまでループブロックを�
     <pre class="language-java">
         <p><u><b>Java:</b></u></p>
         <code class="language-java">
-            Integer count
+            int count
             <span class="token operator">=</span>
-            <span class="token keyword">new</span>
-            <span class='token function'>Integer(
-            10
-            <span class='token function'>)</span>;
+            10;
             <br>
             <span class='token keyword'>while</span>(
             count
@@ -1808,9 +1805,8 @@ text="while ループは条件が false になるまでループブロックを�
             <span class='token function'>System.out.println(</span>
             <span class='token string'>"The current count is"</span>
             <span class='token operator'>+</span>
-            <span class='token function'>String.valueOf(</span>
             count
-            <span class='token function'>) )</span>;
+            <span class='token function'> )</span>;
             <br>&emsp;
             i
             <span class='token operator'>=</span>
