@@ -2269,10 +2269,9 @@ text="Swift文のもう一つの長所は<b>範囲一致（range matching）</b>
         <p><u><b>Java:</b></u></p>
         <code class='language-java'>
             <span class='token keyword'>final</span>
-            Integer attendees
+            int attendees
             <span class='token operator'>=</span>
-            <span class='token keyword'>new</span>
-            Integer(<span class='token number'>62</span>);
+            62;
             <br>
             String naturalCount;
             <br>
