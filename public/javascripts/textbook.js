@@ -1818,9 +1818,9 @@ text="while ループは条件が false になるまでループブロックを�
             count
             <span class='token function'> )</span>;
             <br>&emsp;
-            i
+            count
             <span class='token operator'>=</span>
-            i<span class='token operator'>-</span><span class='token number'>1</span>;
+            count<span class='token operator'>-</span><span class='token number'>1</span>;
             <br>
             }
         </code>
@@ -1973,6 +1973,7 @@ text="次の例を見てみましょう。電球が一つあって、スイッ�
             &emsp;&emsp;
             <span class="token function">print(</span>
             <span class="token string">"It's dark in here!"</span>
+            <span class="token function">)</span>
             <br>
             &emsp;
             <span class="token keyword">default:</span>
