@@ -1567,7 +1567,7 @@ similarity=`<p class="littlediff">少し違う</p>` +
 text=
     "Swift の switch 文はデフォルトでは各ケースの最後で次のケースにフォールスルーしません。<br>" +
     "はじめに一致した switch ケースを完了後すぐ、明示的な break 文を必要とせずに、switch 文全体の実行を終了します。<br>" +
-    "これにより、Java と比較して switch 文はより安全でわかりやすくなっていて、誤って複数の switch ケースを実行することを防ぐことができます。<br>" +
+    "これにより、switch 文はより安全でわかりやすくなっていて、誤って複数の switch ケースを実行することを防ぐことができます。<br>" +
     "フォールスルーが必要な場合は、個別に<code><span class='token keyword'>fallthrough</span></code>キーワードでこの動作にすることができます。" +
     `
     <pre class="language-swift">
