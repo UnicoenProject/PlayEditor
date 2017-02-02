@@ -10,23 +10,21 @@
 *@
 @main("Jasminを使ってSwiftを学ぼう") {
     <script>
-        window.CONTROLE_GROUP = false;
-
-        function isCodingTask() {
-            for (var i = 0; i < tasks.length; i++) {
-                if (localStorage.currentTask == tasks[i]) {
-                    return true;
+            window.CONTROLE_GROUP = false;
+            function isCodingTask() {
+                for (var i = 0; i < tasks.length; i++) {
+                    if (localStorage.currentTask == tasks[i]) {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
-        }
     </script>
     <style>
     .level2 {
         visibility: hidden;
         padding-left: 20px
     }
-
     </style>
     @*
     * Get an `Html` object by calling the built-in Play welcome
@@ -39,9 +37,9 @@
         <img src="@routes.Assets.versioned("images/Jasmin.png")" width="300" height="88">
     </p>
     <p>
-        <button id="prev" class="btn btn-default"> Prev </button>
-        <button id="next" class="btn btn-default"> Next </button>
-        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> Show me the Answer </button>
+        <button id="prev" class="btn btn-default"> 前の問題 </button>
+        <button id="next" class="btn btn-default"> 次の問題 </button>
+        <button id="submit" class="btn btn-default" onclick="if(window.CONTROLE_GROUP){if(isCodingTask()){document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible';document.getElementById('ansImg').style.display='block';document.getElementById('ansWord').style.display='hidden';}else{document.getElementById('ansWord').style.display='block'}}else{document.getElementById('answer').style.display='block';document.getElementById('answer').style.visibility='visible'}"> 解答を見る（最下部に表示） </button>
     </p>
     <div width="500px" height="800px"><pre id = quiz width="500px" height="800px"></pre></div>
     <div id="choices" style="padding-top: 20px; float: left">
@@ -119,16 +117,13 @@
                     setQuizAnswersWithoutTranslation(localStorage.currentTask);
                 }
             })
-
             function setQuizAnswersWithoutTranslation(task){
                 for(var i=0;i<questions.length;i++){
                     if(task==questions[i]){
                         document.getElementById('ansWord').innerHTML = ansNoTranslation[i];
                     }
-
                 }
             }
-
             $('#close').on('click', function () {
                 var curHeight = $('#tool').height();
                 if (curHeight > 200) {//appeared
@@ -145,7 +140,7 @@
             });
             var tasks = [
 //                "問1. 長方形の面積を計算する関数 area(Double, Double) -> Double を実装してください。<br>",
-                "Task1. Create a function named area that calculate the area of square. <br>The area function take two double number as parameters and return a double.",
+                "Task1. Create a function named area that calculate the area of square. The area function take two double number as parameters and return a double.",
                 "問2. 文字列（String）をCharacterの配列に変える関数 toArray(String) -> [Character] を実装してください。<br>"+
                 "そのあと、関数から返された配列にCharacterである”S”を追加してください。",
                 "問3. 一つの文字列が回文かどうかを判断する関数を実装してください。<br>回文であればtrue, そうでなければfalseを返してください。<br>",
@@ -161,11 +156,9 @@
         self.city = city
     }
  }
-
  class Person {
     var name: String
     var workplace: Workplace
-
     init(name: String, workplace: Workplace) {
         self.name = name
         self.workplace = workplace
@@ -174,67 +167,52 @@
  var address = Workplace(workplaceAddress: "112 Jasmin Street", city: "JasminTown")
  var bob = Person(name: "Bob", workplace: address)
  var amy = Person(name: "Amy", workplace: address)
-
 もしAmyが転職して、就職先を変更したい場合、
-
 amy.workplace.workplaceAddress = "123 New Street"
-
 このコードに関して、以下のどれが正しいですか？
                      `,
-
 //                "問2. 以下の2つのif文を実行した際に得られる正しい結果を選んでください。<br>" +
-                "Q2. Please calculate the correct result of the program below.<br>" +
+                "Q2. Please calculate the correct result of the program below." +
                 `
 let i = 101
-
 if case 100...101 = i {
     print("Hello, world!")
 } else {
     print("Goodbye, world!")
 }
-
 if case 100..<101 = i {
     print("Hello, world!")
 } else {
     print("Goodbye, world!")
 }
-
                      `,
                 "問3. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 let names = ["River", "Kaylee", "Zoe"]
 let result = names.sort { $0 > $1 }
 print(result)
-
                      `,
-
                 "問4. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
                 `
 func foo(function: (Int) -> Int) -> Int {
     return function(function(5))
 }
-
 func bar<Int: IntegerType>(number: Int) -> Int {
     return number * 3
 }
-
 print(foo(bar))
-
                   `,
                 "問5. 以下のSwiftコードについて、正確かつ一番簡潔に書き直したコードを選んでください。<br>" +
                 `
 let animals = ["fish", "cat", "chicken", "dog"]
 let sortedAnimals = animals.sort {(one: String, two: String) -> Bool in return one < two
 }
-
                 `,
                 "問6. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" + `
 let year: Int? = Int("2020")
 let remain: Int = year! - 2016
-
 let year2: Int? = nil
 let remain2: Int = year! - 2016
-
 let year3: Int? = nil
 if let remain3 = year3 {
     print("remain \\(remain3-2016)years")
@@ -244,7 +222,6 @@ if let remain3 = year3 {
                 `
 let i = 11
 let j = 20
-
 let name = 9...11 ~= i ? j % 2 == 1 ? "Larry" : "Laura" : "Libby"
                             `,
                 "問8. 以下のSwiftコードを実行した際に得られる正しい結果を選んでください。<br>" +
@@ -343,7 +320,6 @@ default:
                 "C. 追試不可",
                 "D. 何も出力されない"
             ];
-
             var startEnd = "<h2>サンプルテスト<h2>";
             var url = window.CONTROLE_GROUP ? "https://goo.gl/forms/56yyzwunyQrxlWPA3" : "https://goo.gl/forms/5SOs629lTOVNlIIY2";
             var endEnd = "<h2>学習お疲れ様でした！学習は終了となりますので、終了時刻をメモしてください！</h2>続いて" +
@@ -351,7 +327,6 @@ default:
                     "<a href='" + url + "'>アンケート</a>にお答えください。<br>"+
                     "なお、評価テストに取り組む際は、すべての資料や本学習環境、XCodeなどの実行環境のご利用はお控えください。";
             showCurrentTask('Q0');
-
             function showAnswers(questionNum) {
                 if (questionNum == 0) {
                     document.getElementById('A').innerHTML = ans1s[0];
@@ -425,7 +400,6 @@ default:
                     document.getElementById('ansWord').innerHTML = ansNoTranslation[9];
                 }
             }
-
             $('#next').on('click', function () {
                 var code = nextCode(localStorage.currentCode);
                 showCurrentTask(code, true);
@@ -433,7 +407,6 @@ default:
             $('#prev').on('click', function () {
                 var code = prevCode(localStorage.currentCode);
                 showCurrentTask(code, true);
-
             })
             $(function() {
                 var hash = location.hash;
@@ -442,28 +415,23 @@ default:
                     showCurrentTask(code);
                 }
             });
-
             function nextCode(code) {
-              var type = code[0];
-              var index = parseInt(code.substring(1)) | 0;
-
-              if (type == 'S') {
-                return 'Q0';
-              }
-              if (type == 'Q' && index == questions.length - 1) {
-                return 'T0';
-              }
-              if (type == 'T' && index == tasks.length - 1) {
-                return 'E';
-              }
-              return type + (index + 1);
-
+                var type = code[0];
+                var index = parseInt(code.substring(1)) | 0;
+                if (type == 'S') {
+                    return 'Q0';
+                }
+                if (type == 'Q' && index == questions.length - 1) {
+                    return 'T0';
+                }
+                if (type == 'T' && index == tasks.length - 1) {
+                    return 'E';
+                }
+                return type + (index + 1);
             }
-
             function prevCode(code) {
                 var type = code[0];
                 var index = parseInt(code.substring(1)) | 0;
-
                 if (type == 'Q' && index == 0) {
                     return 'Q0';
                 }
@@ -475,7 +443,6 @@ default:
                 }
                 return type + (index - 1);
             }
-
             function showCurrentTask(code, updateHash) {
                 localStorage.currentCode = code;
                 if (updateHash) {
@@ -483,41 +450,35 @@ default:
                 }
                 var type = code[0];
                 var index = parseInt(code.substring(1));
-
                 $('#answer').hide();
                 $('#ansWord').hide();
                 if (type == 'S') {
                     document.getElementById('quiz').innerHTML = startEnd;
                     localStorage.currentTask = startEnd;
-
                     $('#choices').hide();
                     $('#editorAnswer').hide();
                     $('#submit').hide();
                 } else if (type == 'E') {
                     document.getElementById('quiz').innerHTML = endEnd;
                     localStorage.currentTask = endEnd;
-
                     $('#choices').hide();
                     $('#editorAnswer').hide();
                     $('#submit').hide();
                 } else if (type == 'Q') {
                     document.getElementById('quiz').innerHTML = questions[index];
                     localStorage.currentTask = questions[index];
-
                     $('#choices').show();
                     $('#editorAnswer').hide();
                     showAnswers(index);
                 } else if (type == 'T') {
                     document.getElementById('quiz').innerHTML = tasks[index];
                     localStorage.currentTask = tasks[index];
-
                     $('#choices').hide();
                     $('#editorAnswer').show();
                     $('#submit').show();
                     setTaskAnswers(index);
                 }
             }
-
             function setTaskAnswers(taskNum) {
                 if (localStorage.currentTask == tasks[0]) {
                     document.getElementById('ansImg').src = "@routes.Assets.versioned("images/task1Ans.png")";
@@ -556,7 +517,6 @@ default:
                         input.setAttribute('name', 'name');
                         var text = editor.getValue();
 //                    text = text.split(`"`).join(`"`);
-
                         if (idName == 'editorMain') {
                             if (AnsEditor != null) {
                                 localStorage.textSwiftAns = AnsEditor.getValue();
@@ -567,11 +527,9 @@ default:
                             form.setAttribute('action', '/converter' + location.hash);
                             form.setAttribute('method', 'POST');
                             form.submit();
-
                         }
                     });
                 }
-
                 if (initText != null && initText != '')
                     editor.setValue(initText, -1);
                 return editor;
@@ -585,16 +543,15 @@ default:
                 alert("Error in the Java Program");
                 mes2 = "";
             }
-
             var defaultJavaCode =
                     'public class Main {\n' +
                     '    public static void main(String[] args) {\n' +
                     '        System.out.println("Hello, world");\n' +
                     '    }\n' +
                     '}\n';
-
             var editorAnswer = createEditor('editorAnswer', true, localStorage.textSwiftAns, "swift", null);
             var editorMain = createEditor('editorMain', true, localStorage.textJavaMain || defaultJavaCode, "java", editorAnswer);
             var editorResult = createEditor('editorResult', false, mes2, "swift", null);
     </script>
 }
+    Contact GitHub API Training Shop Blog About
